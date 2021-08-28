@@ -605,6 +605,9 @@ before packages are loaded."
                 display-line-numbers-widen t)
   (add-hook 'text-mode-hook #'display-line-numbers-mode)
   (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+  ;; SET TRANSPARENCY
+  (set-frame-parameter (selected-frame) 'alpha '(85 85))
+  (add-to-list 'default-frame-alist '(alpha 85 85))
 
  (setq ns-use-srgbcolorspace nil)
 
@@ -626,6 +629,8 @@ before packages are loaded."
     ;; Corrects (and improves) org-mode's native fontification.
     ;;(doom-themes-org-config)
     )
+  ;;TRANSPARENCY ADDED
+
   (use-package web-beautify
     :commands (web-beautify-css
                web-beautify-css-buffer
