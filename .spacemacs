@@ -608,7 +608,7 @@ before packages are loaded."
   ;; SET TRANSPARENCY
   (set-frame-parameter (selected-frame) 'alpha '(85 85))
   (add-to-list 'default-frame-alist '(alpha 85 85))
-
+;;CREO QUE ES PARA EL MINIBUFFER
  (setq ns-use-srgbcolorspace nil)
 
   (use-package doom-themes
