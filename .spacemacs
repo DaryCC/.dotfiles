@@ -579,6 +579,17 @@ before packages are loaded."
   (setq org-todo-keywords
         '((sequence "TODO(t!)" "NEXT(n!)" "DOINGNOW(d!)" "BLOCKED(b!)" "TODELEGATE(g!)" "DELEGATED(D!)" "FOLLOWUP(f!)" "TICKLE(T!)" "|" "CANCELLED(c!)" "DONE(F!)")))
 
+  ;;PARA USAR GRIPREP
+  (evil-leader/set-key "/" 'spacemacs/helm-project-do-ag)
+  (use-package helm-ag
+	  :config
+	  (custom-set-variables
+	   ;;'(helm-ag-fuzzy-match: t)
+	   '(helm-ag-base-command "rg --vimgrep --no-heading --smart-case")
+     )
+   )
+
+
   ;;PARA MOVER  BLOQUES DE SELECCIÓN
   ;; To bind multiple keys in a `bind-key*' way (to be sure that your bindings
   ;; will not be overridden by other modes), you may use `bind-keys*' macro:
@@ -611,6 +622,9 @@ before packages are loaded."
 ;;CREO QUE ES PARA EL MINIBUFFER
  (setq ns-use-srgbcolorspace nil)
 
+
+
+ ;;PARA USAR TEMAS
   (use-package doom-themes
     :ensure t
     :config
