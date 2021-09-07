@@ -61,7 +61,10 @@ This function should only modify configuration layer settings."
      ;; spell-checking
      syntax-checking
      ;; version-control
-     treemacs)
+     treemacs
+     ;;TREEMACS
+     )
+
 
 
    ;; List of additional packages that will be installed without being wrapped
@@ -76,8 +79,11 @@ This function should only modify configuration layer settings."
                                       dap-mode
                                       doom-themes
                                       gruvbox-theme
+                                      nyan-mode
                                       typescript-mode
                                       skewer-reload-stylesheets
+                                      rainbow-delimiters
+                                      desktop+
                                       )
 
    ;; A list of packages that cannot be updated.
@@ -566,7 +572,7 @@ dump.")
   "Configuration for user code:
 This function is called at the very end of Spacemacs startup, after layer
 configuration.
-Put your configuration code here, except for variables that should be 
+Put your configuration code here, except for variables that should be
 before packages are loaded."
 
   (package-initialize)
@@ -575,6 +581,13 @@ before packages are loaded."
   (use-package dap-mode)
   ;;settings for powerline
   ;;configuracion para lline numbers
+
+;;RAINBOW DELIMITERS
+  (use-package rainbow-delimiters
+    :hook
+    (prog-mode . rainbow-delimiters-mode))
+
+
   ;;PARA ORGMODE
   (setq org-todo-keywords
         '((sequence "TODO(t!)" "NEXT(n!)" "DOINGNOW(d!)" "BLOCKED(b!)" "TODELEGATE(g!)" "DELEGATED(D!)" "FOLLOWUP(f!)" "TICKLE(T!)" "|" "CANCELLED(c!)" "DONE(F!)")))
@@ -590,6 +603,16 @@ before packages are loaded."
    )
 
 
+ ;;PARA RESTAURAR LAYOUT ANTERIOR
+ ;; (require 'desktop)
+ ;; (setq desktop-save 1
+ ;;       desktop-load-locked-desktop t
+ ;;       desktop-dirname user-emacs-directory
+ ;;       desktop-restore-frames nil
+ ;;       ;; Don't save remote files and/or *gpg files.
+ ;;       desktop-files-not-to-save "\\(^/[^/:]*:\\|(ftp)$\\)\\|\\(\\.gpg$\\)")
+ ;; (desktop-save-mode 1)
+
   ;;PARA MOVER  BLOQUES DE SELECCIÓN
   ;; To bind multiple keys in a `bind-key*' way (to be sure that your bindings
   ;; will not be overridden by other modes), you may use `bind-keys*' macro:
@@ -599,6 +622,8 @@ before packages are loaded."
    ;;     ("C-M-n" . forward-page)
    ("C-S-k" . drag-stuff-up )
    ("C-S-j" . drag-stuff-down )
+   ("M-s M-s" . desktop+-create )
+   ("M-s M-r" . desktop+-load)
    )
   ;;(define-key evil-visual-state-map (kbd "<tab-j>") ":move'<--1")
   ;;(define-key evil-visual-state-map (kbd "<tab-k>") ":move'>+1")
@@ -621,7 +646,14 @@ before packages are loaded."
   (add-to-list 'default-frame-alist '(alpha 85 85))
 ;;CREO QUE ES PARA EL MINIBUFFER
  (setq ns-use-srgbcolorspace nil)
-
+ ;;NYAN MODE
+ (use-package nyan-mode
+   :custom
+   (nyan-cat-face-number 4)
+   (nyan-animate-nyancat t)
+   :hook
+   (doom-modeline-mode . nyan-mode))
+ ;; PACKAGE CL IS DEPRECATED FIX
 
 
  ;;PARA USAR TEMAS
@@ -631,7 +663,7 @@ before packages are loaded."
     ;; Global settings (defaults)
     (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
           doom-themes-enable-italic t) ; if nil, italics is universally disabled
-    (load-theme 'doom-vibrant t)
+    (load-theme 'doom-gruvbox t)
 
     ;; Enable flashing mode-line on errors
     ;;(doom-themes-visual-bell-config)
@@ -643,7 +675,6 @@ before packages are loaded."
     ;; Corrects (and improves) org-mode's native fontification.
     ;;(doom-themes-org-config)
     )
-  ;;TRANSPARENCY ADDED
 
   (use-package web-beautify
     :commands (web-beautify-css
@@ -715,7 +746,22 @@ before packages are loaded."
     (add-hook 'web-mode-hook #'impatient-mode)
 
     )
+  ;;CSS MODE
+  (use-package css-mode
+    :ensure t
+    :mode (
+           ;;("\\.js\\'" . web-mode)
+	         ;;("\\.jsx\\'" .  web-mode)
+	         ;;("\\.ts\\'" . web-mode)
+	         ;;("\\.tsx\\'" . web-mode)
+	         ("\\.css\\'" . web-mode))
+    :commands web-mode
+    :init
+    (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
+    (add-hook 'prog-mode-hook 'highlight-numbers-mode)
+    (add-hook 'web-mode-hook #'impatient-mode)
 
+    )
   ;; lsp-mode
   (setq lsp-log-io nil) ;; Don't log everything = speed
   (setq lsp-keymap-prefix "C-c l")
@@ -758,8 +804,9 @@ This function is called at the very end of Spacemacs initialization."
    '("83e0376b5df8d6a3fbdfffb9fb0e8cf41a11799d9471293a810deb7586c131e6" "7eea50883f10e5c6ad6f81e153c640b3a288cd8dc1d26e4696f7d40f754cc703" "a82ab9f1308b4e10684815b08c9cac6b07d5ccb12491f44a942d845b406b0296" "234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" "2035a16494e06636134de6d572ec47c30e26c3447eafeb6d3a9e8aee73732396" "835868dcd17131ba8b9619d14c67c127aa18b90a82438c8613586331129dda63" "c1284dd4c650d6d74cfaf0106b8ae42270cab6c58f78efc5b7c825b6a4580417" default))
  '(dap-mode t nil (dap-mode))
  '(evil-want-Y-yank-to-eol nil)
+ '(helm-ag-base-command "rg --vimgrep --no-heading --smart-case")
  '(package-selected-packages
-   '(gruvbox-theme skewer-reload-stylesheets ewal-doom-themes tern npm-mode nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl helm-gtags ggtags dap-mode bui counsel-gtags yasnippet web-mode web-beautify tagedit slim-mode scss-mode sass-mode pug-mode prettier-js impatient-mode htmlize simple-httpd helm-css-scss haml-mode emmet-mode counsel-css counsel swiper ivy company-web web-completion-data company add-node-modules-path doom-themes dracula-theme ws-butler writeroom-mode visual-fill-column winum volatile-highlights vi-tilde-fringe uuidgen undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil treemacs cfrs pfuture posframe toc-org symon symbol-overlay string-inflection string-edit spaceline-all-the-icons memoize all-the-icons spaceline powerline restart-emacs request rainbow-delimiters quickrun popwin persp-mode password-generator paradox spinner overseer org-superstar open-junk-file nameless multi-line shut-up macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop helm-purpose window-purpose imenu-list helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio flycheck-package package-lint flycheck pkg-info epl flycheck-elsa flx-ido flx fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired f evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection annalist evil-cleverparens smartparens evil-args evil-anzu anzu eval-sexp-fu emr iedit clang-format projectile paredit list-utils elisp-slime-nav editorconfig dumb-jump s drag-stuff dired-quick-sort define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol ht dash auto-compile packed aggressive-indent ace-window ace-link ace-jump-helm-line helm avy which-key use-package popup pcre2el hydra hybrid-mode helm-core font-lock+ dotenv-mode diminish bind-map)))
+   '(desktop+ gruvbox-theme skewer-reload-stylesheets ewal-doom-themes tern npm-mode nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl helm-gtags ggtags dap-mode bui counsel-gtags yasnippet web-mode web-beautify tagedit slim-mode scss-mode sass-mode pug-mode prettier-js impatient-mode htmlize simple-httpd helm-css-scss haml-mode emmet-mode counsel-css counsel swiper ivy company-web web-completion-data company add-node-modules-path doom-themes dracula-theme ws-butler writeroom-mode visual-fill-column winum volatile-highlights vi-tilde-fringe uuidgen undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil treemacs cfrs pfuture posframe toc-org symon symbol-overlay string-inflection string-edit spaceline-all-the-icons memoize all-the-icons spaceline powerline restart-emacs request rainbow-delimiters quickrun popwin persp-mode password-generator paradox spinner overseer org-superstar open-junk-file nameless multi-line shut-up macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop helm-purpose window-purpose imenu-list helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio flycheck-package package-lint flycheck pkg-info epl flycheck-elsa flx-ido flx fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired f evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection annalist evil-cleverparens smartparens evil-args evil-anzu anzu eval-sexp-fu emr iedit clang-format projectile paredit list-utils elisp-slime-nav editorconfig dumb-jump s drag-stuff dired-quick-sort define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol ht dash auto-compile packed aggressive-indent ace-window ace-link ace-jump-helm-line helm avy which-key use-package popup pcre2el hydra hybrid-mode helm-core font-lock+ dotenv-mode diminish bind-map)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
