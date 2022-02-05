@@ -578,6 +578,8 @@ configuration.
 Put your configuration code here, except for variables that should be
 before packages are loaded."
 
+  (package-initialize)
+
   ;;FIRA CODE     https://github.com/jming422/fira-code-mode
   (use-package fira-code-mode
     :ensure t
