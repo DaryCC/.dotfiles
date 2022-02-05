@@ -33,6 +33,8 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(python
+     html
+     python
      javascript
      html
      ;; ----------------------------------------------------------------
@@ -757,27 +759,71 @@ before packages are loaded."
   (add-to-list 'default-frame-alist '(alpha  100 100))
 ;;CREO QUE ES PARA EL MINIBUFFER
  (setq ns-use-srgbcolorspace nil)
- ;;NYAN MODE
- ;; (use-package nyan-mode
- ;;   :custom
- ;;   (nyan-cat-face-number 4)
- ;;   (nyan-animate-nyancat t)
- ;;   :hook
- ;;   (doom-modeline-mode . nyan-mode))
+
+ ;; NYAN MODE
+ (use-package nyan-mode
+   :custom
+   (nyan-cat-face-number 4)
+   (nyan-animate-nyancat t)
+   :hook
+   (doom-modeline-mode . nyan-mode))
  ;; PACKAGE CL IS DEPRECATED FIX
 
 
  ;;PARA USAR TEMAS
-  (use-package doom-themes
-    :ensure t
-    :config
-    ;; Global settings (defaults)
-    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-          doom-themes-enable-italic t) ; if nil, italics is universally disabled
-    (load-theme 'doom-dracula t)
+ ;;INSTALAR FONTS PARA ICONOS
+ ;;https://github.com/domtronn/all-the-icons.el#installation
+ (use-package all-the-icons
+   :ensure t
+   :if (display-graphic-p))
 
-    )
+ ;;INSTALAR TEMAS
+ (use-package doom-themes
+   :ensure t
+   :config
+   ;; Global settings (defaults)
+   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+         doom-themes-enable-italic t) ; if nil, italics is universally disabled
+   (load-theme 'doom-gruvbox t)
 
+   ;; Enable flashing mode-line on errors
+   (doom-themes-visual-bell-config)
+   ;; Enable custom neotree theme (all-the-icons must be installed!)
+   (doom-themes-neotree-config)
+   ;; or for treemacs users
+   (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+   (doom-themes-treemacs-config)
+   ;; Corrects (and improves) org-mode's native fontification.
+   (doom-themes-org-config))
+ ;;DOOM-MODELINE
+ ;; (require 'doom-modeline)
+ ;; (doom-modeline-init)
+ (use-package doom-modeline
+   :ensure t
+   :defer t
+    :init (doom-modeline-mode 1)
+   ;;hook (after-init . doom-modeline-init)
+    :custom    
+    (doom-modeline-height 25)
+    (doom-modeline-bar-width 1)
+    (doom-modeline-icon t)
+    (doom-modeline-major-mode-icon t)
+    (doom-modeline-major-mode-color-icon t)
+    (doom-modeline-buffer-file-name-style 'truncate-upto-project)
+    (doom-modeline-buffer-state-icon t)
+    (doom-modeline-buffer-modification-icon t)
+    (doom-modeline-minor-modes nil)
+    (doom-modeline-enable-word-count nil)
+    (doom-modeline-buffer-encoding t)
+    (doom-modeline-indent-info nil)
+    (doom-modeline-checker-simple-format t)
+    (doom-modeline-vcs-max-length 12)
+    (doom-modeline-env-version t)
+    (doom-modeline-irc-stylize 'identity)
+    (doom-modeline-github-timer nil)
+    (doom-modeline-gnus-timer nil)
+   )
+  ;;ESTA PARTE ES PARA WEB DEVELOPEMENT
   (use-package web-beautify
     :commands (web-beautify-css
                web-beautify-css-buffer
@@ -786,6 +832,7 @@ before packages are loaded."
                web-beautify-js
                web-beautify-js-buffer))
 
+;;EMMET MODE
   (use-package emmet-mode
     :diminish (emmet-mode . "ε")
     :bind* (("C-)" . emmet-next-edit-point)
@@ -801,89 +848,115 @@ before packages are loaded."
     (add-hook 'sgml-mode-hook 'emmet-mode)
     (add-hook 'web-mode-hook 'emmet-mode))
 
-  (use-package typescript-mode
-    :mode "\\.ts\\'"
-  :hook (typescript-mode. lsp-deferred)
-  :config
-  (setq typescript-indent-level 2)
-  (require 'dap-node)
-  (dap-node-setup);;automatically installs Node debug adapter if needed
-  )
+;; LSP-mode    PARA PROGRAMAR
+  ;; (use-package lsp-mode
+  ;;   :init
+  ;;   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  ;;   (setq lsp-keymap-prefix "C-c l")
+  ;;   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+  ;;          (XXX-mode . lsp)
+  ;;          ;; if you want which-key integration
+  ;;          (lsp-mode . lsp-enable-which-key-integration))
+  ;;   :commands lsp)
 
-  ;;EMACS + JS   (use-package js2-mode
-  (use-package js2-mode
-    :ensure t
-    :interpreter (("node" . js2-mode))
-    :bind (:map js2-mode-map ("C-c C-p" . js2-print-json-path))
-    :mode "\\.\\(js\\|json\\)$"
+  ;; optionally
+  (use-package lsp-ui :commands lsp-ui-mode)
+  ;; if you are helm user
+  (use-package helm-lsp :commands helm-lsp-workspace-symbol)
+  ;; if you are ivy user
+  (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+  (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+
+  ;; optionally if you want to use debugger
+  (use-package dap-mode)
+  ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
+
+  ;; optional if you want which-key integration
+  (use-package which-key
     :config
-    (add-hook 'js-mode-hook 'js2-minor-mode)
-    (setq js2-basic-offset 2
-          js2-highlight-level 3
-          js2-mode-show-parse-errors nil
-          js2-mode-show-strict-warnings nil)
+    (which-key-mode))
 
-    :init
-    (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
-    (add-hook 'prog-mode-hook 'highlight-numbers-mode)
-    (add-hook 'js2-mode-hook #'impatient-mode)
-    )
+;;;ESTA SECCIÓN ES LA CONFIGURACIÓN ANTERIOR, MEDIO FUNCIONAL  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ;; (use-package typescript-mode
+  ;;   :mode "\\.ts\\'"
+  ;; :hook (typescript-mode. lsp-deferred)
+  ;; :config
+  ;; (setq typescript-indent-level 2)
+  ;; (require 'dap-node)
+  ;; (dap-node-setup);;automatically installs Node debug adapter if needed
+  ;; )
 
-  (add-hook 'js2-mode-hook 'skewer-mode)
-  ;;(add-hook 'css-mode-hook 'skewer-css-mode)
-  (add-hook 'html-mode-hook 'skewer-html-mode)
-  (add-hook 'css-mode-hook #'impatient-mode)
-  (use-package web-mode
-    :ensure t
-    :mode (
-           ;;("\\.js\\'" . web-mode)
-	         ;;("\\.jsx\\'" .  web-mode)
-	         ;;("\\.ts\\'" . web-mode)
-	         ;;("\\.tsx\\'" . web-mode)
-	         ("\\.html\\'" . web-mode))
-    :commands web-mode
-    :init
-    (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
-    (add-hook 'prog-mode-hook 'highlight-numbers-mode)
-    (add-hook 'web-mode-hook #'impatient-mode)
+  ;; ;;EMACS + JS   (use-package js2-mode
+  ;; (use-package js2-mode
+  ;;   :ensure t
+  ;;   :interpreter (("node" . js2-mode))
+  ;;   :bind (:map js2-mode-map ("C-c C-p" . js2-print-json-path))
+  ;;   :mode "\\.\\(js\\|json\\)$"
+  ;;   :config
+  ;;   (add-hook 'js-mode-hook 'js2-minor-mode)
+  ;;   (setq js2-basic-offset 2
+  ;;         js2-highlight-level 3
+  ;;         js2-mode-show-parse-errors nil
+  ;;         js2-mode-show-strict-warnings nil)
 
-    )
-  ;;CSS MODE
-  (use-package css-mode
-    :ensure t
-    :mode (
-           ;;("\\.js\\'" . web-mode)
-	         ;;("\\.jsx\\'" .  web-mode)
-	         ;;("\\.ts\\'" . web-mode)
-	         ;;("\\.tsx\\'" . web-mode)
-	         ("\\.css\\'" . web-mode))
-    :commands web-mode
-    :init
-    (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
-    (add-hook 'prog-mode-hook 'highlight-numbers-mode)
-    (add-hook 'web-mode-hook #'impatient-mode)
+  ;;   :init
+  ;;   (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
+  ;;   (add-hook 'prog-mode-hook 'highlight-numbers-mode)
+  ;;   (add-hook 'js2-mode-hook #'impatient-mode)
+  ;;   )
 
-    )
-  ;; lsp-mode
-  (setq lsp-log-io nil) ;; Don't log everything = speed
-  (setq lsp-keymap-prefix "C-c l")
-  (setq lsp-restart 'auto-restart)
-  (setq lsp-ui-sideline-show-diagnostics t)
-  (setq lsp-ui-sideline-show-hover t)
-  (setq lsp-ui-sideline-show-code-actions t)
+  ;; (add-hook 'js2-mode-hook 'skewer-mode)
+  ;; ;;(add-hook 'css-mode-hook 'skewer-css-mode)
+  ;; (add-hook 'html-mode-hook 'skewer-html-mode)
+  ;; (add-hook 'css-mode-hook #'impatient-mode)
+  ;; (use-package web-mode
+  ;;   :ensure t
+  ;;   :mode (
+  ;;          ;;("\\.js\\'" . web-mode)
+	;;          ;;("\\.jsx\\'" .  web-mode)
+	;;          ;;("\\.ts\\'" . web-mode)
+	;;          ;;("\\.tsx\\'" . web-mode)
+	;;          ("\\.html\\'" . web-mode))
+  ;;   :commands web-mode
+  ;;   :init
+  ;;   (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
+  ;;   (add-hook 'prog-mode-hook 'highlight-numbers-mode)
+  ;;   (add-hook 'web-mode-hook #'impatient-mode)
 
-  (use-package lsp-mode
-    :ensure t
-    :hook (
-	         (web-mode . lsp-deferred)
-	         (lsp-mode . lsp-enable-which-key-integration)
-	         )
-    :commands lsp-deferred)
+  ;;   )
+  ;; ;;CSS MODE
+  ;; (use-package css-mode
+  ;;   :ensure t
+  ;;   :mode (
+  ;;          ;;("\\.js\\'" . web-mode)
+	;;          ;;("\\.jsx\\'" .  web-mode)
+	;;          ;;("\\.ts\\'" . web-mode)
+	;;          ;;("\\.tsx\\'" . web-mode)
+	;;          ("\\.css\\'" . web-mode))
+  ;;   :commands web-mode
+  ;;   :init
+  ;;   (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
+  ;;   (add-hook 'prog-mode-hook 'highlight-numbers-mode)
+  ;;   (add-hook 'web-mode-hook #'impatient-mode)
 
+  ;;   )
+  ;; ;; lsp-mode
+  ;; (use-package lsp-mode
+  ;;   :ensure t
+  ;;   :hook (
+	;;          (web-mode . lsp-deferred)
+	;;          (lsp-mode . lsp-enable-which-key-integration)
+	;;          )
+  ;;   :commands lsp-deferred)
 
+  ;; (setq lsp-log-io nil) ;; Don't log everything = speed
+  ;; (setq lsp-keymap-prefix "C-c l")
+  ;; (setq lsp-restart 'auto-restart)
+  ;; (setq lsp-ui-sideline-show-diagnostics t)
+  ;; (setq lsp-ui-sideline-show-hover t)
+  ;; (setq lsp-ui-sideline-show-code-actions t)
 
-
-
+  ;; AQUI TERMINA LA SECCION DE WEV DEVELOPEMENT ANTERIOR   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode))
@@ -908,7 +981,7 @@ This function is called at the very end of Spacemacs initialization."
  '(evil-want-Y-yank-to-eol nil)
  '(helm-ag-base-command "rg --vimgrep --no-heading --smart-case")
  '(package-selected-packages
-   '(yapfify stickyfunc-enhance sphinx-doc pytest pyenv-mode pydoc py-isort poetry pippel pipenv pyvenv pip-requirements nose lsp-python-ms lsp-pyright live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-cscope xcscope cython-mode company-anaconda blacken anaconda-mode pythonic treemacs-all-the-icons desktop+ gruvbox-theme skewer-reload-stylesheets ewal-doom-themes tern npm-mode nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl helm-gtags ggtags dap-mode bui counsel-gtags yasnippet web-mode web-beautify tagedit slim-mode scss-mode sass-mode pug-mode prettier-js impatient-mode htmlize simple-httpd helm-css-scss haml-mode emmet-mode counsel-css counsel swiper ivy company-web web-completion-data company add-node-modules-path doom-themes dracula-theme ws-butler writeroom-mode visual-fill-column winum volatile-highlights vi-tilde-fringe uuidgen undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil treemacs cfrs pfuture posframe toc-org symon symbol-overlay string-inflection string-edit spaceline-all-the-icons memoize all-the-icons spaceline powerline restart-emacs request rainbow-delimiters quickrun popwin persp-mode password-generator paradox spinner overseer org-superstar open-junk-file nameless multi-line shut-up macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop helm-purpose window-purpose imenu-list helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio flycheck-package package-lint flycheck pkg-info epl flycheck-elsa flx-ido flx fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired f evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection annalist evil-cleverparens smartparens evil-args evil-anzu anzu eval-sexp-fu emr iedit clang-format projectile paredit list-utils elisp-slime-nav editorconfig dumb-jump s drag-stuff dired-quick-sort define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol ht dash auto-compile packed aggressive-indent ace-window ace-link ace-jump-helm-line helm avy which-key use-package popup pcre2el hydra hybrid-mode helm-core font-lock+ dotenv-mode diminish bind-map)))
+   '( yapfify stickyfunc-enhance sphinx-doc pytest pyenv-mode pydoc py-isort poetry pippel pipenv pyvenv pip-requirements nose lsp-python-ms lsp-pyright live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-cscope xcscope cython-mode company-anaconda blacken anaconda-mode pythonic treemacs-all-the-icons desktop+ gruvbox-theme skewer-reload-stylesheets ewal-doom-themes tern npm-mode nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl helm-gtags ggtags dap-mode bui counsel-gtags yasnippet web-mode web-beautify tagedit slim-mode scss-mode sass-mode pug-mode prettier-js impatient-mode htmlize simple-httpd helm-css-scss haml-mode emmet-mode counsel-css counsel swiper ivy company-web web-completion-data company add-node-modules-path doom-themes dracula-theme ws-butler writeroom-mode visual-fill-column winum volatile-highlights vi-tilde-fringe uuidgen undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil treemacs cfrs pfuture posframe toc-org symon symbol-overlay string-inflection string-edit spaceline-all-the-icons memoize all-the-icons spaceline powerline restart-emacs request rainbow-delimiters quickrun popwin persp-mode password-generator paradox spinner overseer org-superstar open-junk-file nameless multi-line shut-up macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop helm-purpose window-purpose imenu-list helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio flycheck-package package-lint flycheck pkg-info epl flycheck-elsa flx-ido flx fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired f evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection annalist evil-cleverparens smartparens evil-args evil-anzu anzu eval-sexp-fu emr iedit clang-format projectile paredit list-utils elisp-slime-nav editorconfig dumb-jump s drag-stuff dired-quick-sort define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol ht dash auto-compile packed aggressive-indent ace-window ace-link ace-jump-helm-line helm avy which-key use-package popup pcre2el hydra hybrid-mode helm-core font-lock+ dotenv-mode diminish bind-map)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
