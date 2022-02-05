@@ -583,6 +583,19 @@ before packages are loaded."
   ;;settings for powerline
   ;;configuracion para lline numbers
 
+
+
+  ;; ELISP STUFF
+  ;;This minor mode for Elisp balances quotes and parenthesis automatically
+  (use-package paredit
+    :ensure t)
+  (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+  (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+  (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+  (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+  (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+  (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+  (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
 ;;RAINBOW DELIMITERS
   (use-package rainbow-delimiters
     :hook
@@ -731,14 +744,6 @@ before packages are loaded."
    ("M-s M-s" . desktop+-create )
    ("M-s M-r" . desktop+-load)
    )
-  ;;(define-key evil-visual-state-map (kbd "<tab-j>") ":move'<--1")
-  ;;(define-key evil-visual-state-map (kbd "<tab-k>") ":move'>+1")
-  ;;(global-set-key (kbd "<C-S-k>") 'drag-stuff-up)
-  ;;(global-set-key (kbd "<C-S-j>") 'drag-stuff-down)
-  ;;(global-unset-key "<C-S-k>")
-  ;;(global-unset-key "<C-S-k>")
-  ;;(define-key prog-mode-map (kbd "<C-S-k>") 'drag-stuff-up )
-  ;;(define-key prog-mode-map (kbd "<C-S-j>") 'drag-stuff-down )
 
   ;;PARA MOSTRAR LA NUMERACIÓN RELATIVA
   (setq-default display-line-numbers-type 'relative
@@ -753,12 +758,12 @@ before packages are loaded."
 ;;CREO QUE ES PARA EL MINIBUFFER
  (setq ns-use-srgbcolorspace nil)
  ;;NYAN MODE
- (use-package nyan-mode
-   :custom
-   (nyan-cat-face-number 4)
-   (nyan-animate-nyancat t)
-   :hook
-   (doom-modeline-mode . nyan-mode))
+ ;; (use-package nyan-mode
+ ;;   :custom
+ ;;   (nyan-cat-face-number 4)
+ ;;   (nyan-animate-nyancat t)
+ ;;   :hook
+ ;;   (doom-modeline-mode . nyan-mode))
  ;; PACKAGE CL IS DEPRECATED FIX
 
 
@@ -771,15 +776,6 @@ before packages are loaded."
           doom-themes-enable-italic t) ; if nil, italics is universally disabled
     (load-theme 'doom-dracula t)
 
-    ;; Enable flashing mode-line on errors
-    ;;(doom-themes-visual-bell-config)
-    ;; Enable custom neotree theme (all-the-icons must be installed!)
-    ;;(doom-themes-neotree-config)
-    ;; or for treemacs users
-    ;;(setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
-    ;;(doom-themes-treemacs-config)
-    ;; Corrects (and improves) org-mode's native fontification.
-    ;;(doom-themes-org-config)
     )
 
   (use-package web-beautify
