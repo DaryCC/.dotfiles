@@ -604,12 +604,17 @@ before packages are loaded."
     )
   ;;configuración para lsp
   (use-package lsp-mode
+    ;; :commands lsp
     :ensure t
     :hook (
-	         (web-mode . lsp-deferred)
+	         (web-mode . lsp)
 	         (lsp-mode . lsp-enable-which-key-integration)
+           (js2-mode . lsp)
+           (rjsx-mode . lsp)
+           (css-mode . lsp)
 	         )
-    :commands lsp-deferred)
+    ;; :commands lsp-deferred
+    )
 ;;PARA HTML Y CSS
   ;;ESTA PARTE ES PARA WEB DEVELOPEMENT
   (use-package web-beautify
@@ -657,32 +662,66 @@ before packages are loaded."
     (add-hook 'prog-mode-hook 'highlight-numbers-mode)
     (add-hook 'web-mode-hook #'impatient-mode)
     )
-  ;;PARA JS
+;;PARA  REACT
   (use-package rjsx-mode
-    :mode "\\.jsx\\'"
-    :bind
-    (:map rjsx-mode-map
-          ("C-c C-b" . rjsx-jump-opening-tag)
-          ("C-c C-f" . rjsx-jump-closing-tag)))
-  ;;EMACS + JS   (use-package js2-mode
+  :ensure t
+  :mode "\\.jsx\\'"
+  :bind
+  (:map rjsx-mode-map
+        ( "C-c C-b" . rjsx-jump-opening-tag)
+        ( "C-c C-f" . rjsx-jump-closing-tag)
+        ))
+;;PARA JS
+  ;; ;;EMACS + JS   (use-package js2-mode
+  ;; (use-package js2-mode
+  ;;   :ensure t
+  ;;   :interpreter (("node" . js2-mode))
+  ;;   :bind (:map js2-mode-map ("C-c C-p" . js2-print-json-path))
+  ;;   :mode "\\.\\(js\\|json\\)$"
+  ;;   :config
+  ;;   (add-hook 'js-mode-hook 'js2-minor-mode)
+  ;;   (setq js2-basic-offset 2
+  ;;         js2-highlight-level 3
+  ;;         js2-mode-show-parse-errors nil
+  ;;         js2-mode-show-strict-warnings nil)
+
+  ;;   :init
+  ;;   (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
+  ;;   (add-hook 'prog-mode-hook 'highlight-numbers-mode)
+  ;;   (add-hook 'js2-mode-hook #'impatient-mode)
+  ;;   )
   (use-package js2-mode
+    :init
+      (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
+      (add-hook 'prog-mode-hook 'highlight-numbers-mode)
+      (add-hook 'js2-mode-hook #'impatient-mode)
+    :mode "\\.\\(js\\|json\\)$"
     :ensure t
     :interpreter (("node" . js2-mode))
-    :bind (:map js2-mode-map ("C-c C-p" . js2-print-json-path))
-    :mode "\\.\\(js\\|json\\)$"
+
     :config
     (add-hook 'js-mode-hook 'js2-minor-mode)
-    (setq js2-basic-offset 2
-          js2-highlight-level 3
-          js2-indent-level 2
-          ;; js2-mode-show-parse-errors nil
-          js2-mode-show-strict-warnings nil
-          js2-strict-inconsistent-return-warning t)
-    :init
-    (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
-    (add-hook 'prog-mode-hook 'highlight-numbers-mode)
-    ;; (add-hook 'js2-mode-hook #'impatient-mode)
+    (setq js-indent-level 2)
+    (setq js2-indent-level 2)
+    (setq js2-basic-offset 2)
+    (setq js2-mode-show-strict-warnings nil)
+    (setq js2-strict-inconsistent-return-warning t)
+    (setq js2-strict-missing-semi-warning t)
+
     )
+  ;; disable jshint since we prefer eslint checking
+  ;; (setq-default flycheck-disabled-checkers
+  ;;               (append flycheck-disabled-checkers
+  ;;                       '(javascript-jshint)))
+  ;; (setq flycheck-checkers '(javascript-eslint))
+  ;; ;; use eslint with web-mode for jsx files
+  ;; (flycheck-add-mode 'javascript-eslint 'web-mode) (use-package rjsx-mode
+  ;;   :mode "\\.jsx\\'"
+  ;;   :bind
+  ;;   (:map rjsx-mode-map
+  ;;         ("C-c C-b" . rjsx-jump-opening-tag)
+  ;;         ("C-c C-f" . rjsx-jump-closing-tag)))
+
   ;;DAP MODE
   (use-package dap-mode)
   ;;settings for powerline
@@ -929,9 +968,9 @@ before packages are loaded."
   ;;   :commands lsp)
 
   ;; optionally
-  (use-package lsp-ui :commands lsp-ui-mode)
+  ;; (use-package lsp-ui :commands lsp-ui-mode)
   ;; if you are helm user
-  (use-package helm-lsp :commands helm-lsp-workspace-symbol)
+  ;; (use-package helm-lsp :commands helm-lsp-workspace-symbol)
   ;; if you are ivy user
   (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
   (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
@@ -1029,7 +1068,7 @@ before packages are loaded."
   ;; (setq lsp-ui-sideline-show-code-actions t)
 
   ;; AQUI TERMINA LA SECCION DE WEV DEVELOPEMENT ANTERIOR   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-)
+  
 
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -1057,4 +1096,4 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-)
+))
