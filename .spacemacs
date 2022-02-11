@@ -570,7 +570,7 @@ This function is called only while dumping Spacemacs configuration. You can
 `require' or `load' the libraries of your choice that will be included in the
 dump.")
 
-
+;;dary
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
 This function is called at the very end of Spacemacs startup, after layer
@@ -579,7 +579,13 @@ Put your configuration code here, except for variables that should be
 before packages are loaded."
 
   (package-initialize)
+  (require 'package)
 
+
+  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+
+  (add-to-list 'package-archives
+               '("melpa-stable" . "https://stable.melpa.org/packages/") t)
   ;;FIRA CODE     https://github.com/jming422/fira-code-mode
   (use-package fira-code-mode
     :ensure t
@@ -587,13 +593,99 @@ before packages are loaded."
     :hook prog-mode
     :config (fira-code-mode-set-font)
     ) ;; Enables fira-code-mode automatically for programming major modes
-   
-;;DAP MODE
+
+  ;;orgmode
+  (use-package org
+    :custom
+    (org-ellipsis "⤵")
+
+    (setq org-todo-keywords
+          '((sequence "TODO(t!)" "NEXT(n!)" "DOINGNOW(d!)" "BLOCKED(b!)" "TODELEGATE(g!)" "DELEGATED(D!)" "FOLLOWUP(f!)" "TICKLE(T!)" "|" "CANCELLED(c!)" "DONE(F!)")))
+    )
+  ;;configuración para lsp
+  (use-package lsp-mode
+    :ensure t
+    :hook (
+	         (web-mode . lsp-deferred)
+	         (lsp-mode . lsp-enable-which-key-integration)
+	         )
+    :commands lsp-deferred)
+;;PARA HTML Y CSS
+  ;;ESTA PARTE ES PARA WEB DEVELOPEMENT
+  (use-package web-beautify
+    :commands (web-beautify-css
+               web-beautify-css-buffer
+               web-beautify-html
+               web-beautify-html-buffer
+               web-beautify-js
+               web-beautify-js-buffer))
+
+  ;;EMMET MODE
+  (use-package emmet-mode
+    :diminish (emmet-mode . "ε")
+    :bind* (("C-)" . emmet-next-edit-point)
+            ("C-(" . emmet-prev-edit-point))
+    :commands (emmet-mode
+               emmet-next-edit-point
+               emmet-prev-edit-point)
+    :init
+    (setq emmet-indentation 2)
+    (setq emmet-move-cursor-between-quotes t)
+    :config
+    ;; Auto-start on any markup modes
+    (add-hook 'sgml-mode-hook 'emmet-mode)
+    (add-hook 'web-mode-hook 'emmet-mode))
+;;PARA CSS
+  (use-package css-mode
+    :mode "\\.css\\'"
+      :commands web-mode
+      :init
+      (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
+      (add-hook 'prog-mode-hook 'highlight-numbers-mode)
+      (add-hook 'web-mode-hook #'impatient-mode)
+      :mode (
+	             ("\\.css\\'" . web-mode))
+    )
+;;PARA HTML
+  (use-package web-mode
+    :ensure t
+    :mode (
+	         ("\\.html\\'" . web-mode))
+    :commands web-mode
+    :init
+    (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
+    (add-hook 'prog-mode-hook 'highlight-numbers-mode)
+    (add-hook 'web-mode-hook #'impatient-mode)
+    )
+  ;;PARA JS
+  (use-package rjsx-mode
+    :mode "\\.jsx\\'"
+    :bind
+    (:map rjsx-mode-map
+          ("C-c C-b" . rjsx-jump-opening-tag)
+          ("C-c C-f" . rjsx-jump-closing-tag)))
+  ;;EMACS + JS   (use-package js2-mode
+  (use-package js2-mode
+    :ensure t
+    :interpreter (("node" . js2-mode))
+    :bind (:map js2-mode-map ("C-c C-p" . js2-print-json-path))
+    :mode "\\.\\(js\\|json\\)$"
+    :config
+    (add-hook 'js-mode-hook 'js2-minor-mode)
+    (setq js2-basic-offset 2
+          js2-highlight-level 3
+          js2-indent-level 2
+          ;; js2-mode-show-parse-errors nil
+          js2-mode-show-strict-warnings nil
+          js2-strict-inconsistent-return-warning t)
+    :init
+    (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
+    (add-hook 'prog-mode-hook 'highlight-numbers-mode)
+    ;; (add-hook 'js2-mode-hook #'impatient-mode)
+    )
+  ;;DAP MODE
   (use-package dap-mode)
   ;;settings for powerline
-  ;;configuracion para lline numbers
-
-
 
   ;; ELISP STUFF
   ;;This minor mode for Elisp balances quotes and parenthesis automatically
@@ -720,7 +812,10 @@ before packages are loaded."
   ;;PARA ORGMODE
   (setq org-todo-keywords
         '((sequence "TODO(t!)" "NEXT(n!)" "DOINGNOW(d!)" "BLOCKED(b!)" "TODELEGATE(g!)" "DELEGATED(D!)" "FOLLOWUP(f!)" "TICKLE(T!)" "|" "CANCELLED(c!)" "DONE(F!)")))
-
+  ;; para orgmode
+  ;; para templates
+  (require 'org-tempo)
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
   ;;PARA USAR GRIPREP
   (evil-leader/set-key "/" 'spacemacs/helm-project-do-ag)
   (use-package helm-ag
@@ -732,15 +827,6 @@ before packages are loaded."
    )
 
 
- ;;PARA RESTAURAR LAYOUT ANTERIOR
- ;; (require 'desktop)
- ;; (setq desktop-save 1
- ;;       desktop-load-locked-desktop t
- ;;       desktop-dirname user-emacs-directory
- ;;       desktop-restore-frames nil
- ;;       ;; Don't save remote files and/or *gpg files.
- ;;       desktop-files-not-to-save "\\(^/[^/:]*:\\|(ftp)$\\)\\|\\(\\.gpg$\\)")
- ;; (desktop-save-mode 1)
 
   ;;PARA MOVER  BLOQUES DE SELECCIÓN
   ;; To bind multiple keys in a `bind-key*' way (to be sure that your bindings
@@ -769,13 +855,12 @@ before packages are loaded."
  (setq ns-use-srgbcolorspace nil)
 
  ;; NYAN MODE
- (use-package nyan-mode
+(use-package nyan-mode
    :custom
    (nyan-cat-face-number 4)
    (nyan-animate-nyancat t)
    :hook
    (doom-modeline-mode . nyan-mode))
- ;; PACKAGE CL IS DEPRECATED FIX
 
 
  ;;PARA USAR TEMAS
@@ -811,7 +896,7 @@ before packages are loaded."
    :defer t
     :init (doom-modeline-mode 1)
    ;;hook (after-init . doom-modeline-init)
-    :custom    
+    :custom 
     (doom-modeline-height 25)
     (doom-modeline-bar-width 1)
     (doom-modeline-icon t)
@@ -831,30 +916,6 @@ before packages are loaded."
     (doom-modeline-github-timer nil)
     (doom-modeline-gnus-timer nil)
    )
-  ;;ESTA PARTE ES PARA WEB DEVELOPEMENT
-  (use-package web-beautify
-    :commands (web-beautify-css
-               web-beautify-css-buffer
-               web-beautify-html
-               web-beautify-html-buffer
-               web-beautify-js
-               web-beautify-js-buffer))
-
-;;EMMET MODE
-  (use-package emmet-mode
-    :diminish (emmet-mode . "ε")
-    :bind* (("C-)" . emmet-next-edit-point)
-            ("C-(" . emmet-prev-edit-point))
-    :commands (emmet-mode
-               emmet-next-edit-point
-               emmet-prev-edit-point)
-    :init
-    (setq emmet-indentation 2)
-    (setq emmet-move-cursor-between-quotes t)
-    :config
-    ;; Auto-start on any markup modes
-    (add-hook 'sgml-mode-hook 'emmet-mode)
-    (add-hook 'web-mode-hook 'emmet-mode))
 
 ;; LSP-mode    PARA PROGRAMAR
   ;; (use-package lsp-mode
@@ -884,7 +945,10 @@ before packages are loaded."
     :config
     (which-key-mode))
 
-;;;ESTA SECCIÓN ES LA CONFIGURACIÓN ANTERIOR, MEDIO FUNCIONAL  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  (use-package flycheck
+    :ensure t
+    :init (global-flycheck-mode))
+;;;ESTA SECCIÓN ES LA CONFIGURACIÓN ANTERIOR, MEDIO FUNCIONAL  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   ;; (use-package typescript-mode
   ;;   :mode "\\.ts\\'"
   ;; :hook (typescript-mode. lsp-deferred)
@@ -965,9 +1029,6 @@ before packages are loaded."
   ;; (setq lsp-ui-sideline-show-code-actions t)
 
   ;; AQUI TERMINA LA SECCION DE WEV DEVELOPEMENT ANTERIOR   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-(use-package flycheck
-  :ensure t
-  :init (global-flycheck-mode))
 )
 
 
@@ -984,7 +1045,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("83e0376b5df8d6a3fbdfffb9fb0e8cf41a11799d9471293a810deb7586c131e6" "7eea50883f10e5c6ad6f81e153c640b3a288cd8dc1d26e4696f7d40f754cc703" "a82ab9f1308b4e10684815b08c9cac6b07d5ccb12491f44a942d845b406b0296" "234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" "2035a16494e06636134de6d572ec47c30e26c3447eafeb6d3a9e8aee73732396" "835868dcd17131ba8b9619d14c67c127aa18b90a82438c8613586331129dda63" "c1284dd4c650d6d74cfaf0106b8ae42270cab6c58f78efc5b7c825b6a4580417" default))
+   '("c5ded9320a346146bbc2ead692f0c63be512747963257f18cc8518c5254b7bf5" "83e0376b5df8d6a3fbdfffb9fb0e8cf41a11799d9471293a810deb7586c131e6" "7eea50883f10e5c6ad6f81e153c640b3a288cd8dc1d26e4696f7d40f754cc703" "a82ab9f1308b4e10684815b08c9cac6b07d5ccb12491f44a942d845b406b0296" "234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" "2035a16494e06636134de6d572ec47c30e26c3447eafeb6d3a9e8aee73732396" "835868dcd17131ba8b9619d14c67c127aa18b90a82438c8613586331129dda63" "c1284dd4c650d6d74cfaf0106b8ae42270cab6c58f78efc5b7c825b6a4580417" default))
  '(dap-mode t nil (dap-mode))
  '(evil-want-Y-yank-to-eol nil)
  '(helm-ag-base-command "rg --vimgrep --no-heading --smart-case")
