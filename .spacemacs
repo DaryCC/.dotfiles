@@ -60,7 +60,6 @@ This function should only modify configuration layer settings."
                                        auto-completion-enable-sort-by-usage nil
                                        spacemacs-default-company-backends '(company-files company-capf)
                                        )
-                      
      ;; better-defaults
      emacs-lisp
      git
@@ -90,16 +89,6 @@ This function should only modify configuration layer settings."
    ;; `dotspacemacs/user-config'. To use a local version of a package, use the
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(
-                                      dap-mode
-                                      doom-themes
-                                      gruvbox-theme
-                                      nyan-mode
-                                      typescript-mode
-                                      skewer-reload-stylesheets
-                                      rainbow-delimiters
-                                      desktop+
-                                      )
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -124,10 +113,7 @@ It should only modify the values of Spacemacs settings."
   ;; This setq-default sexp is an exhaustive list of all the supported
   ;; spacemacs settings.
   (setq-default
-   (setq-default
     dotspacemacs-configuration-layers
-    '((auto-completion :variables
-                       spacemacs-default-company-backends '(company-files company-capf))))
    ;; If non-nil then enable support for the portable dumper. You'll need
    ;; to compile Emacs 27 from source following the instructions in file
    ;; EXPERIMENTAL.org at to root of the git repository.
@@ -603,6 +589,27 @@ before packages are loaded."
   (add-to-list 'package-archives
                '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 
+  ;;COMPAY SHIT
+  (use-package company
+    :bind (:map company-active-map
+                ("C-n" . company-select-next)
+                ("C-p" . company-select-previous))
+    :config
+    (setq company-idle-delay 0.3)
+    (global-company-mode t)
+
+    (setq company-backends
+          '(company-capfi
+            company-yasnippet
+            company-files
+            company-dabbrev
+            company-dabbrev-code
+            company-gtags
+            company-etags
+            company-keywords
+            )
+          )
+    )
   ;;FIRA CODE     https://github.com/jming422/fira-code-mode
   (use-package fira-code-mode
     :ensure t
@@ -752,8 +759,6 @@ before packages are loaded."
   ;;         ("C-c C-b" . rjsx-jump-opening-tag)
   ;;         ("C-c C-f" . rjsx-jump-closing-tag)))
 
-  ;;DAP MODE
-  (use-package dap-mode)
   ;;settings for powerline
 
   ;; ELISP STUFF
@@ -924,12 +929,12 @@ before packages are loaded."
  (setq ns-use-srgbcolorspace nil)
 
  ;; NYAN MODE
-(use-package nyan-mode
-   :custom
-   (nyan-cat-face-number 4)
-   (nyan-animate-nyancat t)
-   :hook
-   (doom-modeline-mode . nyan-mode))
+;; (use-package nyan-mode
+;;    :custom
+;;    (nyan-cat-face-number 4)
+;;    (nyan-animate-nyancat t)
+;;    :hook
+;;    (doom-modeline-mode . nyan-mode))
 
 
  ;;PARA USAR TEMAS
@@ -1006,7 +1011,9 @@ before packages are loaded."
   (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 
   ;; optionally if you want to use debugger
-  (use-package dap-mode)
+  (use-package dap-mode
+    :ensure t)
+
   ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 
   ;; optional if you want which-key integration
@@ -1126,7 +1133,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-))
+)
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
 This is an auto-generated function, do not modify its content directly, use
@@ -1157,4 +1164,4 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-)
+))
