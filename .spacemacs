@@ -34,6 +34,8 @@ This function should only modify configuration layer settings."
    dotspacemacs-configuration-layers
    '(html
      python
+     dab
+     django
      javascript
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -646,7 +648,8 @@ before packages are loaded."
            (rjsx-mode . lsp)
            (css-mode . lsp)
            (html-mode . lsp) 
-           (python-mode . lsp) 
+           (python-mode . lsp-deferred) 
+           (django-mode . lsp) 
            
 
 	         )
@@ -658,6 +661,7 @@ before packages are loaded."
     :ensure t 
     :custom 
     (python-shell-interprer "/usr/bin/python3")
+    (require 'dap-python)
     )
 (setq python-shell-interpreter "/usr/bin/python3")
 (setq py-python-command "/usr/bin/python3")
