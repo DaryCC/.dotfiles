@@ -52,13 +52,13 @@ This function should only modify configuration layer settings."
                                        ;;auto-completion-tab-key-behavior 'cycle
                                        auto-completion-complete-with-key-sequence nil
                                        auto-completion-complete-with-key-sequence-delay 0.1
-                                       auto-completion-minimum-prefix-length 2
+                                       auto-completion-minimum-prefix-length 1
                                        auto-completion-idle-delay 0.2
                                        auto-completion-private-snippets-directory nil
                                        ;;auto-completion-enable-snippets-in-popup nil
                                        auto-completion-enable-help-tooltip nil
                                        auto-completion-use-company-box nil
-                                       auto-completion-enable-sort-by-usage nil
+                                       auto-completion-enable-sort-by-usage t
                                        spacemacs-default-company-backends '(company-files company-capf)
                                        )
      ;; better-defaults
@@ -590,7 +590,7 @@ before packages are loaded."
   (add-to-list 'package-archives
                '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 
-  ;;COMPAY SHIT
+  ;;COMPANY SHIT
   (use-package company
     :bind (:map company-active-map
                 ("C-n" . company-select-next)
@@ -608,9 +608,79 @@ before packages are loaded."
             company-gtags
             company-etags
             company-keywords
+            ;; company-web-html
+            ;; company-css-html-tags
+            ;; company-css
+
             )
           )
     )
+
+  (use-package web-mode
+    ;; :commands (web-mode company-web-html)
+    :ensure t
+    :defer t
+    ;; :init 
+    ;; (add-hook 'company-web #'company-web-html t)
+    :mode (
+	           ("\\.html\\'" . web-mode))
+    ;(unless (assoc "Bootstrap" web-completion-data-sources)
+    ;;   (setq web-completion-data-sources
+    ;;         (cons (cons "Bootstrap" "/path/to/complete/data")
+    ;;               web-completion-data-sources)))
+                                        ;(describe-variable 'company-web-completion-data-p)
+    :init
+      (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
+      (add-hook 'prog-mode-hook 'highlight-numbers-mode)
+      (add-hook 'web-mode-hook #'impatient-mode)
+    ;; (spacemacs|add-company-backends
+    ;;   :backends company-web
+    ;;   :modes -mode)
+      (defun complete_html ()
+        "Hook for `web-mode'."
+        (set (make-local-variable 'company-backends)
+             '(company-tern company-web-html company-yasnippet company-files))
+
+
+        (local-set-key (kbd "M-=") 'company-web-html))
+      (add-hook 'web-mode-hook 'complete_html)
+
+    :config
+    (require 'company)
+    (require 'company-web)
+    (require 'company-web-html)
+
+
+
+
+  ;;   ;; you may key bind, for example for web-mode:
+  ;;   ;; (define-key web-mode-map (kbd "C-'") 'company-web-html)
+
+    );;end company-web
+
+
+  ;;PARA HTML
+  ;; (use-package web-mode
+  ;;   :ensure t
+  ;;   :mode (
+	;;          ("\\.html\\'" . web-mode))
+  ;;   :init
+  ;;   (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
+  ;;   (add-hook 'prog-mode-hook 'highlight-numbers-mode)
+  ;;   (add-hook 'web-mode-hook #'impatient-mode)
+  ;;   )
+
+
+
+  ;; (require 'web-mode)
+  ;; (add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
+
+
+  ;; (add-hook 'web-mode-hook (lambda ()
+  ;;                            (set (make-local-variable 'company-backends) '(company-web-html))
+  ;;                            (company-mode t)))
+
+
   ;;FIRA CODE     https://github.com/jming422/fira-code-mode
   (use-package fira-code-mode
     :ensure t
@@ -702,18 +772,6 @@ before packages are loaded."
       :mode (
 	             ("\\.css\\'" . web-mode))
     )
-;;PARA HTML
-  (use-package web-mode
-    :ensure t
-    :mode (
-	         ("\\.html\\'" . web-mode))
-    :init
-    (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
-    (add-hook 'prog-mode-hook 'highlight-numbers-mode)
-    (add-hook 'web-mode-hook #'impatient-mode)
-    )
-  (require 'web-mode)
-  (add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
 ;;PARA  REACT
   (use-package rjsx-mode
   :ensure t
@@ -1194,12 +1252,12 @@ This function is called at the very end of Spacemacs initialization."
    '("c5ded9320a346146bbc2ead692f0c63be512747963257f18cc8518c5254b7bf5" "83e0376b5df8d6a3fbdfffb9fb0e8cf41a11799d9471293a810deb7586c131e6" "7eea50883f10e5c6ad6f81e153c640b3a288cd8dc1d26e4696f7d40f754cc703" "a82ab9f1308b4e10684815b08c9cac6b07d5ccb12491f44a942d845b406b0296" "234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" "2035a16494e06636134de6d572ec47c30e26c3447eafeb6d3a9e8aee73732396" "835868dcd17131ba8b9619d14c67c127aa18b90a82438c8613586331129dda63" "c1284dd4c650d6d74cfaf0106b8ae42270cab6c58f78efc5b7c825b6a4580417" default))
  '(dap-mode t nil (dap-mode))
  '(evil-want-Y-yank-to-eol nil)
- '(flycheck-python-pycompile-executable "python3")
  '(helm-ag-base-command "rg --vimgrep --no-heading --smart-case")
  '(package-selected-packages
    '(fira-code-mode yapfify stickyfunc-enhance sphinx-doc pytest pyenv-mode pydoc py-isort poetry pippel pipenv pyvenv pip-requirements nose lsp-python-ms lsp-pyright live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-cscope xcscope cython-mode company-anaconda blacken anaconda-mode pythonic treemacs-all-the-icons desktop+ gruvbox-theme skewer-reload-stylesheets ewal-doom-themes tern npm-mode nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl helm-gtags ggtags dap-mode bui counsel-gtags yasnippet web-mode web-beautify tagedit slim-mode scss-mode sass-mode pug-mode prettier-js impatient-mode htmlize simple-httpd helm-css-scss haml-mode emmet-mode counsel-css counsel swiper ivy company-web web-completion-data company add-node-modules-path doom-themes dracula-theme ws-butler writeroom-mode visual-fill-column winum volatile-highlights vi-tilde-fringe uuidgen undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil treemacs cfrs pfuture posframe toc-org symon symbol-overlay string-inflection string-edit spaceline-all-the-icons memoize all-the-icons spaceline powerline restart-emacs request rainbow-delimiters quickrun popwin persp-mode password-generator paradox spinner overseer org-superstar open-junk-file nameless multi-line shut-up macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop helm-purpose window-purpose imenu-list helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio flycheck-package package-lint flycheck pkg-info epl flycheck-elsa flx-ido flx fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired f evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection annalist evil-cleverparens smartparens evil-args evil-anzu anzu eval-sexp-fu emr iedit clang-format projectile paredit list-utils elisp-slime-nav editorconfig dumb-jump s drag-stuff dired-quick-sort define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol ht dash auto-compile packed aggressive-indent ace-window ace-link ace-jump-helm-line helm avy which-key use-package popup pcre2el hydra hybrid-mode helm-core font-lock+ dotenv-mode diminish bind-map))
  '(safe-local-variable-values
-   '((eval progn
+   '((pony-settings make-pony-project :python "/usr/bin/python3" :settings)
+     (eval progn
            (pp-buffer)
            (indent-buffer))
      (javascript-backend . tide)
