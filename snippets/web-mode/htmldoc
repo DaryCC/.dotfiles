@@ -1,0 +1,23 @@
+# -*- mode: snippet -*-
+# name: HTML template
+# key: htmldoc
+# --
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>$1</title>
+  <meta name="description" content="A simple HTML5 Template for new projects.">
+  <meta name="$2" content="SitePoint">
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+
+</head>
+
+<body>
+  <!-- your content here... -->
+  $3
+</body>
+</html>

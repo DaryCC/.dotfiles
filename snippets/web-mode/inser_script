@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: insert script
+# key: insert script
+# --
+<script src="$1">$2</script>
