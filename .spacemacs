@@ -36,6 +36,7 @@ This function should only modify configuration layer settings."
      python
      dab
      django
+;; (require 'django-mode)
      javascript
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -66,6 +67,11 @@ This function should only modify configuration layer settings."
      git
      helm
      lsp
+     (python
+      :variables
+      ;; python-backend 'anaconda
+      python-backend 'lsp)
+
      github
      ;; markdown
      multiple-cursors
@@ -79,6 +85,7 @@ This function should only modify configuration layer settings."
       version-control
      treemacs
      ;;TREEMACS
+    
      )
 
 
@@ -584,6 +591,7 @@ before packages are loaded."
   (package-initialize)
   (require 'package)
 
+  ;; (require 'django-mode)
 
   (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 
@@ -611,7 +619,7 @@ before packages are loaded."
             ;; company-web-html
             ;; company-css-html-tags
             ;; company-css
-
+            ;; checar anacaonda mode para python aqui https://github.com/pythonic-emacs/company-anaconda
             )
           )
     )
@@ -719,7 +727,6 @@ before packages are loaded."
            (css-mode . lsp)
            (html-mode . lsp) 
            (python-mode . lsp-deferred) 
-           (django-mode . lsp) 
            
 
 	         )
@@ -850,6 +857,18 @@ before packages are loaded."
     :hook
     (prog-mode . rainbow-delimiters-mode))
 
+  ;; highlight-indent
+  (use-package highlight-indent-guides
+    :ensure t
+    :config
+    (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+    :custom
+    (highlight-indent-guides-method 'character )
+    ;; (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+    ;; :init
+    ;; (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+
+    )
   ;; TREEMACS
 (use-package treemacs
   :ensure t
