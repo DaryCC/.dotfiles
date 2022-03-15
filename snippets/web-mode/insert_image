@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
 # name:insert image
-# key: insert img
+# key: insertimg
 # --
 <img src="1" alt="$2" style="$3">

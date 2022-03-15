@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
 # name: insert css
-# key: insert css
+# key: insertcss
 # --
 <link rel="stylesheet" href="$1">
