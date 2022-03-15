@@ -84,7 +84,6 @@ This function should only modify configuration layer settings."
      syntax-checking
       version-control
      treemacs
-     ;;TREEMACS
     
      )
 
@@ -588,16 +587,23 @@ configuration.
 Put your configuration code here, except for variables that should be
 before packages are loaded."
 
+
+
   (package-initialize)
   (require 'package)
 
   ;; (require 'django-mode)
-
+ 
   (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 
   (add-to-list 'package-archives
                '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 
+
+  (with-eval-after-load 'doom-themes
+    (doom-themes-treemacs-config))
+
+  (setq python-shell-interpreter "python3")
   ;;COMPANY SHIT
   (use-package company
     :bind (:map company-active-map
@@ -736,13 +742,18 @@ before packages are loaded."
   (use-package python-mode
     :ensure t 
     :custom 
-    (python-shell-interprer "/usr/bin/python3")
+    ;; (python-shell-interprer "python3")
     (require 'dap-python)
     ;; (add-hook 'python-mode-hook 'highlight-indent-guides-mode)
+    (setq py-shell-name "/usr/bin/python3")
+    ;; (setq python-shell-interpreter "python3")
+    (setq py-python-command "/usr/bin/python3")
+    (setq python-shell-completion-native-enable t)
     )
-(setq python-shell-interpreter "/usr/bin/python3")
-(setq py-python-command "/usr/bin/python3")
-(setq python-shell-completion-native-enable t)
+;;   (setq py-shell-name "/usr/bin/python3")
+;;   (setq python-shell-interpreter "python3")
+;; (setq py-python-command "/usr/bin/python3")
+;; (setq python-shell-completion-native-enable t)
 
 ;; (use-package django-mode
 ;;   :ensure t
@@ -912,6 +923,8 @@ before packages are loaded."
           treemacs-goto-tag-strategy               'refetch-index
           treemacs-indentation                     2
           treemacs-indentation-string              " "
+          treemacs-indent-guide-mode               t
+          treemacs-indent-guide-style              'line
           treemacs-is-never-other-window           nil
           treemacs-max-git-entries                 5000
           treemacs-missing-project-action          'ask
@@ -953,6 +966,7 @@ before packages are loaded."
     (treemacs-follow-mode t)
     (treemacs-filewatch-mode t)
     (treemacs-fringe-indicator-mode 'always)
+    ;; (treemacs-indent-guide-mode t)
 
     (pcase (cons (not (null (executable-find "git")))
                  (not (null treemacs-python-executable)))
@@ -1043,7 +1057,7 @@ before packages are loaded."
 ;; (use-package nyan-mode
 ;;    :custom
 ;;    (nyan-cat-face-number 4)
-;;    (nyan-animate-nyancat t)
+ ;;    (nyan-animate-nyancat t)
 ;;    :hook
 ;;    (doom-modeline-mode . nyan-mode))
 
@@ -1055,11 +1069,13 @@ before packages are loaded."
    :ensure t
    :if (display-graphic-p))
 
+
  ;;INSTALAR TEMAS
  (use-package doom-themes
    :ensure t
    :config
    ;; Global settings (defaults)
+
    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
          doom-themes-enable-italic t) ; if nil, italics is universally disabled
    (load-theme 'doom-gruvbox t)
@@ -1069,7 +1085,7 @@ before packages are loaded."
    ;; Enable custom neotree theme (all-the-icons must be installed!)
    (doom-themes-neotree-config)
    ;; or for treemacs users
-   (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+   (setq doom-themes-treemacs-theme "all-the-icons") ; use "doom-colors" for less minimal icon theme "doom-atom"
    (doom-themes-treemacs-config)
    ;; Corrects (and improves) org-mode's native fontification.
    (doom-themes-org-config))
@@ -1220,8 +1236,7 @@ before packages are loaded."
 
 
 ;; Do not write anything past this comment. This is where Emacs will
-;; auto-generate custom variable definitions.
-(defun dotspacemacs/emacs-custom-settings ()
+;; auto-generate custom variable definitions. (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
@@ -1272,10 +1287,11 @@ This function is called at the very end of Spacemacs initialization."
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
+ ;; Your init file should contain only one such instan
+ ce.
  ;; If there is more than one, they won't work right.
  )
-)) 
+) 
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
 This is an auto-generated function, do not modify its content directly, use
@@ -1291,9 +1307,9 @@ This function is called at the very end of Spacemacs initialization."
  '(dap-mode t nil (dap-mode))
  '(evil-want-Y-yank-to-eol nil)
  '(helm-ag-base-command "rg --vimgrep --no-heading --smart-case")
- '(highlight-indent-guides-method 'bitmap)
  '(package-selected-packages
    '(fira-code-mode yapfify stickyfunc-enhance sphinx-doc pytest pyenv-mode pydoc py-isort poetry pippel pipenv pyvenv pip-requirements nose lsp-python-ms lsp-pyright live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-cscope xcscope cython-mode company-anaconda blacken anaconda-mode pythonic treemacs-all-the-icons desktop+ gruvbox-theme skewer-reload-stylesheets ewal-doom-themes tern npm-mode nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl helm-gtags ggtags dap-mode bui counsel-gtags yasnippet web-mode web-beautify tagedit slim-mode scss-mode sass-mode pug-mode prettier-js impatient-mode htmlize simple-httpd helm-css-scss haml-mode emmet-mode counsel-css counsel swiper ivy company-web web-completion-data company add-node-modules-path doom-themes dracula-theme ws-butler writeroom-mode visual-fill-column winum volatile-highlights vi-tilde-fringe uuidgen undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil treemacs cfrs pfuture posframe toc-org symon symbol-overlay string-inflection string-edit spaceline-all-the-icons memoize all-the-icons spaceline powerline restart-emacs request rainbow-delimiters quickrun popwin persp-mode password-generator paradox spinner overseer org-superstar open-junk-file nameless multi-line shut-up macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop helm-purpose window-purpose imenu-list helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio flycheck-package package-lint flycheck pkg-info epl flycheck-elsa flx-ido flx fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired f evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection annalist evil-cleverparens smartparens evil-args evil-anzu anzu eval-sexp-fu emr iedit clang-format projectile paredit list-utils elisp-slime-nav editorconfig dumb-jump s drag-stuff dired-quick-sort define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol ht dash auto-compile packed aggressive-indent ace-window ace-link ace-jump-helm-line helm avy which-key use-package popup pcre2el hydra hybrid-mode helm-core font-lock+ dotenv-mode diminish bind-map))
+ '(py-shell-name "python3")
  '(safe-local-variable-values
    '((eval progn
            (pp-buffer)
