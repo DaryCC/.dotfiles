@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: div template
+# key: divtemplate
+# --
+<div id="$1" class="$2">$3</div>

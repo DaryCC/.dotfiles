@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: insert link
+# key: inserta
+# --
+<a target="_blank" href="$1">$2</a>
