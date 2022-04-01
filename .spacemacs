@@ -707,23 +707,49 @@ before packages are loaded."
     :hook prog-mode
     :config (fira-code-mode-set-font)
     ) ;; Enables fira-code-mode automatically for programming major modes
-  ;; ;; IVY POST FRAME
-  ;; (require 'ivy-posframe)
-  ;; ;; display at `ivy-posframe-style'
-  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display)))
-  ;; ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
-  ;; ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-center)))
-  ;; ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-bottom-left)))
-  ;; ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-bottom-left)))
-  ;; ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center)))
-  ;; (ivy-posframe-mode 1)
-  ;;orgmode
+
+  ;;SMARTPARENS
+  ;; If non-nil `smartparens-strict-mode' will be enabled in programming modes.
+  ;; (default nil)
+  ;; dotspacemacs-smartparens-strict-mode t
+
+  ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
+  ;; over any automatically added closing parenthesis, bracket, quote, etc…
+  ;; This can be temporary disabled by pressing `C-q' before `)'. (default nil)
+  ;; dotspacemacs-smart-closing-parenthesis t
+
+  ;; Select a scope to highlight delimiters. Possible values are `any',
+  ;; `current', `all' or `nil'. Default is `all' (highlight any scope and
+  ;; emphasis the current one). (default 'all)
+  ;; dotspacemacs-highlight-delimiters 'all
+
+  ;;org-mode
+  ;;The auto-fill-mode function can be used to toggle auto fill mode for a buffer.
+  ;;Also check org-fill-paragraph for this task.
+  ;; (require org-download) for image pasting
   (use-package org
+    ;; :hook (org-mode . toc-org-enable)
+    :hook
+    (add-hook 'org-mode-hook 'auto-indent-mode)
+    ;; (add-hook 'dired-mode-hook 'org-download-enable)
+    :config
+    (add-hook 'org-mode-hook 'turn-on-auto-fill)
+    (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters)
     :custom
     (org-ellipsis "⤵")
 
-    (setq org-todo-keywords
-          '((sequence "TODO(t!)" "NEXT(n!)" "DOINGNOW(d!)" "BLOCKED(b!)" "TODELEGATE(g!)" "DELEGATED(D!)" "FOLLOWUP(f!)" "TICKLE(T!)" "|" "CANCELLED(c!)" "DONE(F!)")))
+    )
+  (setq org-todo-keywords
+        '((sequence "TODO(t)"
+                    "PROGRESS(n)"
+                    "DELEGATED(D)"
+                    "|"
+                    "CANCELLED(c)"
+                    "DONE(F)")))
+  ;;If you then press C-c C-t followed by the selection key, the entry is switched to this state. SPC can be used to remove any TODO keyword from an entry.
+;;for auto indent
+  (use-package auto-indent-mode
+    :ensure t
     )
   ;;configuración para lsp
   (use-package lsp-mode
@@ -885,6 +911,7 @@ before packages are loaded."
     (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
     :custom
     (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+    (add-hook 'org-mode-hook 'highlight-indent-guides-mode)
     (highlight-indent-guides-method 'character )
     :init
     (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
