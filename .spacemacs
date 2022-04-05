@@ -603,8 +603,31 @@ before packages are loaded."
 
   (add-to-list 'package-archives
                '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  (defun efs/set-font-faces ()
+    (message "Setting faces!")
+    (set-face-attribute 'default nil :font "Source Code Pro"  :weight 'normal )
+    ;; Set the fixed pitch face
+    (set-face-attribute 'fixed-pitch nil :font "Source Code Pro" )
 
+    ;; Set the variable pitch face
+    (set-face-attribute 'variable-pitch nil :font "Source Code Pro" :weight 'regular)
 
+    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+          doom-themes-enable-italic t) ; if nil, italics is universally disabled
+
+    )
+
+  (if (daemonp)
+      (add-hook 'after-make-frame-functions
+                (lambda (frame)
+                  (setq doom-modeline-icon t)
+                  (with-selected-frame frame
+                    (efs/set-font-faces))))
+    (efs/set-font-faces))
+
+  (evil-leader/set-key "q q" 'spacemacs/frame-killer)
+ ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   (with-eval-after-load 'doom-themes
     (doom-themes-treemacs-config))
 
@@ -701,12 +724,12 @@ before packages are loaded."
 
 
   ;;FIRA CODE     https://github.com/jming422/fira-code-mode
-  (use-package fira-code-mode
-    :ensure t
-    :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x")) ;; List of ligatures to turn off
-    :hook prog-mode
-    :config (fira-code-mode-set-font)
-    ) ;; Enables fira-code-mode automatically for programming major modes
+  ;; (use-package fira-code-mode
+  ;;   :ensure t
+  ;;   :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x")) ;; List of ligatures to turn off
+  ;;   :hook prog-mode
+  ;;   :config (fira-code-mode-set-font)
+  ;;   ) ;; Enables fira-code-mode automatically for programming major modes
 
   ;;SMARTPARENS
   ;; If non-nil `smartparens-strict-mode' will be enabled in programming modes.
@@ -1107,8 +1130,8 @@ before packages are loaded."
 
    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
          doom-themes-enable-italic t) ; if nil, italics is universally disabled
-   (load-theme 'doom-gruvbox t)
 
+   (load-theme 'doom-gruvbox t)
    ;; Enable flashing mode-line on errors
    (doom-themes-visual-bell-config)
    ;; Enable custom neotree theme (all-the-icons must be installed!)
@@ -1117,7 +1140,8 @@ before packages are loaded."
    (setq doom-themes-treemacs-theme "doom-colors") ; use "doom-colors" for less minimal icon theme "doom-atom"
    (doom-themes-treemacs-config)
    ;; Corrects (and improves) org-mode's native fontification.
-   (doom-themes-org-config))
+   (doom-themes-org-config)
+   )
  ;;DOOM-MODELINE
  ;; (require 'doom-modeline)
  ;; (doom-modeline-init)
