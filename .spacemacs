@@ -73,7 +73,7 @@ This function should only modify configuration layer settings."
       ;; python-backend 'anaconda
       python-backend 'lsp)
 
-     github
+     ;; github
      ;; markdown
      multiple-cursors
      org
@@ -997,7 +997,6 @@ before packages are loaded."
     (treemacs-filewatch-mode t)
     (treemacs-fringe-indicator-mode 'always)
     (treemacs-indent-guide-mode t)
-    (treemacs-indent-guide-style 'line)
 
     (pcase (cons (not (null (executable-find "git")))
                  (not (null treemacs-python-executable)))
