@@ -1,0 +1,10 @@
+#+title: Efectos par el razer hunt mini
+* SetUp
+** Instalar Open Razer
+[[https://openrazer.github.io/#ubuntu][OpenRazer for Ubuntu y derivados]]
+** Instalar Polychomatic
+[[hhttps://polychromatic.app/download/ubuntu/ttps://...][Polychromatic para Ubuntu y derivados]]
+** Archivo Config file
+Create a symbolic of *RazerHuntsmanMiniPOSos.json* en la carpeta *.config*:
+~ln -s ~/.spacemacs.d/Polychromatic_config/RazerHuntsmanMiniPOSos.json  ~/.config/polychromatic/effects ~
+
