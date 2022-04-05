@@ -110,3 +110,4 @@ alias x="exit"
 eval "$(starship init zsh)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+alias doom="~/.emacs.d/bin/doom"
