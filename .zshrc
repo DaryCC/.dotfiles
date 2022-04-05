@@ -106,8 +106,14 @@ alias Migrate="python3 manage.py migrate"
 alias Makemigrations="python3 manage.py makemigrations"
 alias Createsuperuser="python3 manage.py createsuperuser"
 alias x="exit"
+<<<<<<< HEAD
 
 eval "$(starship init zsh)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+=======
+>>>>>>> efab020... para daemon-- font set nomás, no jala doom-gruvbox
 alias doom="~/.emacs.d/bin/doom"
+alias emacsd="emacs --daemon"
+alias emacsc="emacsclient -nc"
+alias emacsk="emacsclient -e \"(kill-emacs)\""
