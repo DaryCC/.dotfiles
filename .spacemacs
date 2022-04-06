@@ -116,7 +116,7 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-only))
+   dotspacemacs-install-packages 'used-but-keep-unused))
 
 (defun dotspacemacs/init ()
   "Initialization:
@@ -259,7 +259,10 @@ It should only modify the values of Spacemacs settings."
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(spacemacs-dark
-                         spacemacs-light)
+                         spacemacs-light
+                         doom-gruvbox
+                         doom-dracula
+                         )
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -592,6 +595,9 @@ configuration.
 Put your configuration code here, except for variables that should be
 before packages are loaded."
 
+  ;; (add-to-list 'custom-theme-load-path "~/.emacs.d/private/themes/")
+
+  ;; (require 'doom-themes-base "~/.emacs.d/private/themes/doom-themes-base.el")
 
 
   (package-initialize)
@@ -612,7 +618,7 @@ before packages are loaded."
 
     ;; Set the variable pitch face
     (set-face-attribute 'variable-pitch nil :font "Source Code Pro" :weight 'regular)
-
+    (load-theme 'doom-gruvbox t);;ESTE ES EL BUENO
     (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
           doom-themes-enable-italic t) ; if nil, italics is universally disabled
 
@@ -623,13 +629,25 @@ before packages are loaded."
                 (lambda (frame)
                   (setq doom-modeline-icon t)
                   (with-selected-frame frame
-                    (efs/set-font-faces))))
+                    (efs/set-font-faces) )
+                  )
+                ;; (load-theme 'doom-gruvbox t)
+                )
     (efs/set-font-faces))
 
+  (require 'doom-themes)
+  ;; (load-theme 'doom-gruvbox t)
   (evil-leader/set-key "q q" 'spacemacs/frame-killer)
+  ;; (defun my-load-theme (theme)
+  ;;   (add-hook 'after-make-frame-functions
+  ;;             (lambda (frame)
+  ;;               (select-frame frame)
+  ;;               (when (display-graphic-p frame)
+  ;;                 (load-theme theme t)))))
+  ;; (my-load-theme 'doom-gruvbox)
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  (with-eval-after-load 'doom-themes
-    (doom-themes-treemacs-config))
+  ;; (with-eval-after-load 'doom-themes
+  ;;   (doom-themes-treemacs-config))
 
   (setq python-shell-interpreter "python3")
   ;;COMPANY SHIT
