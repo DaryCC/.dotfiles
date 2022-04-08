@@ -58,8 +58,8 @@ This function should only modify configuration layer settings."
                                        auto-completion-idle-delay 0.2
                                        auto-completion-private-snippets-directory nil
                                        ;;auto-completion-enable-snippets-in-popup nil
-                                       auto-completion-enable-help-tooltip nil
-                                       auto-completion-use-company-box nil
+                                       auto-completion-enable-help-tooltip t
+                                       auto-completion-use-company-box t
                                        auto-completion-enable-sort-by-usage t
                                        spacemacs-default-company-backends '(company-files company-capf)
                                        )
