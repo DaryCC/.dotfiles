@@ -795,7 +795,7 @@ before packages are loaded."
   ;;configuración para lsp
   (use-package lsp-mode
     ;; :commands lsp
-    :commands (lsp lsp-deferred)
+    ;; :commands (lsp lsp-deferred)
     :ensure t
     :hook (
 	         (web-mode . lsp)
@@ -804,7 +804,7 @@ before packages are loaded."
            (rjsx-mode . lsp)
            (css-mode . lsp)
            (html-mode . lsp) 
-           (python-mode . lsp-deferred) 
+           (python-mode . lsp) 
 
 	         )
     ;; :commands lsp-deferred
