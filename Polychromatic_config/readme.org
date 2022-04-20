@@ -2,6 +2,8 @@
 * SetUp
 ** Instalar Open Razer
 *** Ubuntu  y derivados
+
+
 [[https://openrazer.github.io/#ubuntu][OpenRazer for Ubuntu y derivados \\]]
 To install the recommended stable builds:\\
 ~sudo add-apt-repository ppa:openrazer/stable~
