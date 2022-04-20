@@ -1,6 +1,6 @@
 #+title: Como configurar Alacritty
 * Content :TOC:
-- [[#instalación-del-repositorio-de-arch][Instalación del repositorio de Arch]]
+- [[#instalación-desde-repositorio-de-arch][Instalación desde repositorio de Arch]]
 - [[#simbolic-link][simbolic link]]
 - [[#temas-no-es-necesario][Temas (no es necesario)]]
   - [[#repositorio][repositorio]]
@@ -8,7 +8,7 @@
       - [[#npm][npm]]
       - [[#aur][AUR]]
 
-* Instalación del repositorio de Arch
+* Instalación desde repositorio de Arch
 https://wiki.archlinux.org/title/Alacritty
 #+begin_src shell
   git clone https://aur.archlinux.org/alacritty-git.git
