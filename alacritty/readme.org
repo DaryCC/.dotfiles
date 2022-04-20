@@ -1,0 +1,22 @@
+#+title: Como configurar Alacritty
+* Content :TOC:
+- [[#instalación-del-repositorio-de-arch][Instalación del repositorio de Arch]]
+  - [[#temas-no-es-necesario][Temas (no es necesario)]]
+    - [[#repositorio][repositorio]]
+    - [[#instalación][instalación]]
+      - [[#npm][npm]]
+      - [[#aur][AUR]]
+- [[#simbolic-link][simbolic link]]
+
+* Instalación del repositorio de Arch
+https://wiki.archlinux.org/title/Alacritty
+** Temas (no es necesario)
+*** repositorio
+https://github.com/rajasegar/alacritty-themes
+*** instalación
+**** npm
+npm i -g alacritty-themes
+**** AUR
+pacman -S alacritty-themes
+* simbolic link
+❯ ln -s ~/.spacemacs.d/alacritty/alacritty.yml ~/.config/alacritty
