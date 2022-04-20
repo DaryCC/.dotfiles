@@ -1,0 +1,11 @@
+#+title: Configuración personal para web developement en spacemacs
+#+description: Configuraciones para html, css, JS, python, y Django
+# POR EDITAR Y GENRAR TANGLED FILE
+*TABLA DE CONTENIDO :TOC:
+- [[#para-mejorar-el-workflow-instalé-algunos-plugins-para-alacritty-y-zsh][Para mejorar el workflow instalé algunos plugins para alacritty, y zsh.]]
+- [[#grubvox-ftw][Grubvox ftw!!]]
+
+* Se incluyen layers y snippets para Spacemacs.
+* Para mejorar el workflow instalé algunos plugins para alacritty, y zsh.
+* Grubvox ftw!!
+#+html: <p align="center"><img src="./spacemacs.png/" /></p>
