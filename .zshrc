@@ -71,7 +71,7 @@ ZSH_THEME="spaceship"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git  z copypath sudo  zsh-syntax-highlighting zsh-autosuggestions dirhistory history colored-man-pages npm)
+plugins=(git z copypath sudo  zsh-syntax-highlighting zsh-autosuggestions dirhistory history colored-man-pages npm)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -106,16 +106,7 @@ alias Migrate="python3 manage.py migrate"
 alias Makemigrations="python3 manage.py makemigrations"
 alias Createsuperuser="python3 manage.py createsuperuser"
 alias x="exit"
-<<<<<<< HEAD
 
 eval "$(starship init zsh)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-=======
->>>>>>> efab020... para daemon-- font set nomás, no jala doom-gruvbox
-alias doom="~/.emacs.d/bin/doom"
-alias emacsd="emacs --daemon"
-alias emacsc="emacsclient -nc"
-alias emacsk="emacsclient -e \"(kill-emacs)\""
-alias at="alacritty-themes"
-eval "$(starship init zsh)"
