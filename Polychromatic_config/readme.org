@@ -35,5 +35,7 @@ yay -S polychromatic
 
 ** Archivo Config file
 Create a symbolic of *RazerHuntsmanMiniPOSos.json* en la carpeta *.config*:
+#+begin_src shell
 ~ln -s ~/.spacemacs.d/Polychromatic_config/RazerHuntsmanMiniPOSos.json  ~/.config/polychromatic/effects ~
+#+end_src
 
