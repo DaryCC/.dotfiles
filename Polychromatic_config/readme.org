@@ -5,11 +5,14 @@
 
 
 [[https://openrazer.github.io/#ubuntu][OpenRazer for Ubuntu y derivados]]
-To install the recommended stable builds:.
-~sudo add-apt-repository ppa:openrazer/stable~. 
-After adding the PPA, install the packages:\\
- ~sudo apt update~\\
- ~sudo apt install openrazer-meta~ \\
+To install the recommended stable builds:
+
+~sudo add-apt-repository ppa:openrazer/stable~ 
+
+After adding the PPA, install the packages:
+
+ ~sudo apt update~
+ ~sudo apt install openrazer-meta~ 
 *** Para Arch
 [[https://aur.archlinux.org/packages/openrazer-meta][user repository AUR]]
 + ~git clone https://aur.archlinux.org/openrazer.git~
