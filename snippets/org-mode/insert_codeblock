@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name:insert code block 
+# key: <code
+# --
+#+BEGIN_SRC emacs-lisp
+;; Your code goes here
+$0
+#+END_SRC
