@@ -1,4 +1,14 @@
 #+title: Led configuration para el razer hunt mini
+* Content :TOC:
+- [[#setup][SetUp]]
+  - [[#instalar-open-razer][Instalar Open Razer]]
+    - [[#ubuntu--y-derivados][Ubuntu  y derivados]]
+    - [[#para-arch][Para Arch]]
+  - [[#instalar-polychomatic][Instalar Polychomatic]]
+    - [[#polychromatic-para-ubuntu-y-derivados][Polychromatic para Ubuntu y derivados]]
+    - [[#para-arch-1][Para Arch]]
+  - [[#archivo-config-file][Archivo Config file]]
+
 * SetUp
 ** Instalar Open Razer
 *** Ubuntu  y derivados
