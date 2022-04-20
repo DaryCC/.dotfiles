@@ -1,9 +1,38 @@
-#+title: Efectos par el razer hunt mini
+#+title: Led configuration para el razer hunt mini
 * SetUp
 ** Instalar Open Razer
+*** Ubuntu  y derivados
 [[https://openrazer.github.io/#ubuntu][OpenRazer for Ubuntu y derivados]]
+To install the recommended stable builds:
+~sudo add-apt-repository ppa:openrazer/stable~
+After adding the PPA, install the packages:
+ ~sudo apt update~
+ ~sudo apt install openrazer-meta~
+*** Para Arch
+[[https://aur.archlinux.org/packages/openrazer-meta][user repository AUR]]
++ ~git clone https://aur.archlinux.org/openrazer.git~
++ cd operazer
++ makepkg -si
+
 ** Instalar Polychomatic
-[[hhttps://polychromatic.app/download/ubuntu/ttps://...][Polychromatic para Ubuntu y derivados]]
+*** [[hhttps://polychromatic.app/download/ubuntu/ttps://...][Polychromatic para Ubuntu y derivados]]
+#+begin_src shell
+sudo add-apt-repository ppa:polychromatic/stable
+sudo apt update
+
+# Full installation
+sudo apt install polychromatic
+
+# Or, selectively install components
+sudo apt install polychromatic-controller polychromatic-tray-applet polychromatic-cli
+
+#+end_src
+*** Para Arch
+Polychromatic is available from the [[https://aur.archlinux.org/packages/polychromatic][AUR]]. For example, using an AUR helper:
+#+begin_src shell
+yay -S polychromatic
+#+end_src
+
 ** Archivo Config file
 Create a symbolic of *RazerHuntsmanMiniPOSos.json* en la carpeta *.config*:
 ~ln -s ~/.spacemacs.d/Polychromatic_config/RazerHuntsmanMiniPOSos.json  ~/.config/polychromatic/effects ~
