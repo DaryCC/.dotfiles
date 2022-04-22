@@ -71,7 +71,7 @@ ZSH_THEME="spaceship"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git z copypath sudo  zsh-syntax-highlighting zsh-autosuggestions dirhistory history colored-man-pages npm)
+plugins=(fzf-tab git  z copypath sudo  zsh-syntax-highlighting zsh-autosuggestions dirhistory history colored-man-pages npm)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -106,7 +106,29 @@ alias Migrate="python3 manage.py migrate"
 alias Makemigrations="python3 manage.py makemigrations"
 alias Createsuperuser="python3 manage.py createsuperuser"
 alias x="exit"
-
+alias doom="~/.emacs.d/bin/doom"
+alias emacsd="emacs --daemon"
+alias emacsc="emacsclient -nc"
+alias emacsk="emacsclient -e \"(kill-emacs)\""
+alias at="alacritty-themes"
+# alias k9="kill -9 **"
 eval "$(starship init zsh)"
-
+#PARA FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+unsetopt AUTO_CD
+
+
+# fzf
+export FZF_DEFAULT_COMMAND='fd --type f --color=never --hidden'
+export FZF_DEFAULT_OPTS='--no-height --color=bg+:#343d46,gutter:-1,pointer:#ff3c3c,info:#0dbc79,hl:#0dbc79,hl+:#23d18b'
+
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_OPTS="--preview 'bat --color=always --line-range :50 {}'"
+# Muestra las primeras 50 lineas de cada archivo
+
+export FZF_ALT_C_COMMAND='fd --type d . --color=never --hidden'
+export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -50'"
+#para que funcione correctamte instal tree
+#sudo pacman -S tree
+#par fzf-tab
+# source ~/Downloads/fzf-tab/fzf-tab.plugin.zsh
