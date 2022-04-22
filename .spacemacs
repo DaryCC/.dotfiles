@@ -33,6 +33,8 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(systemd
+   '(yaml
+     systemd
      html
      python
      dap
@@ -1083,6 +1085,13 @@ before packages are loaded."
   ;; para templates
   (require 'org-tempo)
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+  ;; ;;PARA ORGMODE
+  ;; (setq org-todo-keywords
+  ;;       '((sequence "TODO(t!)" "NEXT(n!)" "DOINGNOW(d!)" "BLOCKED(b!)" "TODELEGATE(g!)" "DELEGATED(D!)" "FOLLOWUP(f!)" "TICKLE(T!)" "|" "CANCELLED(c!)" "DONE(F!)")))
+  ;; ;; para orgmode
+  ;; ;; para templates
+  ;; (require 'org-tempo)
+  ;; (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
   ;;PARA USAR GRIPREP
   (evil-leader/set-key "/" 'spacemacs/helm-project-do-ag)
   (use-package helm-ag
@@ -1351,6 +1360,8 @@ This function is called at the very end of Spacemacs initialization."
  '(py-shell-name "python3")
  '(safe-local-variable-values
    '((pony-settings make-pony-project :python "/usr/bin/python3" :settings)
+   '((pony-settings make-pony-project :python "/usr/bin/python" :settings)
+     (pony-settings make-pony-project :python "/usr/bin/python3" :settings)
      (eval progn
            (pp-buffer)
            (indent-buffer))
