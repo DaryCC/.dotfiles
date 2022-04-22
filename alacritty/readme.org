@@ -37,23 +37,23 @@ pacman -S alacritty-themes
 #+end_src
 
 * Shortcuts
-C-L clear log
-S-page up
-S-page down
-s-home scroll to top
-s-end scroll to bottom
-S-C-space Toggle Vi mode
-Esc clear selection
-I toggle vi mode
-| toggle to bottom
-~G~ scroll to top
-~S-G~ Scroll to bottom
-c-u scroll page up
-c-d scroll half page down
-Y copy
-Y or V Clear selection
-S-V toggle block selection
-S-H high
-S-M Middle
-~S-L~ Low
++ C-L clear log
++ S-page up
++ S-page down
++ s-home scroll to top
++ s-end scroll to bottom
++ S-C-space Toggle Vi mode
++ Esc clear selection
++ I toggle vi mode
++ | toggle to bottom
++ ~G~ scroll to top
++ ~S-G~ Scroll to bottom
++ c-u scroll page up
++ c-d scroll half page down
++ Y copy
++ Y or V Clear selection
++ S-V toggle block selection
++ S-H high
++ S-M Middle
++ ~S-L~ Low
 
