@@ -73,7 +73,7 @@ ZSH_THEME="spaceship"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git z copypath sudo  zsh-syntax-highlighting zsh-autosuggestions dirhistory history colored-man-pages npm)
 
-source $ZSH/oh-my-zsh.sh
+#source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
@@ -105,5 +105,7 @@ alias Runserver="python3 manage.py runserver"
 alias Migrate="python3 manage.py migrate"
 alias Makemigrations="python3 manage.py makemigrations"
 alias Createsuperuser="python3 manage.py createsuperuser"
-alias x="exit"
+alias x="exit" e
 eval "$(starship init zsh)"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
