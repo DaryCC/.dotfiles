@@ -5,6 +5,6 @@ where to store your private yasnippets.
 
 This path will be loaded automatically and used whenever Yasnippets loads.
 * Instalación
-
-
-  ~ln -s \~/.spacemacs.d/snippets \~/.emacs.d/private~
+#+begin_src shell
+  ln -s \~/.spacemacs.d/snippets \~/.emacs.d/private
+#+end_src
