@@ -1,0 +1,1 @@
+sudo ln -s ~/.spacemacs.d/optimus_manager/optimus-manager.conf /etc/optimus-manager
