@@ -2,6 +2,8 @@
 * Wiki 
 
 [[https://wiki.archlinux.org/title/NVIDIA][Nvida Arch]]
+
+
 Instala los paquetes necesarios para el modelo de tu tarjeta, en  mi caso
 GeForce GTX (1650 Super, 1660, *1660 Ti*, 1660 Super)--> *NV168 (TU116)*:
 
