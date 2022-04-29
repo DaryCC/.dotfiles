@@ -1,1 +1,25 @@
+#+title:Optimus manager for my nvidia driver
+* Wiki 
+
+[[https://wiki.archlinux.org/title/NVIDIA][Nvida Arch]]
+Instala los paquetes necesarios para el modelo de tu tarjeta, en  mi caso
+GeForce GTX (1650 Super, 1660, *1660 Ti*, 1660 Super)--> *NV168 (TU116)*:
+
+#+begin_src shell
+  sudo pacman -Syu nvidia nvidia-utils
+  sudo pacman -S nvidia-prime
+#+end_src
+=IMPORTANTE:= Para Gnome se nesita instalar *nvidia-prime* con un parche.
+* Uso:
+[[https://github.com/Askannz/optimus-manager][optimus manager github]]
++ ~optimus-manager --switch nvidia~ to switch to the Nvidia GPU
++ ~optimus-manager --switch integrated~ to switch to the integrated GPU and power the Nvidia GPU off
++ ~optimus-manager --switch hybrid~ to switch to the iGPU but leave the Nvidia GPU available for on-demand offloading, similar to how Optimus works on Windows. See the Wiki for more details.
+** Optimus Manager Qt
+*Optimus Manager Qt* is an interface for *Optimus Manager* that allows to configure and switch GPUs on Optimus laptops using the tray menu.
+[[https://github.com/Shatur/optimus-manager-qt][optimus manager Qt]]
+
+* Archivo de configuracion
+#+begin_src shell
 sudo ln -s ~/.spacemacs.d/optimus_manager/optimus-manager.conf /etc/optimus-manager
+#+end_src
