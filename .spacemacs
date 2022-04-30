@@ -1118,8 +1118,8 @@ before packages are loaded."
   (add-hook 'prog-mode-hook #'display-line-numbers-mode)
   ;; (add-hook 'treemacs-mode-hook #'display-line-numbers-mode)
   ;; SET TRANSPARENCY
-  (set-frame-parameter (selected-frame) 'alpha '(100 100))
-  (add-to-list 'default-frame-alist '(alpha  100 100))
+  (set-frame-parameter (selected-frame) 'alpha '(90 95))
+  (add-to-list 'default-frame-alist '(alpha  90 95))
 ;;CREO QUE ES PARA EL MINIBUFFER
  (setq ns-use-srgbcolorspace nil)
 
