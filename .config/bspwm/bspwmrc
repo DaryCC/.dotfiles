@@ -31,9 +31,9 @@ bspc monitor eDP-1-1 -d 1 2 3 4 5 6 8
 xsetroot -cursor_name left_ptr
 bspc config pointer_modifier     mod1
 #changes the default X cursor to the more familiar left pointer
-bspc config border_width         1
+bspc config border_width         2
 bspc config window_gap           1
-bspc config bottom_padding       3
+bspc config bottom_padding       1
 bspc config normal_border_color   \#4c566a
 #color del borde para la ventana activa, no enfocada
 bspc config active_border_color   \#C9FAA3
@@ -47,7 +47,7 @@ bspc config borderless_monocle    true
 # bspc config gapless_monocle       true
 # bspc config focus_by_distance     true
 # bspc config  history_aware_focus  true
-bspc config automatic_scheme      spiral
+bspc config automatic_scheme      alternate
 bspc config split_ratio           0.5
 bspc config gapless_monocle       false
 bspc config single_monocle        true
@@ -86,6 +86,8 @@ bspc rule -a Emacs state=tiled  follow=on
 # bspc rule --add emacs state=fullscreen
 #terminal
 bspc rule -a tilix state=tiled desktp=^6  follow=on
+#ENTRETENIMINETO
+bspc rule -a spotify state=floating desktp=^8 follow=on
 
 
 
