@@ -15,9 +15,11 @@ alt + t
 # program launcher
 alt + d
 	rofi -show drun
-
+#CODING STUFF
 super + e
 	emacs
+super + shift + v
+  code-insiders
 #WEB  BROWSERS
 alt + w
 	firefox
@@ -30,18 +32,18 @@ alt + shift + w
 
 alt + f
 	pcmanfm
+alt + r
+	tilix -name Ranger -e ranger
+# alt + c
+# 	rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
+super + ctrl + p
+	polybar-msg cmd toggle
 #SOCIAL APPS
 alt + m
 	telegram-desktop
 
-alt + r
-	tilix -name Ranger -e ranger
 
-# alt + c
-# 	rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
 
-super + ctrl + p
-	polybar-msg cmd toggle
 
 # betterlockscreen -u path/to/directory -r 1920x1080 -b 0.5
 # super + Delete
@@ -50,6 +52,7 @@ super + ctrl + p
 super + Delete
 	i3lock-fancy
 
+#SCREEN THINGS
 # betterlockscreen -s blur
 super + alt + Delete
 	sh -c "$HOME/.config/bspwm/power"
@@ -220,10 +223,16 @@ super + {Left,Down,Up,Right}
 super + {alt,ctrl,alt + ctrl} + p
 	sudo systemctl {suspend,reboot,poweroff}
 
-  #PRUEBA
+#PRUEBA spotify
 # Toggle alt
+# super + s
+#     bspwm-toggle-visibility spotify
 alt + s
     bspwm-toggle-visibility spotify
+super + shift + s
+      spotify
+
+# {_,shift}
 # Reload sxhkdrc
 super + shift + r
     pkill -usr1 -x sxhkd; notify-send 'sxhkd' 'Reloaded config'
