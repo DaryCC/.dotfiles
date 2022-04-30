@@ -16,15 +16,21 @@ alt + t
 alt + d
 	rofi -show drun
 
+super + e
+	emacs
+#WEB  BROWSERS
 alt + w
 	firefox
+alt + shift + w
+    google-chrome-stable
+#alt + s
+#	subl3
 
-alt + s
-	subl3
+#FILE MANAGERS
 
 alt + f
 	pcmanfm
-
+#SOCIAL APPS
 alt + m
 	telegram-desktop
 
@@ -80,7 +86,7 @@ super + alt + {q,r}
 	bspc {quit,wm -r}
 
 # close and kill
-super + {_,shift + }x
+super + {_,shift + }q
 	bspc node -{c,k}
 
 # alternate between the tiled and monocle layout
@@ -90,6 +96,7 @@ super + c
 super + v
 	sh -c "~/.config/bspwm/gaps.sh"
 
+# alternate between the tiled and monocle layout
 super + m
 	bspc desktop -l next
 
@@ -160,8 +167,8 @@ super + shift + {Left,Right}
 	bspc node {older,newer} -f; \
 	bspc wm -h on
 
-super + {q,w,e,r,t,y,u,i,o,0}
-	bspc desktop -f '^{1-9,10}'
+#super + {q,w,e,r,t,y,u,i,o,0}
+#	bspc desktop -f '^{1-9,10}'
 
 # focus or send to the given desktop
 super + {_,alt + }{1-9,0}
@@ -209,3 +216,14 @@ super + alt + shift + {h,j,k,l}
 # move a floating window
 super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
+#POWER KEYS
+super + {alt,ctrl,alt + ctrl} + p
+	sudo systemctl {suspend,reboot,poweroff}
+
+  #PRUEBA
+# Toggle alt
+alt + s
+    bspwm-toggle-visibility spotify
+# Reload sxhkdrc
+super + shift + r
+    pkill -usr1 -x sxhkd; notify-send 'sxhkd' 'Reloaded config'
