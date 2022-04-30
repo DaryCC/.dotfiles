@@ -1,71 +1,117 @@
-#! /bin/sh
+#!/bin/bash
+
+#LAUNCHERS
+if [[ $(xrandr -q | grep 'HDMI-0 connected') ]]; then
+$HOME/.spacemacs.d/.config/bspwm/autostart.sh &
+bspc monitor eDP-1-1 -d 1 2 3 4
+bspc monitor HDMI-0  -d 5 6 7 8
+# elif
+#     bspc monitor eDP-1-1 -d 1 2 3 4 5 6 8
+fi
 
 sxhkd &
+~/.config/polybar/./launch.sh &
+# picom --experimental-backend &
+picom --experimental-backends &
+#BAR
+# pkill polybar
+# ./.config/polybar/launch.sh
 #xrandr -s 1920x1440 &
-polybar example &&
+# polybar ~/.config/polybar/config.ini &
 ##### xrandr settings
-xrandr --auto 
-xrander --output eDP-1-1 --primary --mode 1920x1080 --rotate normal --output HDMI-0 --mode 2560x1080 --rotate normal --right-of eDP-1-1 &
+# xrandr --auto
+xrander --output eDP-1-1 --primary --mode 1920x1080 --rotate normal --output HDMI-0 --mode 2560x1080 --rotate normal --right-of eDP-1-1
 
-		
-feh --bg-fill /home/darycc/Pictures/wall.png
-bspc config pointer_modifier mod1
 
-bspc monitor -d I II III IV V VI VII VIII IX X
+feh --bg-fill /home/darycc/.spacemacs.d/wallpaper/wall.png
+# bspc config pointer_modifier mod1
+###---MONITORS---###
+bspc monitor eDP-1-1 -d 1 2 3 4 5 6 8
 
-bspc config border_width         2
-bspc config window_gap          12
-bspc config normal_border_color "$color8"
-bspc config active_border_color "$color7"
-bspc config focused_border_color "$color6"
-bspc config presel_feedback_color "$color0"
-
-SPACES=$(bspc query -D)
-for SPACE in $SPACES
-do
-  bspc config -d ${SPACE} window_gap      10
-  bspc config -d ${SPACE} top_padding     10
-  bspc config -d ${SPACE} bottom_padding  10
-  bspc config -d ${SPACE} left_padding   50
-  bspc config -d ${SPACE} right_padding  50
-done
-
+xsetroot -cursor_name left_ptr
+bspc config pointer_modifier     mod1
+#changes the default X cursor to the more familiar left pointer
+bspc config border_width         1
+bspc config window_gap           1
+bspc config bottom_padding       3
+bspc config normal_border_color   \#4c566a
+#color del borde para la ventana activa, no enfocada
+bspc config active_border_color   \#C9FAA3
+#color de la ventana activa, enfocada
+bspc config focused_border_color  \#00F308
+#color de la ventana preseleccionada
+bspc config presel_feedback_color \#4c566a
+# bspc config click_to_focus true
+# bspc config split_ratio           0.50
+bspc config borderless_monocle    true
+# bspc config gapless_monocle       true
+# bspc config focus_by_distance     true
+# bspc config  history_aware_focus  true
 bspc config automatic_scheme      spiral
 bspc config split_ratio           0.5
-bspc config borderless_monocle    true
 bspc config gapless_monocle       false
 bspc config single_monocle        true
 bspc config focus_follows_pointer true
+bspc config pointer_follows_focus  true
 
-bspc desktop ^1 -l monocle
-bspc desktop ^2 -l monocle
-bspc desktop ^5 -l monocle
-spc desktop ^6 -l monocle
-bspc desktop ^9 -l monocle
-bspc desktop ^10 -l monocle
+
+
+#PARA LOS BORDES DE LAS APLICACIONES ABIERTAS
+SPACES=$(bspc query -D)
+for SPACE in $SPACES
+do
+  bspc config -d ${SPACE} window_gap      1
+  bspc config -d ${SPACE} top_padding     1
+  bspc config -d ${SPACE} bottom_padding  1
+  bspc config -d ${SPACE} left_padding    1
+  bspc config -d ${SPACE} right_padding   1
+done
+
+
+# bspc desktop ^1 -l monocle
+# bspc desktop ^2 -l monocle
+# bspc desktop ^5 -l monocle
+# bspc desktop ^6 -l monocle
+# bspc desktop ^9 -l monocle
+# bspc desktop ^10 -l monocle
+
+#MI CONFIG PERSONAL
+#desktop 1
+#desktop 2
+bspc rule -a google-chrome-stable state:tiled desktop=^2 follow=on
+#desktop 5
+bspc rule -a alacritty  state=tiled desktop=^5 follow=on
+#dektop 6 CODING STUFF
+bspc rule -a Emacs state=tiled  follow=on
+# bspc rule --add emacs state=fullscreen
+#terminal
+bspc rule -a tilix state=tiled desktp=^6  follow=on
+
+
 
 # Rules
 bspc rule -a tilix:Tiled desktop='^1' follow=on
 bspc rule -a tilix:Tmux desktop='^1' follow=on
-bspc rule -a Chromium desktop='^2'
-bspc rule -a Subl3 desktop='^3'
+# bspc rule -a Chromium desktop='^2'
+# bspc rule -a Subl3 desktop='^3'
 # bspc rule -a Thunar desktop='^4' state=pseudo_tiled
-bspc rule -a Thunar desktop='^4'
-bspc rule -a Thunar:Dialog state=floating center=true
-bspc rule -a TelegramDesktop desktop='^5' follow=on
-bspc rule -a discord desktop='^5' follow=on
-bspc rule -a Gimp-2.10 desktop='^6'
-bspc rule -a Inkscape desktop='^6'
-bspc rule -a kdenlive desktop='^6'
-bspc rule -a Audacious desktop='^7' state=floating follow=on focus=on
-bspc rule -a Zathura desktop='^7' state=tiled follow=on
+bspc rule -a pcmanfm desktop='^3' follow=on
+# bspc rule -a Thunar:Dialog state=floating center=true
+# bspc rule -a TelegramDesktop desktop='^5' follow=on
+# bspc rule -a discord desktop='^5' follow=on
+# bspc rule -a Gimp-2.10 desktop='^6'
+# bspc rule -a Inkscape desktop='^6'
+# bspc rule -a kdenlive desktop='^6'
+# bspc rule -a Audacious desktop='^7' state=floating follow=on focus=on
+# bspc rule -a Zathura desktop='^7' state=tiled follow=on
 bspc rule -a '*:libreoffice' desktop='^8' state=tiled
 bspc rule -a '*:soffice' desktop='^8'
-bspc rule -a Gnome-chess desktop='^9'
-bspc rule -a teeworlds desktop='^9'
-bspc rule -a Steam desktop='^9' state=floating
-bspc rule -a "VirtualBox Manager" desktop='^10'
+# bspc rule -a Gnome-chess desktop='^9'
+# bspc rule -a teeworlds desktop='^9'
+# bspc rule -a Steam desktop='^9' state=floating
+# bspc rule -a "VirtualBox Manager" desktop='^10'
 
+#CUSTOM MIO
 bspc rule -a tilix:Newsboat state=floating center=on
 bspc rule -a tilix:Ranger state=floating center=on
 bspc rule -a tilix:Pacui state=floating center=on
@@ -92,12 +138,14 @@ bspc rule -a Tint2 border=off manage=off layer=above state=floating
 bspc rule -a '*:Kunst' sticky=on layer=below border=off focus=off
 # bspc rule -a Sxiv:Kunst sticky=on layer=below border=off focus=off manage=off rectangle=250x250+1055+60
 
-# Set Desktop 7 to start with floating windows
-FLOATING_DESKTOP_ID=$(bspc query -D -d '^7')
+# Set Desktop 8 to start with floating windows
+FLOATING_DESKTOP_ID=$(bspc query -D -d '^8')
+# bspc subscribe node_add | while read -a msg ; do
 bspc subscribe node_manage | while read -a msg ; do
-	desk_id=${msg[2]}
-	wid=${msg[3]}
-	[ "$FLOATING_DESKTOP_ID" = "$desk_id" ] && bspc node "$wid" -t floating
+  desk_id=${msg[2]}
+  # wid=${msg[3]}
+  wid=${msg[4]}
+  [ "$FLOATING_DESKTOP_ID" = "$desk_id" ] && bspc node "$wid" -t floating
 done
 
 
