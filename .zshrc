@@ -111,7 +111,9 @@ alias emacsd="emacs --daemon"
 alias emacsc="emacsclient -nc"
 alias emacsk="emacsclient -e \"(kill-emacs)\""
 alias at="alacritty-themes"
-# alias k9="kill -9 **"
+alias lo="kill -9 -1"
+alias r="reboot"
+alias gc="git clone "
 eval "$(starship init zsh)"
 #PARA FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
