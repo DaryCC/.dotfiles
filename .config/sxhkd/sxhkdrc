@@ -29,7 +29,8 @@ alt + shift + w
 #	subl3
 
 #FILE MANAGERS
-
+super+shift+f
+nautilus
 alt + f
 	pcmanfm
 alt + r
@@ -227,10 +228,10 @@ super + {alt,ctrl,alt + ctrl} + p
 # Toggle alt
 # super + s
 #     bspwm-toggle-visibility spotify
-super + alt + s
+ctrl+ alt + s
+     spotify
+ alt + s
     bspwm-toggle-visibility spotify
-super + shift + s
-      pcmanfm
 
 # {_,shift}
 # Reload sxhkdrc
@@ -242,3 +243,15 @@ super+shift+{comma}
 #CAMBIO DE LAYOUT
 super + alt + space
     ~/.config/sxhkd/change_kl.sh
+
+
+
+# Push focused window to scratchpad (background)
+
+super + shift + i
+"$HOME"/.config/bspwm/scratchpad.sh toggle-flag
+
+# Hide/Un-Hide a window pushed to scratchpad previously
+
+super + i
+"$HOME"/.config/bspwm/scratchpad.sh switch-app

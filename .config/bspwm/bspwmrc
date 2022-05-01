@@ -25,12 +25,14 @@ picom --experimental-backends &
 # polybar ~/.config/polybar/config.ini &
 ##### xrandr settings
 # xrandr --auto
-xrander --output eDP-1-1 --primary --mode 1920x1080 --rotate normal --output HDMI-0 --mode 2560x1080 --rotate normal --right-of eDP-1-1
+# xrander --output eDP-1-1 --primary --mode 1920x1080 --rotate normal --output HDMI-0 --mode 2560x1080 --rotate normal --right-of eDP-1-1
 
 
 feh --bg-fill /home/darycc/.spacemacs.d/wallpaper/wall.png
 # bspc config pointer_modifier mod1
 ###---MONITORS---###
+#WORKSPACES
+~/.config/bspwm/./set_workspace.sh &
 
 xsetroot -cursor_name left_ptr
 bspc config pointer_modifier     mod1
@@ -91,7 +93,7 @@ bspc rule -a Emacs state=tiled  follow=on
 #terminal
 bspc rule -a tilix state=tiled desktp=^6  follow=on
 #ENTRETENIMINETO
-bspc rule -a spotify state=floating desktp=^8 follow=on
+bspc rule -a spotify state=floating desktop=^8 follow=on
 
 
 
@@ -138,7 +140,7 @@ bspc rule -a Viewnior state=floating
 bspc rule -a SMPlayer state=floating
 bspc rule -a mpv state=floating sticky=on rectangle=300x180+1060+475
 
-bscp rule -a polybar manage=off
+# bscp rule -a polybar manage=off
 bspc rule -a Tint2 border=off manage=off layer=above state=floating
 # bspc rule -a Mylaunchpad border=off manage=off
 bspc rule -a '*:Kunst' sticky=on layer=below border=off focus=off
