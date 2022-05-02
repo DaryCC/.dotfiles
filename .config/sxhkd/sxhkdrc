@@ -1,7 +1,8 @@
 #
 # Zatiel Independent Hotkeys
 #
-
+#REVISA LA REPO DE ESTE WEY
+#https://github.com/BrodieRobertson
 # terminal emulator
 alt + Return
 	 tilix
@@ -124,9 +125,6 @@ super + alt + button{4,5}
 # super + y
 	# bspc node newest.marked.local -n newest.!automatic.local
 
-# swap the current node and the biggest node
-super + alt + n
-	bspc node -s biggest
 
 #
 # state/flags
@@ -149,32 +147,63 @@ super + alt + {m,x,z}
 #
 # focus/swap
 #
-
+#SWAP NODE EN LA DIRECCION INDICADA
 # focus the node in the given direction
 super + {_,shift + }{h,j,k,l}
 	bspc node -{f,s} {west,south,north,east}
+# swap the current node and the biggest node
+super + alt + n
+	bspc node -s biggest
 
+  # # Send window to desktop and swap to desktop
+  # super + control + {0-9}
+  #   bspc node -d {0-9} && bspunhide && bspc desktop -f {0-9}
+
+  # # Swap nodes the tree from the current nodes parent
+  # super + control + {Up, Down}
+  #   bspc node @parent -C {forward, backward}
+
+  # # Rotate the tree from the current nodes parent
+  # super + control + {Right, Left}
+  # 	bspc node @parent --rotate {90,270}
+
+  # # Swap window with direction
+  # super + shift + {h,j,k,l}
+  # 	bspc node -s {west,south,north,east}
+
+########################################################################
 # focus the node for the given path jump
 # super + {p,b,comma,period}
 # 	bspc node -f @{parent,brother,first,second}
 
 # focus the next/previous node in the current desktop
-alt + {_,shift + }Tab
-	bspc node -f {next,prev}.local
+# alt + {_,shift + }Tab
+# 	bspc node -f {next,prev}.local
 
-super + alt + {Left,Right}
-	bspc desktop -f {prev,next}.local
+# super + alt + {Left,Right}
+# 	bspc desktop -f {prev,next}.local
 
 # focus the older or newer node in the focus history
-super + shift + {Left,Right}
-	bspc wm -h off; \
-	bspc node {older,newer} -f; \
-	bspc wm -h on
+# super + shift + {Left,Right}
+# 	bspc wm -h off; \
+# 	bspc node {older,newer} -f; \
+# 	bspc wm -h on
 
 #super + {q,w,e,r,t,y,u,i,o,0}
 #	bspc desktop -f '^{1-9,10}'
+  # -------------------------- focus/swap --------------------------
+  # alt + {1,2,3,4,5,6,7,8}
+  # bspc desktop -f {1,2,3,4,5,6,7,8}
+
+  # ctrl + {1,2,3,4,5,6,7,8}
+  # bspc desktop -f {1,2,3,4,5,6,7,8}
+
+  # focus or send to the given desktop
+  # super + shift {1-9,0}
+	# bspc node -d '^{1-9,10}'
 
 # focus or send to the given desktop
+#1 Enfoca a desktop/ mueve ventana seleccionada a desktop seleccionado
 super + {_,alt + }{1-9,0}
 	bspc {desktop -f,node -d} '^{1-9,10}'
 
