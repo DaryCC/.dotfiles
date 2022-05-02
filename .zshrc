@@ -114,6 +114,9 @@ alias at="alacritty-themes"
 alias lo="kill -9 -1"
 alias r="reboot"
 alias gc="git clone "
+alias t="bat "
+
+
 eval "$(starship init zsh)"
 #PARA FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
