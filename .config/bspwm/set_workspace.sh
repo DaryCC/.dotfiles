@@ -11,12 +11,7 @@ spotify &
 sleep 3
 bspc desktop --focus ^1
 google-chrome-stable  --disable-session-crashed-bubble &
-sleep 3
-bspc desktop --focus ^5
-emacs &
 sleep 2
-bspc desktop --focus ^5
-sleep 1
 # bspc node -t "~"{floating,tiled}
 bspc node -t "~"floating
 sleep 1
@@ -41,6 +36,14 @@ then
     echo 'aplicando config de teclado'
     polychromatic-cli -e ~/.config/polychromatic/effects/RazerHuntsmanMiniPOSos.json
 fi
+#######this is for emacs daemon mode
+emacs --daemon
+sleep 3
+bspc desktop --focus ^5
+emacsclient -nc
+sleep 2
+bspc desktop --focus ^5
+sleep 1
 # Desktop
 #        General Syntax
 #            desktop [DESKTOP_SEL] COMMANDS
