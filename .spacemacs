@@ -50,7 +50,7 @@ This function should only modify configuration layer settings."
                       auto-completion-return-key-behavior nil
                       auto-completion-tab-key-behavior 'complete
                       auto-completion-enable-snippets-in-popup t
-                      
+
                                       ;; auto-completion-return-key-behavior 'complete
                                        ;;auto-completion-tab-key-behavior 'cycle
                                        auto-completion-complete-with-key-sequence nil
@@ -91,7 +91,7 @@ This function should only modify configuration layer settings."
      syntax-checking
      version-control
      treemacs
-    
+
      )
 
 
@@ -400,7 +400,7 @@ It should only modify the values of Spacemacs settings."
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's inactive or deselected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
-   dotspacemacs-inactive-transparency 90
+   dotspacemacs-inactive-transparency 20
 
    ;; If non-nil show the titles of transient states. (default t)
    dotspacemacs-show-transient-state-title t
@@ -605,7 +605,7 @@ before packages are loaded."
   (require 'package)
 
   ;; (require 'django-mode)
- 
+
   (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 
   (add-to-list 'package-archives
@@ -619,7 +619,7 @@ before packages are loaded."
 
     ;; Set the variable pitch face
     (set-face-attribute 'variable-pitch nil :font "Source Code Pro" :weight 'regular)
-    (load-theme 'doom-gruvbox t);;ESTE ES EL BUENO
+    (load-theme 'doom-dracula t);;ESTE ES EL BUENO
     (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
           doom-themes-enable-italic t) ; if nil, italics is universally disabled
 
@@ -681,10 +681,10 @@ before packages are loaded."
     ;; :commands (web-mode company-web-html)
     :ensure t
     :defer t
-    ;; :init 
+    ;; :init
     ;; (add-hook 'company-web #'company-web-html t)
     :mode (
-	           ("\\.html\\'" . web-mode))
+             ("\\.html\\'" . web-mode))
     ;(unless (assoc "Bootstrap" web-completion-data-sources)
     ;;   (setq web-completion-data-sources
     ;;         (cons (cons "Bootstrap" "/path/to/complete/data")
@@ -724,7 +724,7 @@ before packages are loaded."
   ;; (use-package web-mode
   ;;   :ensure t
   ;;   :mode (
-	;;          ("\\.html\\'" . web-mode))
+  ;;          ("\\.html\\'" . web-mode))
   ;;   :init
   ;;   (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
   ;;   (add-hook 'prog-mode-hook 'highlight-numbers-mode)
@@ -799,22 +799,22 @@ before packages are loaded."
     ;; :commands (lsp lsp-deferred)
     :ensure t
     :hook (
-	         (web-mode . lsp)
-	         (lsp-mode . lsp-enable-which-key-integration)
+           (web-mode . lsp)
+           (lsp-mode . lsp-enable-which-key-integration)
            (js2-mode . lsp)
            (rjsx-mode . lsp)
            (css-mode . lsp)
-           (html-mode . lsp) 
-           (python-mode . lsp) 
+           (html-mode . lsp)
+           (python-mode . lsp)
 
-	         )
+           )
     ;; :commands lsp-deferred
     )
   ;; python
   ;; (python :variables python-backend 'anaconda)
   (use-package python-mode
-    :ensure t 
-    :custom 
+    :ensure t
+    :custom
     ;; (python-shell-interprer "python3")
     (require 'dap-python)
     ;; (add-hook 'python-mode-hook 'highlight-indent-guides-mode)
@@ -830,7 +830,7 @@ before packages are loaded."
 
 ;; (use-package django-mode
 ;;   :ensure t
- 
+
 ;;   )
 
 ;;PARA HTML Y CSS
@@ -867,7 +867,7 @@ before packages are loaded."
       (add-hook 'prog-mode-hook 'highlight-numbers-mode)
       (add-hook 'web-mode-hook #'impatient-mode)
       :mode (
-	             ("\\.css\\'" . web-mode))
+               ("\\.css\\'" . web-mode))
     )
 ;;PARA  REACT
   (use-package rjsx-mode
@@ -1087,10 +1087,10 @@ before packages are loaded."
   ;;PARA USAR GRIPREP
   (evil-leader/set-key "/" 'spacemacs/helm-project-do-ag)
   (use-package helm-ag
-	  :config
-	  (custom-set-variables
-	   ;;'(helm-ag-fuzzy-match: t)
-	   '(helm-ag-base-command "rg --vimgrep --no-heading --smart-case")
+    :config
+    (custom-set-variables
+     ;;'(helm-ag-fuzzy-match: t)
+     '(helm-ag-base-command "rg --vimgrep --no-heading --smart-case")
      )
    )
 
@@ -1260,10 +1260,10 @@ before packages are loaded."
   ;;   :ensure t
   ;;   :mode (
   ;;          ;;("\\.js\\'" . web-mode)
-	;;          ;;("\\.jsx\\'" .  web-mode)
-	;;          ;;("\\.ts\\'" . web-mode)
-	;;          ;;("\\.tsx\\'" . web-mode)
-	;;          ("\\.html\\'" . web-mode))
+  ;;          ;;("\\.jsx\\'" .  web-mode)
+  ;;          ;;("\\.ts\\'" . web-mode)
+  ;;          ;;("\\.tsx\\'" . web-mode)
+  ;;          ("\\.html\\'" . web-mode))
   ;;   :commands web-mode
   ;;   :init
   ;;   (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
@@ -1276,10 +1276,10 @@ before packages are loaded."
   ;;   :ensure t
   ;;   :mode (
   ;;          ;;("\\.js\\'" . web-mode)
-	;;          ;;("\\.jsx\\'" .  web-mode)
-	;;          ;;("\\.ts\\'" . web-mode)
-	;;          ;;("\\.tsx\\'" . web-mode)
-	;;          ("\\.css\\'" . web-mode))
+  ;;          ;;("\\.jsx\\'" .  web-mode)
+  ;;          ;;("\\.ts\\'" . web-mode)
+  ;;          ;;("\\.tsx\\'" . web-mode)
+  ;;          ("\\.css\\'" . web-mode))
   ;;   :commands web-mode
   ;;   :init
   ;;   (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
@@ -1291,9 +1291,9 @@ before packages are loaded."
   ;; (use-package lsp-mode
   ;;   :ensure t
   ;;   :hook (
-	;;          (web-mode . lsp-deferred)
-	;;          (lsp-mode . lsp-enable-which-key-integration)
-	;;          )
+  ;;          (web-mode . lsp-deferred)
+  ;;          (lsp-mode . lsp-enable-which-key-integration)
+  ;;          )
   ;;   :commands lsp-deferred)
 
   ;; (setq lsp-log-io nil) ;; Don't log everything = speed
@@ -1348,8 +1348,8 @@ This function is called at the very end of Spacemacs initialization."
  '(evil-want-Y-yank-to-eol nil)
  '(helm-ag-base-command "rg --vimgrep --no-heading --smart-case")
  '(package-selected-packages
-   '(spotify all-the-icons-ivy-rich all-the-icons-ivy fira-code-mode yapfify stickyfunc-enhance sphinx-doc pytest pyenv-mode pydoc py-isort poetry pippel pipenv pyvenv pip-requirements nose lsp-python-ms lsp-pyright live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-cscope xcscope cython-mode company-anaconda blacken anaconda-mode pythonic treemacs-all-the-icons desktop+ gruvbox-theme skewer-reload-stylesheets ewal-doom-themes tern npm-mode nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl helm-gtags ggtags dap-mode bui counsel-gtags yasnippet web-mode web-beautify tagedit slim-mode scss-mode sass-mode pug-mode prettier-js impatient-mode htmlize simple-httpd helm-css-scss haml-mode emmet-mode counsel-css counsel swiper ivy company-web web-completion-data company add-node-modules-path doom-themes dracula-theme ws-butler writeroom-mode visual-fill-column winum volatile-highlights vi-tilde-fringe uuidgen undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil treemacs cfrs pfuture posframe toc-org symon symbol-overlay string-inflection string-edit spaceline-all-the-icons memoize all-the-icons spaceline powerline restart-emacs request rainbow-delimiters quickrun popwin persp-mode password-generator paradox spinner overseer org-superstar open-junk-file nameless multi-line shut-up macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop helm-purpose window-purpose imenu-list helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio flycheck-package package-lint flycheck pkg-info epl flycheck-elsa flx-ido flx fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired f evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection annalist evil-cleverparens smartparens evil-args evil-anzu anzu eval-sexp-fu emr iedit clang-format projectile paredit list-utils elisp-slime-nav editorconfig dumb-jump s drag-stuff dired-quick-sort define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol ht dash auto-compile packed aggressive-indent ace-window ace-link ace-jump-helm-line helm avy which-key use-package popup pcre2el hydra hybrid-mode helm-core font-lock+ dotenv-mode diminish bind-map))
- '(py-shell-name "python3")
+   '(rainbow-mode bash-completion spotify all-the-icons-ivy-rich all-the-icons-ivy fira-code-mode yapfify stickyfunc-enhance sphinx-doc pytest pyenv-mode pydoc py-isort poetry pippel pipenv pyvenv pip-requirements nose lsp-python-ms lsp-pyright live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-cscope xcscope cython-mode company-anaconda blacken anaconda-mode pythonic treemacs-all-the-icons desktop+ gruvbox-theme skewer-reload-stylesheets ewal-doom-themes tern npm-mode nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl helm-gtags ggtags dap-mode bui counsel-gtags yasnippet web-mode web-beautify tagedit slim-mode scss-mode sass-mode pug-mode prettier-js impatient-mode htmlize simple-httpd helm-css-scss haml-mode emmet-mode counsel-css counsel swiper ivy company-web web-completion-data company add-node-modules-path doom-themes dracula-theme ws-butler writeroom-mode visual-fill-column winum volatile-highlights vi-tilde-fringe uuidgen undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil treemacs cfrs pfuture posframe toc-org symon symbol-overlay string-inflection string-edit spaceline-all-the-icons memoize all-the-icons spaceline powerline restart-emacs request rainbow-delimiters quickrun popwin persp-mode password-generator paradox spinner overseer org-superstar open-junk-file nameless multi-line shut-up macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop helm-purpose window-purpose imenu-list helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio flycheck-package package-lint flycheck pkg-info epl flycheck-elsa flx-ido flx fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired f evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection annalist evil-cleverparens smartparens evil-args evil-anzu anzu eval-sexp-fu emr iedit clang-format projectile paredit list-utils elisp-slime-nav editorconfig dumb-jump s drag-stuff dired-quick-sort define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol ht dash auto-compile packed aggressive-indent ace-window ace-link ace-jump-helm-line helm avy which-key use-package popup pcre2el hydra hybrid-mode helm-core font-lock+ dotenv-mode diminish bind-map))
+ '(py-python-command "python3")
  '(safe-local-variable-values
    '((pony-settings make-pony-project :python "/usr/bin/python3" :settings)
      (eval progn
@@ -1364,4 +1364,4 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(highlight-parentheses-highlight ((nil (:weight ultra-bold))) t))
-) 
+)
