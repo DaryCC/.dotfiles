@@ -18,7 +18,9 @@ alt + d
 	rofi -show drun
 #CODING STUFF
 super + e
-	emacs
+	emacsclient -nc
+super + shift+e
+  emacs
 super + shift + v
   code-insiders
 #WEB  BROWSERS
