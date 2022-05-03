@@ -71,7 +71,7 @@ ZSH_THEME="spaceship"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(fzf-tab git  z copypath sudo  zsh-syntax-highlighting zsh-autosuggestions dirhistory history colored-man-pages npm)
+plugins=(fzf-tab git copyfile z copypath sudo  zsh-syntax-highlighting zsh-autosuggestions dirhistory history colored-man-pages npm)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -98,8 +98,8 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-alias zshconfig="emacs ~/.zshrc"
-alias ohmyzsh="emacs ~/.oh-my-zsh"
+alias zshconfig="emacsclient -nc ~/.zshrc"
+alias ohmyzsh="emacsclient -nc ~/.oh-my-zsh"
 alias p3="python3"
 alias Runserver="python3 manage.py runserver"
 alias Migrate="python3 manage.py migrate"
@@ -115,7 +115,16 @@ alias lo="kill -9 -1"
 alias r="reboot"
 alias gc="git clone "
 alias t="bat "
-
+alias cpd="copypath"
+alias ls="exa --icons"
+alias ll="ls -l"
+alias la="ls -a"
+alias li="ls -la --git-ignore"
+alias ld="ls -la -D"
+alias lt="ls -la --tree"
+# alias ghql="~/.spacemacs.d/ghq_fzf.sh"
+# alias ghql="echo 'cd "$(ghq list --full-path | fzf)"'"
+eval $(thefuck --alias fuck)
 
 eval "$(starship init zsh)"
 #PARA FZF
@@ -137,3 +146,6 @@ export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -50'"
 #sudo pacman -S tree
 #par fzf-tab
 # source ~/Downloads/fzf-tab/fzf-tab.plugin.zsh
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
