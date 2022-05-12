@@ -71,7 +71,7 @@ ZSH_THEME="spaceship"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(fzf-tab git copyfile z copypath sudo  zsh-syntax-highlighting zsh-autosuggestions dirhistory history colored-man-pages npm)
+plugins=(fzf-tab git ssh-agent copyfile z copypath sudo  zsh-syntax-highlighting zsh-autosuggestions dirhistory history colored-man-pages npm)
 
 source $ZSH/oh-my-zsh.sh
 
