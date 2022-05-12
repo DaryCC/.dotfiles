@@ -5,10 +5,10 @@
 #https://github.com/BrodieRobertson
 # terminal emulator
 alt + Return
-	 tilix
+	 tmux
 
 super + Return
-	 alacritty
+	 tilix
 
 alt + t
 	$HOME/.config/bspwm/bspwmfloat tilix -name Float
