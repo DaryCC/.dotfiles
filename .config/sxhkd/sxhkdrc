@@ -24,18 +24,18 @@ super + shift+e
 super + shift + v
   code-insiders
 #WEB  BROWSERS
-alt + w
+super + w
 	firefox
-alt + shift + w
+super + shift + w
     google-chrome-stable
 #alt + s
 #	subl3
 
 #FILE MANAGERS
 super+shift+f
-nautilus
+pcmanfm
 alt + f
-	pcmanfm
+nautilus
 alt + r
 	tilix -name Ranger -e ranger
 # alt + c
@@ -67,8 +67,8 @@ Print
 super + Print
 	flameshot gui
 
-super + alt + Print
-	flameshot full -c -d 5000 -p ~/Pictures/screen
+#super + alt + Print
+	#flameshot full -c -d 5000 -p ~/Pictures/screen
 
 super + alt + m
 	notify-send "Now Playing ♫" "$(mpc current)"
@@ -124,8 +124,9 @@ super + alt + button{4,5}
 	bspc config window_gap $(( $(bspc config window_gap) {-,+} 5 ))
 
 # send the newest marked node to the newest preselected node
-# super + y
-	# bspc node newest.marked.local -n newest.!automatic.local
+super + y
+	bspc node newest.marked.local -n newest.!automatic.local
+#PARA ENTENDER ESTO LEETE ESTE POST https://www.reddit.com/r/bspwm/comments/e69lhl/toggle_between_horizontal_and_vertical_split/ 
 
 
 #
@@ -165,9 +166,9 @@ super + alt + n
   # super + control + {Up, Down}
   #   bspc node @parent -C {forward, backward}
 
-  # # Rotate the tree from the current nodes parent
-  # super + control + {Right, Left}
-  # 	bspc node @parent --rotate {90,270}
+  # Rotate the tree from the current nodes parent
+  super + control + {Right, Left}
+  	bspc node @parent --rotate {90,270}
 
   # # Swap window with direction
   # super + shift + {h,j,k,l}
@@ -259,10 +260,10 @@ super + {alt,ctrl,alt + ctrl} + p
 # Toggle alt
 # super + s
 #     bspwm-toggle-visibility spotify
-ctrl+ alt + s
+super + shift + s
      spotify
- alt + s
-    bspwm-toggle-visibility spotify
+super + shift + t
+   ~/.config/sxhkd/bspwm-toggle-visibility.sh spotify
 
 # {_,shift}
 # Reload sxhkdrc
