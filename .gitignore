@@ -5,4 +5,5 @@ util.png
 *.~undo-tree~
 *.log
 *.bspwrc.save
+bspwrc.save
 

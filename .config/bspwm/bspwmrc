@@ -28,7 +28,7 @@ picom --experimental-backends &
 # xrander --output eDP-1-1 --primary --mode 1920x1080 --rotate normal --output HDMI-0 --mode 2560x1080 --rotate normal --right-of eDP-1-1
 
 
-feh --bg-fill /home/darycc/.spacemacs.d/wallpaper/wall.png
+feh --bg-fill /home/darycc/.spacemacs.d/wallpaper/arch2.jpg
 # bspc config pointer_modifier mod1
 ###---MONITORS---###
 #WORKSPACES
