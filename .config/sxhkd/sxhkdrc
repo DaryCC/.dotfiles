@@ -33,9 +33,9 @@ super + shift + w
 
 #FILE MANAGERS
 super+shift+f
-pcmanfm
+    pcmanfm
 alt + f
-nautilus
+    nautilus
 alt + r
 	tilix -name Ranger -e ranger
 # alt + c
