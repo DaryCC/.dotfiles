@@ -35,6 +35,8 @@ This function should only modify configuration layer settings."
    '(yaml
      systemd
      html
+     shell-scripts
+     (shell-scripts :variables shell-scripts-backend 'lsp)
      python
      dap
      django
@@ -661,7 +663,7 @@ before packages are loaded."
     (global-company-mode t)
 
     (setq company-backends
-          '(company-capfi
+          '(company-capf
             company-yasnippet
             company-files
             company-dabbrev
