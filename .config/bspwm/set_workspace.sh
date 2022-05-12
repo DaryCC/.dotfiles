@@ -1,7 +1,7 @@
 #!/bin/sh
 #####APLICACIONES DE INICIO#####################
 
-echo "Aplicando workspaces"
+echo "++++++++++APLICANDO WORKSPACES"
 sleep 4
 bspc desktop --focus ^5
 firefox &
@@ -16,7 +16,7 @@ sleep 2
 bspc node -t "~"floating
 sleep 1
 bspc node -t "~"tiled
-echo "Done"
+echo "++++++++++DONE"
 #polychormaticj
 #/usr/bin/lsusb
 #Bus 003 Device 058: ID 046d:c539 Logitech, Inc. USB Receiver
@@ -26,21 +26,25 @@ echo "Done"
 if /usr/bin/lsusb | grep "046d:c539"
 then
     #algo
-    echo 'aplicando config de mouse'
+    echo '++++++++++APLICANDO CONFIG DE MOUSE'
     ratbagd
     ratbagctl
+    echo '++++++++++DONE'
 fi
 if /usr/bin/lsusb | grep "1532:0257"
 then
     #algo
-    echo 'aplicando config de teclado'
-    polychromatic-cli -e ~/.config/polychromatic/effects/RazerHuntsmanMiniPOSos.json
+    echo '++++++++++APLICANDO CONFIG DE TECLADO'
+    polychromatic-cli -e ~/.config/polychromatic/effects/RazerHuntsmanMiniPOSos.json &
+    echo '++++++++++DONE'
 fi
 #######this is for emacs daemon mode
-emacs --daemon
+emacs --daemon &
+echo "++++++++++EMACS DAEMON..."
 sleep 3
 bspc desktop --focus ^5
 emacsclient -nc
+echo "++++++++++ABRIENDO CLIENTE EMACS"
 sleep 2
 bspc desktop --focus ^5
 sleep 1
