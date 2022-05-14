@@ -21,7 +21,7 @@ super + e
 	emacsclient -nc
 super + shift+e
   emacs
-super + shift + v
+super + v
   code-insiders
 #WEB  BROWSERS
 super + w
