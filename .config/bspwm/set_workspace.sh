@@ -1,6 +1,6 @@
 #!/bin/sh
 #####APLICACIONES DE INICIO#####################
-
+echo "+++++++++++++++++++++NUEVA ENTRADA++++++++++++++++++++++++++++" >> log.txt
 echo "++++++++++APLICANDO WORKSPACES"
 sleep 6
 bspc desktop --focus ^5
@@ -35,7 +35,7 @@ if /usr/bin/lsusb | grep "1532:0257"
 then
     #algo
     echo '++++++++++APLICANDO CONFIG DE TECLADO'
-    polychromatic-cli -e ~/.config/polychromatic/effects/RazerHuntsmanMiniPOSos.json &
+    polychromatic-cli -e ~/.config/polychromatic/effects/RazerHuntsmanMiniPOSos.json && echo "Polychromatic-cli effects Ok" >> ./log.txt || echo "Polychromatic effect failed" >> ./log.txt
     echo '++++++++++DONE'
 fi
 #######this is for emacs daemon mode
