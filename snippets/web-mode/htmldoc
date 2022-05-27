@@ -11,13 +11,13 @@
 
   <title>$1</title>
   <meta name="description" content="A simple HTML5 Template for new projects.">
-  <meta name="$2" content="SitePoint">
+  <meta name="$2" content="$3">
   <link rel="stylesheet" href="css/styles.css?v=1.0">
 
 </head>
 
 <body>
   <!-- your content here... -->
-  $3
+  $4
 </body>
 </html>
