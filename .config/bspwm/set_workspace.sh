@@ -5,16 +5,43 @@ echo "+++++++++++++++++++++NUEVA ENTRADA: ${current_time}" >> ~/.spacemacs.d/log
 echo "++++++++++APLICANDO WORKSPACES"
 sleep 6
 bspc desktop --focus ^5
-firefox &
+echo "desktop --focus ^5" >> ~/.spacemacs.d/log.txt
+# firefox & &&  echo "firefox started" >> ~/.spacemacs.d/log.txt || echo "firefox failed" >> ~/.spacemacs.d
+if ! pgrep -x firefox >/dev/null
+then
+    echo "Process firefox not found, STARTING" >> ~/.spacemacs.d/log.txt
+    firefox &
+else
+    echo "Process firefox found, ABORTING" >> ~/.spacemacs.d/log.txt
+fi
 sleep 3
 bspc desktop --focus ^8
-spotify &
+echo "desktop --focus ^8" >> ~/.spacemacs.d/log.txt
+# pgrep -x spotify >/dev/null && echo "Process Spotify found" >> ~/.spacemacs.d/log.txt || echo "Process spotify not found" >> ~/.spacemacs.d/log.txt
+if ! pgrep -x spotify >/dev/null
+   then
+       echo "Process spotify not found, STARTING" >> ~/.spacemacs.d/log.txt
+       spotify &
+   else
+       echo "Process Spotify found ABORTING" >> ~/.spacemacs.d/log.txt
+fi
+
+# spotify && echo "spotify started" >> ~/.spacemacs.d/log.txt || echo "spotify failed" >> ~/.spacemacs.d
 sleep 3
 bspc desktop --focus ^1
-google-chrome-stable  &
+echo "desktop --focus ^1" >> ~/.spacemacs.d/log.txt
+# google-chrome-stable  && echo "google-chrome-stable started" >> ~/.spacemacs.d/log.txt || echo "google-chrome-stable failed" >> ~/.spacemacs.d
+if ! pgrep -x google-chrome-stable >/dev/null
+then
+    echo "Process google-chrome-stable not found, STARTING" >> ~/.spacemacs.d/log.txt
+    google-chrome-stable &
+else
+    echo "Process google-chrome-stable found, ABORTING">> ~/.spacemacs.d/log.txt
+fi
+
 sleep 2
 # bspc node -t "~"{floating,tiled}
-bspc node -t "~"floating
+# bspc node -t "~"floating
 sleep 1
 bspc node -t "~"tiled
 echo "++++++++++DONE"
@@ -26,31 +53,49 @@ echo "++++++++++DONE"
 #para mouse https://github.com/hipnoizz/libratbag/wiki/Running-ratbagd-As-Non-root-In-Development
 if /usr/bin/lsusb | grep "046d:c539"
 then
-    #algo
+    echo "Logitech wireless mouse adapter detected" >> ~/.spacemacs.d/log.txt
     echo '++++++++++APLICANDO CONFIG DE MOUSE'
-    ratbagd
-    ratbagctl
-    echo '++++++++++DONE'
+    # ratbagd && echo "ratbagd command succeeded" >> ~/.spacemacs.d/log.txt || echo "ratbagd command failed" >> ~/.spacemacs.d
+    if ratbagd;
+       then
+           echo "Command ratbagd succeeded" >> ~/.spacemacs.d/log.txt
+       else
+           echo "Command ratbagd failed" >> ~/.spacemacs.d/log.txt
+    fi
 fi
+
 if /usr/bin/lsusb | grep "1532:0257"
 then
-    #algo
+    echo "Razer Huntsman Mini detected" >> ~/.spacemacs.d/log.txt
     echo '++++++++++APLICANDO CONFIG DE TECLADO'
-    polychromatic-cli -e ~/.config/polychromatic/effects/RazerHuntsmanMiniPOSos.json && echo "Polychromatic-cli effects Ok" >> ~/.spacemacs.d/log.txt
-    echo '++++++++++DONE'
-else
-    echo "Polychromatic-cli effects Ok" >> ~/.spacemacs.d/log.txt
+    # ratbagd && echo "ratbagd command succeeded" >> ~/.spacemacs.d/log.txt || echo "ratbagd command failed" >> ~/.spacemacs.d
+    if ratbagctl;
+    then
+        echo "Command ratbagctl succeeded" >> ~/.spacemacs.d/log.txt
+    else
+        echo "Command ratbagctl failed" >> ~/.spacemacs.d/log.txt
+    fi
 fi
 #######this is for emacs daemon mode
 emacs --daemon &&
-    echo "Emacs daemon Ok" >> ~/.spacemacs.d/log.txt || echo "Emacs daemon FAILED" >> ~/.spacemacs.d/log.txt
+    echo "Emacs daemon STARTED Ok" >> ~/.spacemacs.d/log.txt || echo "Emacs daemon FAILED" >> ~/.spacemacs.d/log.txt
 # echo ------------------------- $?
 echo "++++++++++EMACS DAEMON DONE..."
 sleep 3
 bspc desktop --focus ^5
-emacsclient -nc
+echo "desktop --focus ^5" >> ~/.spacemacs.d/log.txt
+emacsclient -nc && echo "Emacs cliente Ok" >> ~/.spacemacs.d/log.txt || echo "Emacs client FAILED" >> ~/.spacemacs.d/log.txt
 echo "++++++++++ABRIENDO CLIENTE EMACS"
 sleep 2
 bspc desktop --focus ^5
+echo "desktop --focus ^5" >> ~/.spacemacs.d/log.txt
 sleep 1
-dropbox &
+# dropbox && echo "dropbox STARTED Ok" >> ~/.spacemacs.d/log.txt || echo "dropbox client FAILED" >> ~/.spacemacs.d/log.txt
+# if dropbox is already running?
+if ! pgrep -x dropbox >/dev/null
+then
+    echo "Process dropbox not found, STARTING" >> ~/.spacemacs.d/log.txt
+    dropbox
+else
+    echo "Process dropbox found, ABORTING" >> ~/.spacemacs.d/log.txt
+fi
