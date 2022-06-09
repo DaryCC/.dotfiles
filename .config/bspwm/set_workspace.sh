@@ -1,6 +1,7 @@
 #!/bin/sh
 #####APLICACIONES DE INICIO#####################
-echo "+++++++++++++++++++++NUEVA ENTRADA++++++++++++++++++++++++++++" >> log.txt
+current_time=$(date +"%Y-%m-%d %H:%M")
+echo "+++++++++++++++++++++NUEVA ENTRADA: ${current_time}" >> ~/.spacemacs.d/log.txt
 echo "++++++++++APLICANDO WORKSPACES"
 sleep 6
 bspc desktop --focus ^5
@@ -35,13 +36,15 @@ if /usr/bin/lsusb | grep "1532:0257"
 then
     #algo
     echo '++++++++++APLICANDO CONFIG DE TECLADO'
-    polychromatic-cli -e ~/.config/polychromatic/effects/RazerHuntsmanMiniPOSos.json && echo "Polychromatic-cli effects Ok" >> ./log.txt || echo "Polychromatic effect failed" >> ./log.txt
+    polychromatic-cli -e ~/.config/polychromatic/effects/RazerHuntsmanMiniPOSos.json && echo "Polychromatic-cli effects Ok" >> ~/.spacemacs.d/log.txt
     echo '++++++++++DONE'
+else
+    echo "Polychromatic-cli effects Ok" >> ~/.spacemacs.d/log.txt
 fi
 #######this is for emacs daemon mode
 emacs --daemon &&
-    echo "Emacs daemon Ok" >> ./log.txt || echo "Emacs daemon FAILED" >> ./log.txt
-echo ------------------------- $?
+    echo "Emacs daemon Ok" >> ~/.spacemacs.d/log.txt || echo "Emacs daemon FAILED" >> ~/.spacemacs.d/log.txt
+# echo ------------------------- $?
 echo "++++++++++EMACS DAEMON DONE..."
 sleep 3
 bspc desktop --focus ^5
