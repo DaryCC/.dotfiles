@@ -23,9 +23,9 @@ fi
 # polybar main -c $(dirname $0)/config.ini &
 
 # if [[ $(xrandr -q | grep 'HDMI1-0 connected') ]]; then
-# 	polybar external -c $(dirname $0)/config.ini &
-# #The dirname $0 command returns the directory where the Bash script 
-# # file is saved.  We can return a relative path or an absolute path. 
+#   polybar external -c $(dirname $0)/config.ini &
+# #The dirname $0 command returns the directory where the Bash script
+# # file is saved.  We can return a relative path or an absolute path.
 # # This all depends on how the bash script is called.
 # fi
 # # Launch bar1 and bar2
