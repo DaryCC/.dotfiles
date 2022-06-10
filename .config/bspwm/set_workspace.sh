@@ -1,11 +1,11 @@
 #!/bin/sh
 #####APLICACIONES DE INICIO#####################
 current_time=$(date +"%Y-%m-%d %H:%M")
-echo "+++++++++++++++++++++NUEVA ENTRADA: ${current_time}" >> ~/.spacemacs.d/log.txt
+echo "++++++++++NUEVA ENTRADA: ${current_time}" >> ~/.spacemacs.d/log.txt
 echo "++++++++++APLICANDO WORKSPACES"
 sleep 6
 bspc desktop --focus ^5
-echo "desktop --focus ^5" >> ~/.spacemacs.d/log.txt
+# echo "desktop --focus ^5" >> ~/.spacemacs.d/log.txt
 # firefox & &&  echo "firefox started" >> ~/.spacemacs.d/log.txt || echo "firefox failed" >> ~/.spacemacs.d
 if ! pgrep -x firefox >/dev/null
 then
@@ -16,7 +16,7 @@ else
 fi
 sleep 3
 bspc desktop --focus ^8
-echo "desktop --focus ^8" >> ~/.spacemacs.d/log.txt
+# echo "desktop --focus ^8" >> ~/.spacemacs.d/log.txt
 # pgrep -x spotify >/dev/null && echo "Process Spotify found" >> ~/.spacemacs.d/log.txt || echo "Process spotify not found" >> ~/.spacemacs.d/log.txt
 if ! pgrep -x spotify >/dev/null
    then
@@ -29,7 +29,7 @@ fi
 # spotify && echo "spotify started" >> ~/.spacemacs.d/log.txt || echo "spotify failed" >> ~/.spacemacs.d
 sleep 3
 bspc desktop --focus ^1
-echo "desktop --focus ^1" >> ~/.spacemacs.d/log.txt
+# echo "desktop --focus ^1" >> ~/.spacemacs.d/log.txt
 # google-chrome-stable  && echo "google-chrome-stable started" >> ~/.spacemacs.d/log.txt || echo "google-chrome-stable failed" >> ~/.spacemacs.d
 if ! pgrep -x google-chrome-stable >/dev/null
 then
@@ -56,12 +56,23 @@ then
     echo "Logitech wireless mouse adapter detected" >> ~/.spacemacs.d/log.txt
     echo '++++++++++APLICANDO CONFIG DE MOUSE'
     # ratbagd && echo "ratbagd command succeeded" >> ~/.spacemacs.d/log.txt || echo "ratbagd command failed" >> ~/.spacemacs.d
-    if ratbagd;
-       then
-           echo "Command ratbagd succeeded" >> ~/.spacemacs.d/log.txt
-       else
-           echo "Command ratbagd failed" >> ~/.spacemacs.d/log.txt
-    fi
+    ratbagd & >> ~/.spacemacs.d/log.txt
+    ratbagctl & >> ~/.spacemacs.d/log.txt
+    # ratbagd &
+    # if $?
+    # then
+    #     echo "Command ratbagd succeeded" >> ~/.spacemacs.d/log.txt
+    # else
+    #     echo "Command ratbagd failed" >> ~/.spacemacs.d/log.txt
+    # fi
+    # ratbagctl &
+
+    # if $?
+    # then
+    #     echo "Command ratbagctl succeeded" >> ~/.spacemacs.d/log.txt
+    # else
+    #     echo "Command ratbagctl failed" >> ~/.spacemacs.d/log.txt
+    # fi
 fi
 
 if /usr/bin/lsusb | grep "1532:0257"
@@ -69,11 +80,11 @@ then
     echo "Razer Huntsman Mini detected" >> ~/.spacemacs.d/log.txt
     echo '++++++++++APLICANDO CONFIG DE TECLADO'
     # ratbagd && echo "ratbagd command succeeded" >> ~/.spacemacs.d/log.txt || echo "ratbagd command failed" >> ~/.spacemacs.d
-    if ratbagctl;
+    if polychromatic-cli -e ~/.config/polychromatic/effects/RazerHuntsmanMiniPOSos.json;
     then
-        echo "Command ratbagctl succeeded" >> ~/.spacemacs.d/log.txt
+        echo "polychromatic effects successfully added" >> ~/.spacemacs.d/log.txt
     else
-        echo "Command ratbagctl failed" >> ~/.spacemacs.d/log.txt
+        echo "polychromatic-cli effects FAILED" >> ~/.spacemacs.d/log.txt
     fi
 fi
 #######this is for emacs daemon mode
@@ -83,12 +94,12 @@ emacs --daemon &&
 echo "++++++++++EMACS DAEMON DONE..."
 sleep 3
 bspc desktop --focus ^5
-echo "desktop --focus ^5" >> ~/.spacemacs.d/log.txt
-emacsclient -nc && echo "Emacs cliente Ok" >> ~/.spacemacs.d/log.txt || echo "Emacs client FAILED" >> ~/.spacemacs.d/log.txt
+# echo "desktop --focus ^5" >> ~/.spacemacs.d/log.txt
+emacsclient -nc && echo "Emacs cliente, STARTED" >> ~/.spacemacs.d/log.txt || echo "Emacs client FAILED" >> ~/.spacemacs.d/log.txt
 echo "++++++++++ABRIENDO CLIENTE EMACS"
 sleep 2
 bspc desktop --focus ^5
-echo "desktop --focus ^5" >> ~/.spacemacs.d/log.txt
+# echo "desktop --focus ^5" >> ~/.spacemacs.d/log.txt
 sleep 1
 # dropbox && echo "dropbox STARTED Ok" >> ~/.spacemacs.d/log.txt || echo "dropbox client FAILED" >> ~/.spacemacs.d/log.txt
 # if dropbox is already running?
