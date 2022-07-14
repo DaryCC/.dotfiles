@@ -56,8 +56,10 @@ then
     echo "Logitech wireless mouse adapter detected" >> ~/.spacemacs.d/log.txt
     echo '++++++++++APLICANDO CONFIG DE MOUSE'
     # ratbagd && echo "ratbagd command succeeded" >> ~/.spacemacs.d/log.txt || echo "ratbagd command failed" >> ~/.spacemacs.d
-    ratbagd & >> ~/.spacemacs.d/log.txt
-    ratbagctl & >> ~/.spacemacs.d/log.txt
+    # ratbagd & >> ~/.spacemacs.d/log.txt
+    # ratbagctl & >> ~/.spacemacs.d/log.txt
+    ratbagd &
+    ratbagctl &
     # ratbagd &
     # if $?
     # then
