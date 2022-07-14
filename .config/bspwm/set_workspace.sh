@@ -20,6 +20,7 @@ bspc desktop --focus ^8
 # pgrep -x spotify >/dev/null && echo "Process Spotify found" >> ~/.spacemacs.d/log.txt || echo "Process spotify not found" >> ~/.spacemacs.d/log.txt
 if ! pgrep -x spotify >/dev/null
    then
+       sleep 2
        echo "Process spotify not found, STARTING" >> ~/.spacemacs.d/log.txt
        spotify &
    else
@@ -56,8 +57,10 @@ then
     echo "Logitech wireless mouse adapter detected" >> ~/.spacemacs.d/log.txt
     echo '++++++++++APLICANDO CONFIG DE MOUSE'
     # ratbagd && echo "ratbagd command succeeded" >> ~/.spacemacs.d/log.txt || echo "ratbagd command failed" >> ~/.spacemacs.d
-    ratbagd & >> ~/.spacemacs.d/log.txt
-    ratbagctl & >> ~/.spacemacs.d/log.txt
+    # ratbagd & >> ~/.spacemacs.d/log.txt
+    # ratbagctl & >> ~/.spacemacs.d/log.txt
+    ratbagd &
+    ratbagctl &
     # ratbagd &
     # if $?
     # then
