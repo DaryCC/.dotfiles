@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name:insert js file
+# key: ijs
+# --
+
+#+begin_src js
+$0
+#+end_src
