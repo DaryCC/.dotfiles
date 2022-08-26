@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name : h1
+#key : <h1
+#contributor : darycc
+# --
+     <h1>${0:Texto}</h1>

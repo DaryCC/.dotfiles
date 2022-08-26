@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name : p
+#key : <p
+#contributor : darycc
+# --
+<p>$0</p>
