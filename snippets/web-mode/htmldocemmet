@@ -1,0 +1,33 @@
+# -*- mode: snippet -*-
+#name : htmldoce
+#key : !
+#contributor : darycc
+# --
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+
+
+    <title>Curso de React</title>
+  </head>
+  <body>
+
+    <div id="root"></div>
+
+
+
+
+    <script>
+
+    // ==== Código
+
+
+
+
+
+    </script>
+
+
+  </body>
+</html>
