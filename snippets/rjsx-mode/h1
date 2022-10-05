@@ -3,4 +3,4 @@
 #key : <h1
 #contributor : darycc
 # --
-     <h1>${0:Texto}</h1>
+<h1>$0</h1>
