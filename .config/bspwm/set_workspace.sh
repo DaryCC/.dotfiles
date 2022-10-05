@@ -4,7 +4,7 @@ current_time=$(date +"%Y-%m-%d %H:%M")
 echo "++++++++++NUEVA ENTRADA: ${current_time}" >> ~/.spacemacs.d/log.txt
 echo "++++++++++APLICANDO WORKSPACES"
 sleep 6
-bspc desktop --focus ^5
+bspc desktop --focus ^8
 # echo "desktop --focus ^5" >> ~/.spacemacs.d/log.txt
 # firefox & &&  echo "firefox started" >> ~/.spacemacs.d/log.txt || echo "firefox failed" >> ~/.spacemacs.d
 if ! pgrep -x firefox >/dev/null
@@ -14,7 +14,7 @@ then
 else
     echo "Process firefox found, ABORTING" >> ~/.spacemacs.d/log.txt
 fi
-sleep 3
+sleep 5
 bspc desktop --focus ^8
 # echo "desktop --focus ^8" >> ~/.spacemacs.d/log.txt
 # pgrep -x spotify >/dev/null && echo "Process Spotify found" >> ~/.spacemacs.d/log.txt || echo "Process spotify not found" >> ~/.spacemacs.d/log.txt
