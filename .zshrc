@@ -71,7 +71,7 @@ ZSH_THEME="spaceship"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(fzf-tab git  copyfile z copypath sudo  zsh-syntax-highlighting zsh-autosuggestions dirhistory history colored-man-pages npm)
+plugins=(fzf-tab fzf git  copyfile z copypath sudo  zsh-syntax-highlighting zsh-autosuggestions dirhistory history colored-man-pages npm)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -122,6 +122,7 @@ alias la="ls -a"
 alias li="ls -la --git-ignore"
 alias ld="ls -la -D"
 alias lt="ls -la --tree"
+alias ghqg="ghq get "
 # alias ghql="~/.spacemacs.d/ghq_fzf.sh"
 # alias ghql="echo 'cd "$(ghq list --full-path | fzf)"'"
 eval $(thefuck --alias fuck)
@@ -149,3 +150,4 @@ export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -50'"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+source /home/dary/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 
