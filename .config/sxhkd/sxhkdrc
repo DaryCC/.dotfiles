@@ -22,7 +22,7 @@ super + e
 super + shift+e
   emacs
 super + v
-  code-insiders
+  code
 #WEB  BROWSERS
 super + w
 	firefox

@@ -4,7 +4,7 @@ current_time=$(date +"%Y-%m-%d %H:%M")
 echo "++++++++++NUEVA ENTRADA: ${current_time}" >> ~/.dotfiles/log.txt
 echo "++++++++++APLICANDO WORKSPACES"
 sleep 6
-bspc desktop --focus ^8
+bspc desktop --focus ^5
 # echo "desktop --focus ^5" >> ~/.spacemacs.d/log.txt
 # firefox & &&  echo "firefox started" >> ~/.spacemacs.d/log.txt || echo "firefox failed" >> ~/.spacemacs.d
 if ! pgrep -x firefox >/dev/null
@@ -98,7 +98,7 @@ echo "++++++++++EMACS DAEMON DONE..."
 sleep 3
 bspc desktop --focus ^5
 # echo "desktop --focus ^5" >> ~/.spacemacs.d/log.txt
-emacsclient -nc && echo "Emacs cliente, STARTED" >> ~/.dotsfiles/log.txt || echo "Emacs client FAILED" >> ~/.dotfiles/log.txt
+emacsclient -nc && echo "Emacs cliente, STARTED" >> ~/.dotfiles/log.txt || echo "Emacs client FAILED" >> ~/.dotfiles/log.txt
 echo "++++++++++ABRIENDO CLIENTE EMACS"
 sleep 2
 bspc desktop --focus ^5
