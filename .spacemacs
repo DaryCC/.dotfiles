@@ -615,6 +615,13 @@ before packages are loaded."
   (add-to-list 'package-archives
                '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;PARA GUARDAR EL WORKSAPACE
+  (add-hook 'spacemacs-post-user-config-hook
+            (lambda ()
+              (desktop-save-mode)
+              (desktop-read)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
   (defun efs/set-font-faces ()
     (message "Setting faces!")
     (set-face-attribute 'default nil :font "Source Code Pro"  :weight 'normal )
