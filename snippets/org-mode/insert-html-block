@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name:insert html file
+# key: ihtml
+# --
+
+#+begin_src html 
+$0
+#+end_src
