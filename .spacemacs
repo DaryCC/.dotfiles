@@ -616,10 +616,16 @@ before packages are loaded."
                '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;PARA GUARDAR EL WORKSAPACE
-  (add-hook 'spacemacs-post-user-config-hook
-            (lambda ()
-              (desktop-save-mode)
-              (desktop-read)))
+  ;; (add-hook 'spacemacs-post-user-config-hook
+  ;;           (lambda ()
+  ;;             (desktop-save-mode)
+  ;;             (desktop-read)))
+
+
+(require 'desktop)
+(setq desktop-save 1)
+(desktop-save-mode 1)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   (defun efs/set-font-faces ()
@@ -657,10 +663,14 @@ before packages are loaded."
   ;;               (when (display-graphic-p frame)
   ;;                 (load-theme theme t)))))
   ;; (my-load-theme 'doom-gruvbox)
- ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; (with-eval-after-load 'doom-themes
   ;;   (doom-themes-treemacs-config))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; ripgrep en helm-project-do-ag
+  (evil-leader/set-key "/" 'spacemacs/helm-project-do-ag)
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;algo the python
   (setq python-shell-interpreter "python3")
   ;;COMPANY SHIT
   (use-package company
@@ -730,6 +740,10 @@ before packages are loaded."
 
     );;end company-web
 
+  ;; (eval-after-load "web-mode"
+  ;;   '(setq web-mode-tag-auto-close-style 0))
+
+  ;; (setq web-mode-enable-auto-closing t)
 
   ;;PARA HTML
   ;; (use-package web-mode
@@ -884,6 +898,7 @@ before packages are loaded."
   (use-package rjsx-mode
   :ensure t
   :mode "\\.jsx\\'"
+  ;; :mode "\\.\\(js\\|jsx\\)$"
   :bind
   (:map rjsx-mode-map
         ( "C-c C-b" . rjsx-jump-opening-tag)
@@ -914,6 +929,7 @@ before packages are loaded."
       (add-hook 'prog-mode-hook 'highlight-numbers-mode)
       (add-hook 'js2-mode-hook #'impatient-mode)
     :mode "\\.\\(js\\|json\\)$"
+      ;; :mode "\\.json\\'"
     :ensure t
     :interpreter (("node" . js2-mode))
 
@@ -972,18 +988,18 @@ before packages are loaded."
     )
 
 
-  ;; highlight-indent
-  (use-package highlight-indent-guides
-    :ensure t
-    :config
-    (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-    :custom
-    (highlight-indent-guides-method 'character )
-    ;; (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-    ;; :init
-    ;; (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+  ;; ;; highlight-indent
+  ;; (use-package highlight-indent-guides
+  ;;   :ensure t
+  ;;   :config
+  ;;   (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+  ;;   :custom
+  ;;   (highlight-indent-guides-method 'character )
+  ;;   ;; (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+  ;;   ;; :init
+  ;;   ;; (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
 
-    )
+  ;;   )
   ;; TREEMACS
 (use-package treemacs
   :ensure t
@@ -1091,7 +1107,8 @@ before packages are loaded."
   ;;PARA ORGMODE
   (setq org-todo-keywords
         '((sequence "TODO(t!)" "NEXT(n!)" "DOINGNOW(d!)" "BLOCKED(b!)" "TODELEGATE(g!)" "DELEGATED(D!)" "FOLLOWUP(f!)" "TICKLE(T!)" "|" "CANCELLED(c!)" "DONE(F!)")))
-  ;; para orgmode
+  ;; para autoformato de texto
+  (add-hook 'org-mode-hook 'turn-on-auto-fill)
   ;; para templates
   (require 'org-tempo)
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
