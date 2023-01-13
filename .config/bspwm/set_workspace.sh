@@ -4,7 +4,7 @@ current_time=$(date +"%Y-%m-%d %H:%M")
 echo "++++++++++NUEVA ENTRADA: ${current_time}" >> ~/.dotfiles/log.txt
 echo "++++++++++APLICANDO WORKSPACES"
 sleep 6
-bspc desktop --focus ^5
+bspc desktop --focus ^1
 # echo "desktop --focus ^5" >> ~/.spacemacs.d/log.txt
 # firefox & &&  echo "firefox started" >> ~/.spacemacs.d/log.txt || echo "firefox failed" >> ~/.spacemacs.d
 if ! pgrep -x firefox >/dev/null
@@ -13,6 +13,17 @@ then
     firefox &
 else
     echo "Process firefox found, ABORTING" >> ~/.dotfiles/log.txt
+fi
+sleep 4
+bspc desktop --focus ^2
+# echo "desktop --focus ^5" >> ~/.spacemacs.d/log.txt
+# firefox & &&  echo "firefox started" >> ~/.spacemacs.d/log.txt || echo "firefox failed" >> ~/.spacemacs.d
+if ! pgrep -x alacritty >/dev/null
+then
+    echo "Process alacritty  not found, STARTING" >> ~/.dotfiles/log.txt
+    alacritty & alacritty &
+else
+    echo "Process alacritty found, ABORTING" >> ~/.dotfiles/log.txt
 fi
 sleep 5
 bspc desktop --focus ^8
@@ -29,7 +40,7 @@ fi
 
 # spotify && echo "spotify started" >> ~/.spacemacs.d/log.txt || echo "spotify failed" >> ~/.spacemacs.d
 sleep 3
-bspc desktop --focus ^1
+bspc desktop --focus ^5
 # echo "desktop --focus ^1" >> ~/.spacemacs.d/log.txt
 # google-chrome-stable  && echo "google-chrome-stable started" >> ~/.spacemacs.d/log.txt || echo "google-chrome-stable failed" >> ~/.spacemacs.d
 if ! pgrep -x google-chrome-stable >/dev/null
