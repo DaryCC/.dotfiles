@@ -1,0 +1,18 @@
+
+# -* - mode: snippet -* -
+# contributor: Jimmy Yuen Ho Wong < wyuenho@gmail.com>
+# name: reactArrowFunctionExportComponent
+# key: rafce
+# --
+
+import React from 'react'
+
+const ${1:name} = (${2:props}) => {
+return (
+       <div>
+          $0
+       </div>
+       )
+       }
+
+export default $1

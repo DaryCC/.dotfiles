@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: useState
+# key: ush
+# --
+const [${1:state}, set${1:$(s-upper-camel-case yas-text)}] = useState(${2:initialState});
+$0
