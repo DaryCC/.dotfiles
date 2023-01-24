@@ -7,12 +7,10 @@
 
 import React from 'react'
 
-const ${1:name} = (${2:props}) => {
+export const ${1:name} = (${2:props}) => {
 return (
        <div>
           $0
        </div>
        )
        }
-
-export default $1
