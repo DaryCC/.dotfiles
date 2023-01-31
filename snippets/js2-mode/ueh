@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# contributor: Seong Yong-ju <sei40kr@gmail.com>
+# name: useEffect
+# key: ueh
+# --
+useEffect(() => {
+$1
+
+  return()=>{
+    $2
+  }
+},[$3]);$0
+
