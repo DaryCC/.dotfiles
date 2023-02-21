@@ -1,0 +1,15 @@
+
+
+# -*- mode: snippet -*-
+# contributor: Jimmy Yuen Ho Wong <wyuenho@gmail.com>
+# name: useCallback
+# key: useCallback
+# --
+
+
+useCallback (
+($1) => {
+${2:first}
+},
+[$0],
+)

@@ -7,10 +7,8 @@
 
 import React from 'react'
 
-export const ${1:name} = (${2:props}) => {
+export const ${1:`(yas-jsx-get-class-name-by-file-name)`} = (${2:props}) => {
 return (
-       <div>
-          $0
-       </div>
-       )
-       }
+<div>${0:`(yas-jsx-get-class-name-by-file-name)`}</div>
+)
+}

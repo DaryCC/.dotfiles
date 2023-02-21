@@ -1,0 +1,9 @@
+
+
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: useRef
+# key: useRef
+# uuid: useRef
+# --
+const ${1:ref} = useRef(${2:initialValue});
+$0

@@ -1,20 +1,15 @@
 #!/bin/sh
 
 #LAUNCHERS
-xrandr --output eDP-1-1 --primary --mode 1920x1080 \
-       --rotate normal
-
-if [[ $(xrandr -q | grep 'HDMI-0 connected') ]]; then
-$HOME/.dotfiles/.config/bspwm/autostart.sh &
-bspc monitor eDP-1-1 -d 1 2 3 4
-bspc monitor HDMI-0  -d 5 6 7 8
-else
-bspc monitor -d 1 2 3 4 5 6 8
-fi
-
-
-# bspc monitor eDP-1-1 -d 1 2 3 4 5 6 8
-~/.config/bspwm/autostart.sh
+# if [[ $(xrandr -q | grep 'HDMI-0 connected') ]]; then
+# $HOME/.spacemacs.d/.config/bspwm/autostart.sh &
+# bspc monitor eDP-1-1 -d 1 2 3 4
+# bspc monitor HDMI-0  -d 5 6 7 8
+# # elif
+# #     bspc monitor eDP-1-1 -d 1 2 3 4 5 6 8
+# fi
+bspc monitor eDP-1-1 -d 1 2 3 4 5 6 8
+# ~/.config/bspwm/autostart.sh
 
 sxhkd &
 setxkbmap -layout us -variant altgr-intl &
