@@ -1,0 +1,6 @@
+
+# -*- mode: snippet -*-
+# name: arrow function without arg(s)
+# key: af
+# --
+(${1:arg}) => $0

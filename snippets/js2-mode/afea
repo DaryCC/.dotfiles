@@ -1,0 +1,10 @@
+
+
+# -*- mode: snippet -*-
+# name: arrow function with return and arg(s)
+# key: afea
+# --
+($1) => {
+     $2
+return $0
+}
