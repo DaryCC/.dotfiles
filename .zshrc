@@ -123,6 +123,7 @@ alias li="ls -la --git-ignore"
 alias ld="ls -la -D"
 alias lt="ls -la --tree"
 alias ghqg="ghq get "
+alias off="shutdown"
 # alias ghql="~/.spacemacs.d/ghq_fzf.sh"
 # alias ghql="echo 'cd "$(ghq list --full-path | fzf)"'"
 eval $(thefuck --alias fuck)
