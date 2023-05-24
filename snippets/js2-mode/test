@@ -1,0 +1,15 @@
+
+
+
+
+# -* - mode: snippet -* -
+# contributor: Jimmy Yuen Ho Wong < wyuenho@gmail.com>
+# name: test jest
+# key: test
+# --
+
+test('Esto debe de ${1:? } ',()=>{
+
+           $0
+
+});

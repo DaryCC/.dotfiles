@@ -1,0 +1,14 @@
+
+
+
+# -* - mode: snippet -* -
+# contributor: Jimmy Yuen Ho Wong < wyuenho@gmail.com>
+# name: describe jest
+# key: desc
+# --
+
+describe('${1:Name of the group}',()=>{
+
+                   $0
+
+});

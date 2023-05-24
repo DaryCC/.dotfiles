@@ -1,0 +1,7 @@
+
+# -*- mode: snippet -*-
+# contributor: DaryCC  <dary.cc@gmail.com>
+# name: useContext
+# key: useContext
+# --
+const ${1:first} = useContext (${2:second})
