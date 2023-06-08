@@ -3,6 +3,7 @@
 #
 #REVISA LA REPO DE ESTE WEY
 #https://github.com/BrodieRobertson
+
 # terminal emulator
 alt + Return
 	 tilix
@@ -88,7 +89,8 @@ super + Escape
 #
 # bspwm hotkeys
 #
-
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # quit/restart bspwm
 super + alt + {q,r}
 	bspc {quit,wm -r}
@@ -266,6 +268,7 @@ super + shift + s
 super + shift + t
    ~/.config/sxhkd/bspwm-toggle-visibility.sh spotify
 
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # {_,shift}
 # Reload sxhkdrc
 super + shift + r
@@ -273,7 +276,7 @@ super + shift + r
 #hide/minimize window
 super+shift+{comma}
     ~/.config/sxhkd/minimize.sh
-#CAMBIO DE LAYOUT
+#CAMBIO DE LAYOUT TECLADO
 super + alt + space
     ~/.config/sxhkd/change_kl.sh
 

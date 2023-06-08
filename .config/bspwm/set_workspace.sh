@@ -3,7 +3,7 @@
 current_time=$(date +"%Y-%m-%d %H:%M")
 echo "++++++++++NUEVA ENTRADA: ${current_time}" >> ~/.dotfiles/log.txt
 echo "++++++++++APLICANDO WORKSPACES"
-sleep 6
+sleep 3
 bspc desktop --focus ^1
 # echo "desktop --focus ^5" >> ~/.spacemacs.d/log.txt
 # firefox & &&  echo "firefox started" >> ~/.spacemacs.d/log.txt || echo "firefox failed" >> ~/.spacemacs.d
@@ -14,14 +14,14 @@ then
 else
     echo "Process firefox found, ABORTING" >> ~/.dotfiles/log.txt
 fi
-sleep 4
+sleep 6
 bspc desktop --focus ^2
 # echo "desktop --focus ^5" >> ~/.spacemacs.d/log.txt
 # firefox & &&  echo "firefox started" >> ~/.spacemacs.d/log.txt || echo "firefox failed" >> ~/.spacemacs.d
-if ! pgrep -x alacritty >/dev/null
+if ! pgrep -x gnome-terminal >/dev/null
 then
     echo "Process alacritty  not found, STARTING" >> ~/.dotfiles/log.txt
-    alacritty & alacritty &
+    gnome-terminal & alacritty &
 else
     echo "Process alacritty found, ABORTING" >> ~/.dotfiles/log.txt
 fi
