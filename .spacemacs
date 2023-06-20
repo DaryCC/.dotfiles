@@ -265,8 +265,10 @@ It should only modify the values of Spacemacs settings."
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(spacemacs-dark
                          spacemacs-light
-                         doom-gruvbox
-                         doom-dracula
+                         kaolin-aurora
+                         kaolin-dark
+                         ;; doom-gruvbox
+                         ;; doom-dracula
                          )
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
@@ -604,6 +606,9 @@ before packages are loaded."
 
   ;; (require 'doom-themes-base "~/.emacs.d/private/themes/doom-themes-base.el")
 
+  ;; PARA TRABAJAR CON VIRTUALENVWRAPPER
+  (setenv "WORKON_HOME" "/home/dary/Environments")
+  (require 'org-macs)
 
   (package-initialize)
   (require 'package)
@@ -636,11 +641,16 @@ before packages are loaded."
 
     ;; Set the variable pitch face
     (set-face-attribute 'variable-pitch nil :font "Source Code Pro" :weight 'regular)
-    (load-theme 'doom-gruvbox t);;ESTE ES EL BUENO
-    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-          doom-themes-enable-italic t) ; if nil, italics is universally disabled
+    (load-theme 'kaolin-valley-dark  t);;ESTE ES EL BUENO
 
+;;esto lo puedes activr para los temas para 
+    ;; (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+    ;;       doom-themes-enable-italic t) ; if nil, italics is universally disabled
+
+
+    (load-theme 'kaolin-valley-dark t)
     )
+  (message "fonts seteadas")
 
   (if (daemonp)
       (add-hook 'after-make-frame-functions
@@ -649,11 +659,11 @@ before packages are loaded."
                   (with-selected-frame frame
                     (efs/set-font-faces) )
                   )
-                ;; (load-theme 'doom-gruvbox t)
+                ;; (load-theme 'kaolin-valley-dark t)
                 )
     (efs/set-font-faces))
 
-  (require 'doom-themes)
+  (require 'kaolin-themes)
   ;; (load-theme 'doom-gruvbox t)
   (evil-leader/set-key "q q" 'spacemacs/frame-killer)
   ;; (defun my-load-theme (theme)
@@ -663,6 +673,18 @@ before packages are loaded."
   ;;               (when (display-graphic-p frame)
   ;;                 (load-theme theme t)))))
   ;; (my-load-theme 'doom-gruvbox)
+
+
+  (require 'kaolin-themes)
+  (load-theme 'kaolin-valley-dark t)
+  ;; Apply treemacs customization for Kaolin themes, requires the all-the-icons package.
+  (kaolin-treemacs-theme)
+
+  ;; Or if you have use-package installed
+  (use-package kaolin-themes
+    :config
+    (load-theme 'kaolin-aurora t)
+    (kaolin-treemacs-theme))
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; (with-eval-after-load 'doom-themes
   ;;   (doom-themes-treemacs-config))
@@ -794,6 +816,7 @@ before packages are loaded."
   ;;The auto-fill-mode function can be used to toggle auto fill mode for a buffer.
   ;;Also check org-fill-paragraph for this task.
   ;; (require org-download) for image pasting
+  (require 'org-emacs)
   (use-package org
     ;; :hook (org-mode . toc-org-enable)
     :hook
