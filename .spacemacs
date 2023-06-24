@@ -32,7 +32,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(typescript
+   '(react
+     typescript
      yaml
      systemd
      html
@@ -449,19 +450,31 @@ It should only modify the values of Spacemacs settings."
    ;;                       )
 
 
-   ;;(display-line-numbers-mode)
-   ;;(setq display-line-numbers 'relative)
+   ;; (display-line-numbers-mode)
+   ;; (setq display-line-numbers 'relative)
 
+   ;; (column-number-mode t)
+
+   ;; (global-display-line-numbers-mode t)
 
    ;; When used in a plist, `visual' takes precedence over `relative'.
    ;; (default nil)
-   dotspacemacs-line-numbers '(:relative t
-                                       :disabled-for-modes dired-mode
-                                       doc-view-mode
-                                       pdf-view-mode
-                                       :size-limit-kb 1000)
+
+
+   ;; PARA NUMERACIÓN RELATIVA
+
+(setq-default dotspacemacs-line-numbers t)
+   ;; dotspacemacs-line-numbers '(
+   ;;                            :relative t
+   ;;                            :disabled-for-modes dired-mode
+   ;;                            doc-view-mode
+   ;;                            pdf-view-mode
+   ;;                            :size-limit-kb 1000)
+
    ;; Code folding method. Possible values are `evil', `origami' and `vimish'.
    ;; (default 'evil)
+
+
    dotspacemacs-folding-method 'evil
 
    ;; If non-nil and `dotspacemacs-activate-smartparens-mode' is also non-nil,
@@ -586,6 +599,7 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
+  (setq-default dotspacemacs-line-numbers 'relative)
 )
 
 (defun dotspacemacs/user-load ()
@@ -606,8 +620,7 @@ before packages are loaded."
 
   ;; (require 'doom-themes-base "~/.emacs.d/private/themes/doom-themes-base.el")
 
-  ;; PARA TRABAJAR CON VIRTUALENVWRAPPER
-  (setenv "WORKON_HOME" "/home/dary/Environments")
+  (setq-default dotspacemacs-line-numbers t)
   (require 'org-macs)
 
   (package-initialize)
@@ -632,6 +645,7 @@ before packages are loaded."
 (desktop-save-mode 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;TEMAS PARA MODO CLIENTE
 
   (defun efs/set-font-faces ()
     (message "Setting faces!")
@@ -641,14 +655,14 @@ before packages are loaded."
 
     ;; Set the variable pitch face
     (set-face-attribute 'variable-pitch nil :font "Source Code Pro" :weight 'regular)
-    (load-theme 'kaolin-valley-dark  t);;ESTE ES EL BUENO
+    (load-theme 'doom-palenight  t);;ESTE ES EL BUENO
 
 ;;esto lo puedes activr para los temas para 
     ;; (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
     ;;       doom-themes-enable-italic t) ; if nil, italics is universally disabled
 
 
-    (load-theme 'kaolin-valley-dark t)
+    (load-theme 'doom-palenight t)
     )
   (message "fonts seteadas")
 
@@ -663,28 +677,30 @@ before packages are loaded."
                 )
     (efs/set-font-faces))
 
-  (require 'kaolin-themes)
+  (require 'doom-palenight)
   ;; (load-theme 'doom-gruvbox t)
   (evil-leader/set-key "q q" 'spacemacs/frame-killer)
-  ;; (defun my-load-theme (theme)
-  ;;   (add-hook 'after-make-frame-functions
-  ;;             (lambda (frame)
-  ;;               (select-frame frame)
-  ;;               (when (display-graphic-p frame)
-  ;;                 (load-theme theme t)))))
-  ;; (my-load-theme 'doom-gruvbox)
 
+  (efs/set-font-faces)
 
-  (require 'kaolin-themes)
-  (load-theme 'kaolin-valley-dark t)
+  (defun my-load-theme (theme)
+    (add-hook 'after-make-frame-functions
+              (lambda (frame)
+                (select-frame frame)
+                (when (display-graphic-p frame)
+                  (load-theme theme t)))))
+  (my-load-theme 'doom-palenight)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; (require 'kaolin-themes)
+  ;; (load-theme 'kaolin-valley-dark t)
   ;; Apply treemacs customization for Kaolin themes, requires the all-the-icons package.
-  (kaolin-treemacs-theme)
+  ;; (kaolin-treemacs-theme)
 
   ;; Or if you have use-package installed
-  (use-package kaolin-themes
-    :config
-    (load-theme 'kaolin-aurora t)
-    (kaolin-treemacs-theme))
+  ;; (use-package kaolin-themes :config
+    ;; (load-theme 'kaolin-aurora t)
+    ;; (kaolin-treemacs-theme))
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; (with-eval-after-load 'doom-themes
   ;;   (doom-themes-treemacs-config))
@@ -893,6 +909,20 @@ before packages are loaded."
 ;; (setq py-python-command "/usr/bin/python3")
 ;; (setq python-shell-completion-native-enable t)
 
+  ;;; para el uso de PYENV
+
+  ;; PARA TRABAJAR CON VIRTUALENVWRAPPER
+  ;; (setenv "WORKON_HOME" "/home/dary/Environments")
+  (use-package pyvenv
+    :ensure t
+    :defer t
+    :diminish
+    :config
+
+    (setenv "WORKON_HOME" "/home/dary/Environments")
+                                        ; Show python venv name in modeline
+	  (setq pyvenv-mode-line-indicator '(pyvenv-virtual-env-name ("[venv:" pyvenv-virtual-env-name "] ")))
+	  (pyvenv-mode t))
 ;; (use-package django-mode
 ;;   :ensure t
 
@@ -944,6 +974,10 @@ before packages are loaded."
         ( "C-c C-b" . rjsx-jump-opening-tag)
         ( "C-c C-f" . rjsx-jump-closing-tag)
         ))
+
+;; para js
+  (require 'import-js)
+
 ;;PARA JS
   ;; ;;EMACS + JS   (use-package js2-mode
   ;; (use-package js2-mode
@@ -1123,35 +1157,106 @@ before packages are loaded."
         ("C-x t B"   . treemacs-bookmark)
         ("C-x t C-t" . treemacs-find-file)
         ("C-x t M-t" . treemacs-find-tag)))
-
-(use-package treemacs-evil
-  :after (treemacs evil)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;TREEMACS EXTRAS ICONONOS MAGIT EVIL-MODE PROJECTILE
+(use-package treemacs-icons-dired
+  ;; :hook (dired-mode . treemacs-icons-dired-enable-once)
+  :hook (dired-mode . treemacs-icons-dired-mode)
   :ensure t)
 
 (use-package treemacs-projectile
   :after (treemacs projectile)
   :ensure t)
 
-(use-package treemacs-icons-dired
-  :hook (dired-mode . treemacs-icons-dired-enable-once)
-  :ensure t)
-
 (use-package treemacs-magit
   :after (treemacs magit)
   :ensure t)
+
+(use-package treemacs-evil
+  :after (treemacs evil)
+  :ensure t)
+(use-package treemacs-all-the-icons
+  :ensure t
+  :after treemacs
+  )
+(use-package all-the-icons
+   :if (display-graphic-p)
+   :config
+   (setq all-the-icons-scale-factor 0.6))
+
+(use-package all-the-icons-ivy-rich
+  :after counsel-projectile
+  :init (add-hook 'after-init-hook 'all-the-icons-ivy-setup)
+  :config
+  (setq all-the-icons-ivy-rich-icon-size 0.5))
+
+(use-package ivy-rich
+  :after all-the-icons-ivy-rich
+  :init (ivy-rich-mode +1))
+
+(setq inhibit-compacting-font-caches t)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (use-package all-the-icons-ivy
+;;   :init (add-hook 'after-init-hook 'all-the-icons-ivy-setup))
+;; (when (display-graphic-p)
+;;   (require 'all-the-icons))
+;; (use-package all-the-icons-ivy-rich
+;;   :ensure t
+;;   :init (all-the-icons-ivy-rich-mode 1))
+;; ;; Whether display the icons
+;; (setq all-the-icons-ivy-rich-icon t)
+
+;; ;; Whether display the colorful icons.
+;; ;; It respects `all-the-icons-color-icons'.
+;; (setq all-the-icons-ivy-rich-color-icon t)
+
+;; ;; The icon size
+;; (setq all-the-icons-ivy-rich-icon-size 1.0)
+
+;; ;; Whether support project root
+;; (setq all-the-icons-ivy-rich-project t)
+
+;; ;; Maximum truncation width of annotation fields.
+;; ;; This value is adjusted depending on the `window-width'.
+;; (setq all-the-icons-ivy-rich-field-width 80)
+
+;; ;; Definitions for ivy-rich transformers.
+;; ;; See `ivy-rich-display-transformers-list' for details."
+;; all-the-icons-ivy-rich-display-transformers-list
+
+;; ;; Slow Rendering
+;; ;; If you experience a slow down in performance when rendering multiple icons simultaneously,
+;; ;; you can try setting the following variable
+;; (setq inhibit-compacting-font-caches t)
+
+;; (use-package ivy-rich
+;;   :ensure t
+;;   :init (ivy-rich-mode 1))
+;; ;; PROJECTILE load all project :
+
+;; ;; (setq projectile-project-search-path '("~/projects/" "~/work/" ("~/github" . 1)))
+(setq projectile-project-search-path '("~/ghq/github.com/DaryCC/" ))
+;; ;; M-x projectile-discover-projects-in-search-path
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
   :after (treemacs persp-mode) ;;or perspective vs. persp-mode
   :ensure t
   :config (treemacs-set-scope-type 'Perspectives))
+
   ;;PARA ORGMODE
   (setq org-todo-keywords
         '((sequence "TODO(t!)" "NEXT(n!)" "DOINGNOW(d!)" "BLOCKED(b!)" "TODELEGATE(g!)" "DELEGATED(D!)" "FOLLOWUP(f!)" "TICKLE(T!)" "|" "CANCELLED(c!)" "DONE(F!)")))
+
   ;; para autoformato de texto
   (add-hook 'org-mode-hook 'turn-on-auto-fill)
+
   ;; para templates
   (require 'org-tempo)
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+
   ;;PARA USAR GRIPREP
   (evil-leader/set-key "/" 'spacemacs/helm-project-do-ag)
   (use-package helm-ag
@@ -1163,6 +1268,8 @@ before packages are loaded."
    )
 
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   ;;PARA MOVER  BLOQUES DE SELECCIÓN
   ;; To bind multiple keys in a `bind-key*' way (to be sure that your bindings
@@ -1178,26 +1285,28 @@ before packages are loaded."
    )
 
   ;;PARA MOSTRAR LA NUMERACIÓN RELATIVA
-  (setq-default display-line-numbers-type 'relative
-                display-line-numbers-current-absolute t
-                display-line-numbers-width 4
-                display-line-numbers-widen t)
-  (add-hook 'text-mode-hook #'display-line-numbers-mode)
-  (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+  ;;;;;;;;;;;;
+  ;; (column-number-mode t)
+  ;; (global-display-line-numbers-mode t)
+  ;;;;;;;;;;;;;
+  ;; (setq-default display-line-numbers-type 'relative
+  ;;               display-line-numbers-current-absolute t
+  ;;               display-line-numbers-width 4
+  ;;               display-line-numbers-widen t)
+  ;; (add-hook 'text-mode-hook #'display-line-numbers-mode)
+  ;; (add-hook 'prog-mode-hook #'display-line-numbers-mode)
   ;; (add-hook 'treemacs-mode-hook #'display-line-numbers-mode)
+
+
   ;; SET TRANSPARENCY
   (set-frame-parameter (selected-frame) 'alpha '(90 95))
   (add-to-list 'default-frame-alist '(alpha  90 95))
+
+
 ;;CREO QUE ES PARA EL MINIBUFFER
  (setq ns-use-srgbcolorspace nil)
 
- ;; NYAN MODE
-;; (use-package nyan-mode
-;;    :custom
-;;    (nyan-cat-face-number 4)
- ;;    (nyan-animate-nyancat t)
-;;    :hook
-;;    (doom-modeline-mode . nyan-mode))
+
 
 
  ;;PARA USAR TEMAS
@@ -1218,7 +1327,7 @@ before packages are loaded."
    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
          doom-themes-enable-italic t) ; if nil, italics is universally disabled
 
-   (load-theme 'doom-gruvbox t)
+   (load-theme 'doom-palenight t)
    ;; Enable flashing mode-line on errors
    (doom-themes-visual-bell-config)
    ;; Enable custom neotree theme (all-the-icons must be installed!)
@@ -1234,46 +1343,30 @@ before packages are loaded."
  ;; (doom-modeline-init)
  (use-package doom-modeline
    :ensure t
-   :defer nil
+   ;; :defer nil
    :init (doom-modeline-mode 1)
-   :hook (after-init . doom-modeline-mode)
-   :custom
-    (doom-modeline-height 25)
-    (doom-modeline-bar-width 1)
-    (doom-modeline-icon t)
-    (doom-modeline-major-mode-icon t)
-    (doom-modeline-major-mode-color-icon t)
-    (doom-modeline-buffer-file-name-style 'truncate-upto-project)
-    (doom-modeline-buffer-state-icon t)
-    (doom-modeline-buffer-modification-icon t)
-    (doom-modeline-minor-modes nil)
-    (doom-modeline-enable-word-count nil)
-    (doom-modeline-buffer-encoding t)
-    (doom-modeline-indent-info nil)
-    (doom-modeline-checker-simple-format t)
-    (doom-modeline-vcs-max-length 12)
-    (doom-modeline-env-version t)
-    (doom-modeline-irc-stylize 'identity)
-    (doom-modeline-github-timer nil)
-    (doom-modeline-gnus-timer nil)
+   ;; :custom
+   ;;  (doom-modeline-height 25)
+   ;;  (doom-modeline-bar-width 1)
+   ;;  (doom-modeline-icon t)
+   ;;  (doom-modeline-major-mode-icon t)
+   ;;  (doom-modeline-major-mode-color-icon t)
+   ;;  (doom-modeline-buffer-file-name-style 'truncate-upto-project)
+   ;;  (doom-modeline-buffer-state-icon t)
+   ;;  (doom-modeline-buffer-modification-icon t)
+   ;;  (doom-modeline-minor-modes nil)
+   ;;  (doom-modeline-enable-word-count nil)
+   ;;  (doom-modeline-buffer-encoding t)
+   ;;  (doom-modeline-indent-info nil)
+   ;;  (doom-modeline-checker-simple-format t)
+   ;;  (doom-modeline-vcs-max-length 12)
+   ;;  (doom-modeline-env-version t)
+   ;;  (doom-modeline-irc-stylize 'identity)
+   ;;  (doom-modeline-github-timer nil)
+   ;;  (doom-modeline-gnus-timer nil)
    )
+ (setq doom-modeline-icon t)
 
-;; LSP-mode    PARA PROGRAMAR
-  ;; (use-package lsp-mode
-  ;;   :init
-  ;;   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-  ;;   (setq lsp-keymap-prefix "C-c l")
-  ;;   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-  ;;          (XXX-mode . lsp)
-  ;;          ;; if you want which-key integration
-  ;;          (lsp-mode . lsp-enable-which-key-integration))
-  ;;   :commands lsp)
-
-  ;; optionally
-  ;; (use-package lsp-ui :commands lsp-ui-mode)
-  ;; if you are helm user
-  ;; (use-package helm-lsp :commands helm-lsp-workspace-symbol)
-  ;; if you are ivy user
   (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
   (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 
@@ -1411,12 +1504,12 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("249e100de137f516d56bcf2e98c1e3f9e1e8a6dce50726c974fa6838fbfcec6b" "3c7a784b90f7abebb213869a21e84da462c26a1fda7e5bd0ffebf6ba12dbd041" "e3daa8f18440301f3e54f2093fe15f4fe951986a8628e98dcd781efbec7a46f2" "944d52450c57b7cbba08f9b3d08095eb7a5541b0ecfb3a0a9ecd4a18f3c28948" "c4063322b5011829f7fdd7509979b5823e8eea2abf1fe5572ec4b7af1dd78519" "6c531d6c3dbc344045af7829a3a20a09929e6c41d7a7278963f7d3215139f6a7" "3d47380bf5aa650e7b8e049e7ae54cdada54d0637e7bac39e4cc6afb44e8463b" "5784d048e5a985627520beb8a101561b502a191b52fa401139f4dd20acb07607" "1d5e33500bc9548f800f9e248b57d1b2a9ecde79cb40c0b1398dec51ee820daf" "613aedadd3b9e2554f39afe760708fc3285bf594f6447822dd29f947f0775d6c" "7a7b1d475b42c1a0b61f3b1d1225dd249ffa1abb1b7f726aec59ac7ca3bf4dae" "0466adb5554ea3055d0353d363832446cd8be7b799c39839f387abb631ea0995" "c5ded9320a346146bbc2ead692f0c63be512747963257f18cc8518c5254b7bf5" "83e0376b5df8d6a3fbdfffb9fb0e8cf41a11799d9471293a810deb7586c131e6" "7eea50883f10e5c6ad6f81e153c640b3a288cd8dc1d26e4696f7d40f754cc703" "a82ab9f1308b4e10684815b08c9cac6b07d5ccb12491f44a942d845b406b0296" "234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" "2035a16494e06636134de6d572ec47c30e26c3447eafeb6d3a9e8aee73732396" "835868dcd17131ba8b9619d14c67c127aa18b90a82438c8613586331129dda63" "c1284dd4c650d6d74cfaf0106b8ae42270cab6c58f78efc5b7c825b6a4580417" default))
+   '("5f128efd37c6a87cd4ad8e8b7f2afaba425425524a68133ac0efd87291d05874" "249e100de137f516d56bcf2e98c1e3f9e1e8a6dce50726c974fa6838fbfcec6b" "3c7a784b90f7abebb213869a21e84da462c26a1fda7e5bd0ffebf6ba12dbd041" "e3daa8f18440301f3e54f2093fe15f4fe951986a8628e98dcd781efbec7a46f2" "944d52450c57b7cbba08f9b3d08095eb7a5541b0ecfb3a0a9ecd4a18f3c28948" "c4063322b5011829f7fdd7509979b5823e8eea2abf1fe5572ec4b7af1dd78519" "6c531d6c3dbc344045af7829a3a20a09929e6c41d7a7278963f7d3215139f6a7" "3d47380bf5aa650e7b8e049e7ae54cdada54d0637e7bac39e4cc6afb44e8463b" "5784d048e5a985627520beb8a101561b502a191b52fa401139f4dd20acb07607" "1d5e33500bc9548f800f9e248b57d1b2a9ecde79cb40c0b1398dec51ee820daf" "613aedadd3b9e2554f39afe760708fc3285bf594f6447822dd29f947f0775d6c" "7a7b1d475b42c1a0b61f3b1d1225dd249ffa1abb1b7f726aec59ac7ca3bf4dae" "0466adb5554ea3055d0353d363832446cd8be7b799c39839f387abb631ea0995" "c5ded9320a346146bbc2ead692f0c63be512747963257f18cc8518c5254b7bf5" "83e0376b5df8d6a3fbdfffb9fb0e8cf41a11799d9471293a810deb7586c131e6" "7eea50883f10e5c6ad6f81e153c640b3a288cd8dc1d26e4696f7d40f754cc703" "a82ab9f1308b4e10684815b08c9cac6b07d5ccb12491f44a942d845b406b0296" "234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" "2035a16494e06636134de6d572ec47c30e26c3447eafeb6d3a9e8aee73732396" "835868dcd17131ba8b9619d14c67c127aa18b90a82438c8613586331129dda63" "c1284dd4c650d6d74cfaf0106b8ae42270cab6c58f78efc5b7c825b6a4580417" default))
  '(dap-mode t nil (dap-mode))
  '(evil-want-Y-yank-to-eol nil)
  '(helm-ag-base-command "rg --vimgrep --no-heading --smart-case")
  '(package-selected-packages
-   '(python-mode kaolin-themes doom-modeline sqlite3 material-theme edit-indirect js-import xah-fly-keys typescript-mode rainbow-mode bash-completion spotify all-the-icons-ivy-rich all-the-icons-ivy fira-code-mode yapfify stickyfunc-enhance sphinx-doc pytest pyenv-mode pydoc py-isort poetry pippel pipenv pyvenv pip-requirements nose lsp-python-ms lsp-pyright live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-cscope xcscope cython-mode company-anaconda blacken anaconda-mode pythonic treemacs-all-the-icons desktop+ gruvbox-theme skewer-reload-stylesheets ewal-doom-themes tern npm-mode nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl helm-gtags ggtags dap-mode bui counsel-gtags yasnippet web-mode web-beautify tagedit slim-mode scss-mode sass-mode pug-mode prettier-js impatient-mode htmlize simple-httpd helm-css-scss haml-mode emmet-mode counsel-css counsel swiper ivy company-web web-completion-data company add-node-modules-path doom-themes dracula-theme ws-butler writeroom-mode visual-fill-column winum volatile-highlights vi-tilde-fringe uuidgen undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil treemacs cfrs pfuture posframe toc-org symon symbol-overlay string-inflection string-edit spaceline-all-the-icons memoize all-the-icons spaceline powerline restart-emacs request rainbow-delimiters quickrun popwin persp-mode password-generator paradox spinner overseer org-superstar open-junk-file nameless multi-line shut-up macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop helm-purpose window-purpose imenu-list helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio flycheck-package package-lint flycheck pkg-info epl flycheck-elsa flx-ido flx fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired f evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection annalist evil-cleverparens smartparens evil-args evil-anzu anzu eval-sexp-fu emr iedit clang-format projectile paredit list-utils elisp-slime-nav editorconfig dumb-jump s drag-stuff dired-quick-sort define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol ht dash auto-compile packed aggressive-indent ace-window ace-link ace-jump-helm-line helm avy which-key use-package popup pcre2el hydra hybrid-mode helm-core font-lock+ dotenv-mode diminish bind-map))
+   '(persp-mode-projectile-bridge python-mode kaolin-themes doom-modeline sqlite3 material-theme edit-indirect js-import xah-fly-keys typescript-mode rainbow-mode bash-completion spotify all-the-icons-ivy-rich all-the-icons-ivy fira-code-mode yapfify stickyfunc-enhance sphinx-doc pytest pyenv-mode pydoc py-isort poetry pippel pipenv pyvenv pip-requirements nose lsp-python-ms lsp-pyright live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-cscope xcscope cython-mode company-anaconda blacken anaconda-mode pythonic treemacs-all-the-icons desktop+ gruvbox-theme skewer-reload-stylesheets ewal-doom-themes tern npm-mode nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl helm-gtags ggtags dap-mode bui counsel-gtags yasnippet web-mode web-beautify tagedit slim-mode scss-mode sass-mode pug-mode prettier-js impatient-mode htmlize simple-httpd helm-css-scss haml-mode emmet-mode counsel-css counsel swiper ivy company-web web-completion-data company add-node-modules-path doom-themes dracula-theme ws-butler writeroom-mode visual-fill-column winum volatile-highlights vi-tilde-fringe uuidgen undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil treemacs cfrs pfuture posframe toc-org symon symbol-overlay string-inflection string-edit spaceline-all-the-icons memoize all-the-icons spaceline powerline restart-emacs request rainbow-delimiters quickrun popwin persp-mode password-generator paradox spinner overseer org-superstar open-junk-file nameless multi-line shut-up macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop helm-purpose window-purpose imenu-list helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio flycheck-package package-lint flycheck pkg-info epl flycheck-elsa flx-ido flx fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired f evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection annalist evil-cleverparens smartparens evil-args evil-anzu anzu eval-sexp-fu emr iedit clang-format projectile paredit list-utils elisp-slime-nav editorconfig dumb-jump s drag-stuff dired-quick-sort define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol ht dash auto-compile packed aggressive-indent ace-window ace-link ace-jump-helm-line helm avy which-key use-package popup pcre2el hydra hybrid-mode helm-core font-lock+ dotenv-mode diminish bind-map))
  '(py-python-command "python3" t)
  '(safe-local-variable-values
    '((pony-settings make-pony-project :python "/usr/bin/python3" :settings)
