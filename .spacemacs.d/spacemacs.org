@@ -1,0 +1,425 @@
+#+TITLE: Spacemacs Literate User Configuration
+#+STARTUP: headlines
+#+STARTUP: nohideblocks
+#+STARTUP: noindent
+#+OPTIONS: toc:4 h:4
+#+PROPERTY: header-args:emacs-lisp :comments link
+* Tabla de contenido :TOC:
+-  [[#why][Why?]]
+- [[#what-i-did][What I did]]
+  - [[#file-reorganisation][File reorganisation]]
+  - [[#extract-out-user-config-into-own-file][Extract out user-config into own file]]
+  - [[#move-config-into-an-org-file-and-set-up-tangling-on-it][Move config into an org file and set up tangling on it]]
+- [[#aqui-va-la-config-personal][Aqui va la config personal]]
+  - [[#user-init][user-init]]
+    - [[#relative-line-numbers][relative-line-numbers]]
+  - [[#user-config][user-config]]
+    - [[#initialise][Initialise]]
+      - [[#package-manager][package manager]]
+      - [[#desktop-save][desktop-save]]
+      - [[#set-config-for-emacs--and-daemon-client-mode][Set config for emacs  and daemon (client mode)]]
+    - [[#temas][Temas]]
+      - [[#doom-modeline][doom-modeline]]
+    - [[#syntax-checking-layer-tooltip-pop-up][Syntax Checking Layer (Tooltip Pop-up)]]
+    - [[#treemacs][Treemacs]]
+      - [[#treemacs-icons-dired][treemacs-icons-dired]]
+      - [[#treemacs-projectile][treemacs-projectile]]
+      - [[#treemacs-magit][treemacs-magit]]
+      - [[#treemacs-evil][treemacs-evil]]
+      - [[#treemacs-all-the-icons][treemacs-all-the-icons]]
+    - [[#ivy-rich][ivy-rich]]
+      - [[#treemacs-all-the-icons-ivy-rich][treemacs-all-the-icons-ivy-rich]]
+    - [[#all-the-icons][all-the-icons]]
+    - [[#coding][Coding]]
+- [[#helper-functions][Helper Functions]]
+  - [[#yasnippet-creation][Yasnippet creation]]
+  - [[#find-this-file][Find this file]]
+
+*  Why?
+I use spacemacs a lot. For coding, for writing, for work, for organisation, for
+my personal knowledge management. It's central to to most of my day-to-day
+activities on my computer. I have been using it for almost a year, and have built
+up quite a mess of a configuration file with various tweaks over the past months.
+
+Given how much I use it, it seems sensible to give a bit of TLC to this
+configuration. I've tried to comment it as I've tweaked it, but it still has
+gotten messy. I've learned and copied a lot from other people's configs, so
+endeavouring to make my own readable to others seems like a good thing to do.
+
+* What I did
+Here's what I've done to get started on this.
+** File reorganisation
+First off, I put my existing .spacemacs file into a folder structure where you
+can split it up into multiple files.
+
+#+BEGIN_SRC sh :tangle no
+  mkdir ~/.spacemacs.d
+  cp ~/.spacemacs .spacemacs.d/init.el
+#+END_SRC
+This file is my personal configfiles in *.dotfiles*.
+
+
+In classic refactoring fashion - just do this simple thing, and make sure that
+things still work.
+** Extract out user-config into own file
+OK, after that, the next refactoring was to move move everything in the
+~user-config~  and ~user-init~ function out in to it's own file,
+/.spacemacs.d/user-config.el/ and /.spacemacs.d/user-init.el/.
+[[https://github.com/punassuming/spacemacs.org/tree/master][Aquí]]
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (defun dotspacemacs/user-init ()
+    ;; tangle without actually loading org
+    (let ((src (concat dotspacemacs-directory "spacemacs.org"))
+          (ui (concat dotspacemacs-directory "user-init.el"))
+          (uc (concat dotspacemacs-directory "user-config.el")))
+      (when (or (file-newer-than-file-p src ui) (file-newer-than-file-p src uc))
+        (call-process
+         (concat invocation-directory invocation-name) nil nil t
+         "-q" "--batch" "--eval" "(require 'ob-tangle)"
+         "--eval" (format "(org-babel-tangle-file \"%s\")" src)))
+      (load-file ui)))
+
+  (defun dotspacemacs/user-config ()
+    (load-file (concat dotspacemacs-directory "user-config.el")))
+
+#+END_SRC
+
+** Move config into an org file and set up tangling on it
+
+ The section on Converting your existing config files in Literature
+ Configuration was really helpful for this. It recommends a great path for
+ moving things incrementally to the literate configuration. Essentially you
+ start off with one huge source block, and gradually split that up in to smaller
+ blocks with ~org-babel-demarcate-block~.
+
+I did that, putting each new source block in to a logical org heading, and
+adding a bit of description and narrative around them. Each time I split out a
+new bit, I ran ~org-babel-tangle~ to check things were still working.
+
+I have the following config properties at the top of the file:
+[[https://www.olavpedersen.com/2021/03/creating-a-literate-spacemacs.org-config/][Aquí]]
+
+#+begin_src emacs-lisp :tangle no
+  ,#+TITLE: Spacemacs Literate User Configuration
+  ,#+STARTUP: headlines
+  ,#+STARTUP: nohideblocks
+  ,#+STARTUP: noindent
+  ,#+OPTIONS: toc:4 h:4
+  ,#+PROPERTY: header-args:emacs-lisp :comments link
+#+end_src
+This are the properties for the code blocks containing the packages
+configuration.
+#+begin_src emacs-lisp :tangle no
+
+  ,#+BEGIN_SRC emacs-lisp :tangle user-init.el :comments org
+  ;; foo1
+  ,#+END_SRC
+  ,#+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+  ;; foo2
+  ,#+END_SRC
+#+end_src
+
+
+* Aqui va la config personal
+** user-init
+This function is called immediately after ~dotspacemacs/init~, before layer
+configuration.
+It is mostly for variables that should be set before packages are loaded.
+If you are unsure, try setting them in ~dotspacemacs/user-config~ first.
+*** relative-line-numbers
+ #+BEGIN_SRC emacs-lisp :tangle user-init.el :comments org
+  (setq-default dotspacemacs-line-numbers 'relative)
+ #+END_SRC
+** user-config
+Alternatively, if the block should be loaded after Spacemacs loads, insert the
+following test block
+*** Initialise
+**** package manager
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+
+(require 'desktop)
+(setq desktop-save 1)
+(desktop-save-mode 1)
+#+END_SRC
+**** desktop-save
+
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+
+  (package-initialize)
+  (require 'package)
+
+  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+
+  ;; (add-to-list 'package-archives
+  ;;              '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+#+END_SRC
+**** Set config for emacs  and daemon (client mode)
+
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+   ;; función para cargar configuracion de fonts y temas
+     (defun efs/set-font-faces ()
+       (message "Setting faces!")
+       (set-face-attribute 'default nil :font "Source Code Pro"  :weight 'normal )
+       (set-face-attribute 'fixed-pitch nil :font "Source Code Pro" )
+       (set-face-attribute 'variable-pitch nil :font "Source Code Pro" :weight 'regular)
+       (load-theme 'doom-palenight  t);;ESTE ES EL BUENO
+       ;; (load-theme 'doom-palenight t)
+       )
+     (message "fonts seteadas")
+
+     (if (daemonp)
+         (add-hook 'after-make-frame-functions
+                   (lambda (frame)
+                     (setq doom-modeline-icon t)
+                     (with-selected-frame frame
+                       (efs/set-font-faces) )
+                     )
+                   ;; (load-theme 'kaolin-valley-dark t)
+                   )
+       (efs/set-font-faces))
+
+     (require 'doom-palenight)
+
+   ;; se reasigna cerrar frame
+     (evil-leader/set-key "q q" 'spacemacs/frame-killer)
+
+     (efs/set-font-faces)
+
+     (defun my-load-theme (theme)
+       (add-hook 'after-make-frame-functions
+                 (lambda (frame)
+                   (select-frame frame)
+                   (when (display-graphic-p frame)
+                     (load-theme theme t)))))
+     (my-load-theme 'doom-palenight)
+#+END_SRC
+*** Temas
+
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+ (use-package doom-themes
+   :ensure t
+   :config
+   ;; Global settings (defaults)
+
+   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+         doom-themes-enable-italic t) ; if nil, italics is universally disabled
+
+   (load-theme 'doom-palenight t)
+   ;; Enable flashing mode-line on errors
+   (doom-themes-visual-bell-config)
+   ;; or for treemacs users
+   (setq doom-themes-treemacs-theme "doom-colors") ; use "doom-colors" for less minimal icon theme "doom-atom"
+   (doom-themes-treemacs-config)
+   ;; Corrects (and improves) org-mode's native fontification.
+   (doom-themes-org-config)
+   )
+#+END_SRC
+
+**** doom-modeline
+This package is able to display icons if ~nerd-icons~ package and required fonts
+are installed. Run ~M-x nerd-icons-install-fonts~ to install the necessary fonts.
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+    (use-package doom-modeline
+      :ensure t
+      :hook (after-init . doom-modeline-mode)
+      ;; PERSONALIZACIONES OPCIONALES
+      ;;  (doom-modeline-height 25)
+      ;;  (doom-modeline-bar-width 1)
+       (doom-modeline-icon t)
+      ;;  (doom-modeline-major-mode-icon t)
+      ;;  (doom-modeline-major-mode-color-icon t)
+      ;;  (doom-modeline-buffer-file-name-style 'truncate-upto-project)
+      ;;  (doom-modeline-buffer-state-icon t)
+      ;;  (doom-modeline-buffer-modification-icon t)
+      ;;  (doom-modeline-minor-modes nil)
+      ;;  (doom-modeline-enable-word-count nil)
+      ;;  (doom-modeline-buffer-encoding t)
+      ;;  (doom-modeline-indent-info nil)
+      ;;  (doom-modeline-checker-simple-format t)
+      ;;  (doom-modeline-vcs-max-length 12)
+      ;;  (doom-modeline-env-version t)
+      ;;  (doom-modeline-irc-stylize 'identity)
+      ;;  (doom-modeline-github-timer nil)
+      ;;  (doom-modeline-gnus-timer nil)
+      )
+#+END_SRC
+
+*** Syntax Checking Layer (Tooltip Pop-up)
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+   (setq-default dotspacemacs-configuration-layers
+              '((syntax-checking :variables
+                                 syntax-checking-auto-hide-tooltips 5)))
+#+END_SRC
+*** Treemacs
+
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+   (use-package treemacs
+     :ensure t
+     :defer t
+     :init
+     (with-eval-after-load 'winum
+       (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+     :config
+     (progn
+     (setq treemacs-collapse-dirs                   (if treemacs-python-executable 3 0)
+             treemacs-deferred-git-apply-delay        0.5
+             treemacs-directory-name-transformer      #'identity
+             treemacs-display-in-side-window          t
+             treemacs-eldoc-display                   'simple
+             treemacs-file-event-delay                5000
+             treemacs-file-extension-regex            treemacs-last-period-regex-value
+             treemacs-file-follow-delay               0.2
+             treemacs-file-name-transformer           #'identity
+             treemacs-follow-after-init               t
+             treemacs-expand-after-init               t
+             treemacs-find-workspace-method           'find-for-file-or-pick-first
+             treemacs-git-command-pipe                ""
+             treemacs-goto-tag-strategy               'refetch-index
+             treemacs-indentation                     2
+             treemacs-indentation-string              " "
+             treemacs-is-never-other-window           nil
+             treemacs-max-git-entries                 5000
+             treemacs-missing-project-action          'ask
+             treemacs-move-forward-on-expand          nil
+             treemacs-no-png-images                   nil
+             treemacs-no-delete-other-windows         t
+             treemacs-project-follow-cleanup          nil
+             treemacs-persist-file                    (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+             treemacs-position                        'left
+             treemacs-read-string-input               'from-child-frame
+             treemacs-recenter-distance               0.1
+             treemacs-recenter-after-file-follow      nil
+             treemacs-recenter-after-tag-follow       nil
+             treemacs-recenter-after-project-jump     'always
+             treemacs-recenter-after-project-expand   'on-distance
+             treemacs-litter-directories              '("/node_modules" "/.venv" "/.cask")
+             treemacs-show-cursor                     nil
+             treemacs-show-hidden-files               t
+             treemacs-silent-filewatch                nil
+             treemacs-silent-refresh                  nil
+             treemacs-sorting                         'alphabetic-asc
+             treemacs-select-when-already-in-treemacs 'move-back
+             treemacs-space-between-root-nodes        t
+             treemacs-tag-follow-cleanup              t
+             treemacs-tag-follow-delay                1.5
+             treemacs-text-scale                      nil
+             treemacs-user-mode-line-format           nil
+             treemacs-user-header-line-format         nil
+             treemacs-wide-toggle-width               70
+             treemacs-width                           35
+             treemacs-width-increment                 1
+             treemacs-width-is-initially-locked       t
+             treemacs-workspace-switch-cleanup        nil)
+       ;; The default width and height of the icons is 22 pixels. If you are
+       ;; using a Hi-DPI display, uncomment this to double the icon size.
+       ;; (treemacs-resize-icons 44)
+
+       (treemacs-follow-mode t)
+       (treemacs-filewatch-mode t)
+       (treemacs-fringe-indicator-mode 'always)
+       (treemacs-indent-guide-mode t)
+
+       (pcase (cons (not (null (executable-find "git")))
+                    (not (null treemacs-python-executable)))
+         (`(t . t)
+          (treemacs-git-mode 'deferred))
+         (`(t . _)
+          (treemacs-git-mode 'simple)))
+
+       (treemacs-hide-gitignored-files-mode nil))
+     :bind
+     (:map global-map
+           ("M-0"       . treemacs-select-window)
+           ("C-x t 1"   . treemacs-delete-other-windows)
+           ("C-x t t"   . treemacs)
+           ("C-x t B"   . treemacs-bookmark)
+           ("C-x t C-t" . treemacs-find-file)
+           ("C-x t M-t" . treemacs-find-tag))
+     )
+   ;;if treemacs is lagging
+   (setq inhibit-compacting-font-caches t)
+#+END_SRC
+**** treemacs-icons-dired
+
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+   (use-package treemacs-icons-dired
+     ;; :hook (dired-mode . treemacs-icons-dired-enable-once)
+     :hook (dired-mode . treemacs-icons-dired-mode)
+     :ensure t)
+#+END_SRC
+**** treemacs-projectile
+
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+   (use-package treemacs-projectile
+     :after (treemacs projectile)
+     :ensure t)
+#+END_SRC
+**** treemacs-magit
+
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+   (use-package treemacs-magit
+     :after (treemacs magit)
+     :ensure t)
+#+END_SRC
+**** treemacs-evil
+
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+   (use-package treemacs-evil
+     :after (treemacs evil)
+     :ensure t)
+#+END_SRC
+**** treemacs-all-the-icons
+
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+   (require 'ivy-rich)
+   (use-package treemacs-all-the-icons
+     :ensure t
+     :after treemacs
+     )
+#+END_SRC
+*** ivy-rich
+
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+   (use-package ivy-rich
+     :after (counsel-projectile)
+     :config
+     (ivy-rich-mode 1))
+  #+END_SRC
+**** treemacs-all-the-icons-ivy-rich
+
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+(use-package all-the-icons-ivy-rich
+  :ensure t
+  :init (all-the-icons-ivy-rich-mode 1))
+  #+END_SRC
+*** all-the-icons
+
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+   (use-package all-the-icons
+      :if (display-graphic-p)
+      :config
+      (setq all-the-icons-scale-factor 0.4))
+#+END_SRC
+*** Coding
+* Helper Functions
+
+** Yasnippet creation
+
+To help with creation of your text blocks, there are two snippets defined in the
+local snippet directory =~/.spacemacs.d/snippets/org-mode/= folder.
+
+To tangle to the =user-init= file, type =ui=, alternatively =uc= to tangle the =user-config= file.
+
+** Find this file
+   Create binding to spacemacs.org file
+
+#+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+  (defun spacemacs/find-config-file ()
+    (interactive)
+    (find-file (concat dotspacemacs-directory "/spacemacs.org")))
+
+  (spacemacs/set-leader-keys "fec" 'spacemacs/find-config-file)
+
+#+END_SRC
+*

@@ -88,12 +88,12 @@ This function should only modify configuration layer settings."
             shell-default-shell 'ansi-term
             shell-default-height 30
             shell-default-term-shell "/bin/zsh"
-            shell-default-position 'bottom)
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
-     ;; spell-checking
-     syntax-checking
+            shell-default-position 'bottom
+            ;; (shell :variables
+            ;;        shell-default-height 30
+            ;;        shell-default-position 'bottom)
+            ;; spell-checking
+            syntax-checking)
      version-control
      treemacs
 
@@ -837,6 +837,7 @@ before packages are loaded."
     (add-hook 'org-mode-hook 'auto-indent-mode)
     ;; (add-hook 'dired-mode-hook 'org-download-enable)
     :config
+    ;; para autoformato de texto
     (add-hook 'org-mode-hook 'turn-on-auto-fill)
     (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters)
     :custom
@@ -979,24 +980,6 @@ before packages are loaded."
   (require 'import-js)
 
 ;;PARA JS
-  ;; ;;EMACS + JS   (use-package js2-mode
-  ;; (use-package js2-mode
-  ;;   :ensure t
-  ;;   :interpreter (("node" . js2-mode))
-  ;;   :bind (:map js2-mode-map ("C-c C-p" . js2-print-json-path))
-  ;;   :mode "\\.\\(js\\|json\\)$"
-  ;;   :config
-  ;;   (add-hook 'js-mode-hook 'js2-minor-mode)
-  ;;   (setq js2-basic-offset 2
-  ;;         js2-highlight-level 3
-  ;;         js2-mode-show-parse-errors nil
-  ;;         js2-mode-show-strict-warnings nil)
-
-  ;;   :init
-  ;;   (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
-  ;;   (add-hook 'prog-mode-hook 'highlight-numbers-mode)
-  ;;   (add-hook 'js2-mode-hook #'impatient-mode)
-  ;;   )
   (use-package js2-mode
     :init
       (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
@@ -1015,6 +998,7 @@ before packages are loaded."
     (setq js2-mode-show-strict-warnings nil)
     (setq js2-strict-inconsistent-return-warning t)
     (setq js2-strict-missing-semi-warning t)
+    (run import-js)
 
     )
   ;; disable jshint since we prefer eslint checking
@@ -1194,6 +1178,7 @@ before packages are loaded."
   :after all-the-icons-ivy-rich
   :init (ivy-rich-mode +1))
 
+;;if treemacs is lagging
 (setq inhibit-compacting-font-caches t)
 
 
@@ -1247,11 +1232,7 @@ before packages are loaded."
   :config (treemacs-set-scope-type 'Perspectives))
 
   ;;PARA ORGMODE
-  (setq org-todo-keywords
-        '((sequence "TODO(t!)" "NEXT(n!)" "DOINGNOW(d!)" "BLOCKED(b!)" "TODELEGATE(g!)" "DELEGATED(D!)" "FOLLOWUP(f!)" "TICKLE(T!)" "|" "CANCELLED(c!)" "DONE(F!)")))
 
-  ;; para autoformato de texto
-  (add-hook 'org-mode-hook 'turn-on-auto-fill)
 
   ;; para templates
   (require 'org-tempo)
@@ -1384,88 +1365,6 @@ before packages are loaded."
   (use-package flycheck
     :ensure t
     :init (global-flycheck-mode))
-;;;ESTA SECCIÓN ES LA CONFIGURACIÓN ANTERIOR, MEDIO FUNCIONAL  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  ;; (use-package typescript-mode
-  ;;   :mode "\\.ts\\'"
-  ;; :hook (typescript-mode. lsp-deferred)
-  ;; :config
-  ;; (setq typescript-indent-level 2)
-  ;; (require 'dap-node)
-  ;; (dap-node-setup);;automatically installs Node debug adapter if needed
-  ;; )
-
-  ;; ;;EMACS + JS   (use-package js2-mode
-  ;; (use-package js2-mode
-  ;;   :ensure t
-  ;;   :interpreter (("node" . js2-mode))
-  ;;   :bind (:map js2-mode-map ("C-c C-p" . js2-print-json-path))
-  ;;   :mode "\\.\\(js\\|json\\)$"
-  ;;   :config
-  ;;   (add-hook 'js-mode-hook 'js2-minor-mode)
-  ;;   (setq js2-basic-offset 2
-  ;;         js2-highlight-level 3
-  ;;         js2-mode-show-parse-errors nil
-  ;;         js2-mode-show-strict-warnings nil)
-
-  ;;   :init
-  ;;   (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
-  ;;   (add-hook 'prog-mode-hook 'highlight-numbers-mode)
-  ;;   (add-hook 'js2-mode-hook #'impatient-mode)
-  ;;   )
-
-  ;; (add-hook 'js2-mode-hook 'skewer-mode)
-  ;; ;;(add-hook 'css-mode-hook 'skewer-css-mode)
-  ;; (add-hook 'html-mode-hook 'skewer-html-mode)
-  ;; (add-hook 'css-mode-hook #'impatient-mode)
-  ;; (use-package web-mode
-  ;;   :ensure t
-  ;;   :mode (
-  ;;          ;;("\\.js\\'" . web-mode)
-  ;;          ;;("\\.jsx\\'" .  web-mode)
-  ;;          ;;("\\.ts\\'" . web-mode)
-  ;;          ;;("\\.tsx\\'" . web-mode)
-  ;;          ("\\.html\\'" . web-mode))
-  ;;   :commands web-mode
-  ;;   :init
-  ;;   (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
-  ;;   (add-hook 'prog-mode-hook 'highlight-numbers-mode)
-  ;;   (add-hook 'web-mode-hook #'impatient-mode)
-
-  ;;   )
-  ;; ;;CSS MODE
-  ;; (use-package css-mode
-  ;;   :ensure t
-  ;;   :mode (
-  ;;          ;;("\\.js\\'" . web-mode)
-  ;;          ;;("\\.jsx\\'" .  web-mode)
-  ;;          ;;("\\.ts\\'" . web-mode)
-  ;;          ;;("\\.tsx\\'" . web-mode)
-  ;;          ("\\.css\\'" . web-mode))
-  ;;   :commands web-mode
-  ;;   :init
-  ;;   (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
-  ;;   (add-hook 'prog-mode-hook 'highlight-numbers-mode)
-  ;;   (add-hook 'web-mode-hook #'impatient-mode)
-
-  ;;   )
-  ;; ;; lsp-mode
-  ;; (use-package lsp-mode
-  ;;   :ensure t
-  ;;   :hook (
-  ;;          (web-mode . lsp-deferred)
-  ;;          (lsp-mode . lsp-enable-which-key-integration)
-  ;;          )
-  ;;   :commands lsp-deferred)
-
-  ;; (setq lsp-log-io nil) ;; Don't log everything = speed
-  ;; (setq lsp-keymap-prefix "C-c l")
-  ;; (setq lsp-restart 'auto-restart)
-  ;; (setq lsp-ui-sideline-show-diagnostics t)
-  ;; (setq lsp-ui-sideline-show-hover t)
-  ;; (setq lsp-ui-sideline-show-code-actions t)
-
-  ;; AQUI TERMINA LA SECCION DE WEV DEVELOPEMENT ANTERIOR   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -1504,12 +1403,12 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("5f128efd37c6a87cd4ad8e8b7f2afaba425425524a68133ac0efd87291d05874" "249e100de137f516d56bcf2e98c1e3f9e1e8a6dce50726c974fa6838fbfcec6b" "3c7a784b90f7abebb213869a21e84da462c26a1fda7e5bd0ffebf6ba12dbd041" "e3daa8f18440301f3e54f2093fe15f4fe951986a8628e98dcd781efbec7a46f2" "944d52450c57b7cbba08f9b3d08095eb7a5541b0ecfb3a0a9ecd4a18f3c28948" "c4063322b5011829f7fdd7509979b5823e8eea2abf1fe5572ec4b7af1dd78519" "6c531d6c3dbc344045af7829a3a20a09929e6c41d7a7278963f7d3215139f6a7" "3d47380bf5aa650e7b8e049e7ae54cdada54d0637e7bac39e4cc6afb44e8463b" "5784d048e5a985627520beb8a101561b502a191b52fa401139f4dd20acb07607" "1d5e33500bc9548f800f9e248b57d1b2a9ecde79cb40c0b1398dec51ee820daf" "613aedadd3b9e2554f39afe760708fc3285bf594f6447822dd29f947f0775d6c" "7a7b1d475b42c1a0b61f3b1d1225dd249ffa1abb1b7f726aec59ac7ca3bf4dae" "0466adb5554ea3055d0353d363832446cd8be7b799c39839f387abb631ea0995" "c5ded9320a346146bbc2ead692f0c63be512747963257f18cc8518c5254b7bf5" "83e0376b5df8d6a3fbdfffb9fb0e8cf41a11799d9471293a810deb7586c131e6" "7eea50883f10e5c6ad6f81e153c640b3a288cd8dc1d26e4696f7d40f754cc703" "a82ab9f1308b4e10684815b08c9cac6b07d5ccb12491f44a942d845b406b0296" "234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" "2035a16494e06636134de6d572ec47c30e26c3447eafeb6d3a9e8aee73732396" "835868dcd17131ba8b9619d14c67c127aa18b90a82438c8613586331129dda63" "c1284dd4c650d6d74cfaf0106b8ae42270cab6c58f78efc5b7c825b6a4580417" default))
+   '("b99e334a4019a2caa71e1d6445fc346c6f074a05fcbb989800ecbe54474ae1b0" "5f128efd37c6a87cd4ad8e8b7f2afaba425425524a68133ac0efd87291d05874" "249e100de137f516d56bcf2e98c1e3f9e1e8a6dce50726c974fa6838fbfcec6b" "3c7a784b90f7abebb213869a21e84da462c26a1fda7e5bd0ffebf6ba12dbd041" "e3daa8f18440301f3e54f2093fe15f4fe951986a8628e98dcd781efbec7a46f2" "944d52450c57b7cbba08f9b3d08095eb7a5541b0ecfb3a0a9ecd4a18f3c28948" "c4063322b5011829f7fdd7509979b5823e8eea2abf1fe5572ec4b7af1dd78519" "6c531d6c3dbc344045af7829a3a20a09929e6c41d7a7278963f7d3215139f6a7" "3d47380bf5aa650e7b8e049e7ae54cdada54d0637e7bac39e4cc6afb44e8463b" "5784d048e5a985627520beb8a101561b502a191b52fa401139f4dd20acb07607" "1d5e33500bc9548f800f9e248b57d1b2a9ecde79cb40c0b1398dec51ee820daf" "613aedadd3b9e2554f39afe760708fc3285bf594f6447822dd29f947f0775d6c" "7a7b1d475b42c1a0b61f3b1d1225dd249ffa1abb1b7f726aec59ac7ca3bf4dae" "0466adb5554ea3055d0353d363832446cd8be7b799c39839f387abb631ea0995" "c5ded9320a346146bbc2ead692f0c63be512747963257f18cc8518c5254b7bf5" "83e0376b5df8d6a3fbdfffb9fb0e8cf41a11799d9471293a810deb7586c131e6" "7eea50883f10e5c6ad6f81e153c640b3a288cd8dc1d26e4696f7d40f754cc703" "a82ab9f1308b4e10684815b08c9cac6b07d5ccb12491f44a942d845b406b0296" "234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" "2035a16494e06636134de6d572ec47c30e26c3447eafeb6d3a9e8aee73732396" "835868dcd17131ba8b9619d14c67c127aa18b90a82438c8613586331129dda63" "c1284dd4c650d6d74cfaf0106b8ae42270cab6c58f78efc5b7c825b6a4580417" default))
  '(dap-mode t nil (dap-mode))
  '(evil-want-Y-yank-to-eol nil)
  '(helm-ag-base-command "rg --vimgrep --no-heading --smart-case")
  '(package-selected-packages
-   '(persp-mode-projectile-bridge python-mode kaolin-themes doom-modeline sqlite3 material-theme edit-indirect js-import xah-fly-keys typescript-mode rainbow-mode bash-completion spotify all-the-icons-ivy-rich all-the-icons-ivy fira-code-mode yapfify stickyfunc-enhance sphinx-doc pytest pyenv-mode pydoc py-isort poetry pippel pipenv pyvenv pip-requirements nose lsp-python-ms lsp-pyright live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-cscope xcscope cython-mode company-anaconda blacken anaconda-mode pythonic treemacs-all-the-icons desktop+ gruvbox-theme skewer-reload-stylesheets ewal-doom-themes tern npm-mode nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl helm-gtags ggtags dap-mode bui counsel-gtags yasnippet web-mode web-beautify tagedit slim-mode scss-mode sass-mode pug-mode prettier-js impatient-mode htmlize simple-httpd helm-css-scss haml-mode emmet-mode counsel-css counsel swiper ivy company-web web-completion-data company add-node-modules-path doom-themes dracula-theme ws-butler writeroom-mode visual-fill-column winum volatile-highlights vi-tilde-fringe uuidgen undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil treemacs cfrs pfuture posframe toc-org symon symbol-overlay string-inflection string-edit spaceline-all-the-icons memoize all-the-icons spaceline powerline restart-emacs request rainbow-delimiters quickrun popwin persp-mode password-generator paradox spinner overseer org-superstar open-junk-file nameless multi-line shut-up macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop helm-purpose window-purpose imenu-list helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio flycheck-package package-lint flycheck pkg-info epl flycheck-elsa flx-ido flx fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired f evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection annalist evil-cleverparens smartparens evil-args evil-anzu anzu eval-sexp-fu emr iedit clang-format projectile paredit list-utils elisp-slime-nav editorconfig dumb-jump s drag-stuff dired-quick-sort define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol ht dash auto-compile packed aggressive-indent ace-window ace-link ace-jump-helm-line helm avy which-key use-package popup pcre2el hydra hybrid-mode helm-core font-lock+ dotenv-mode diminish bind-map))
+   '(sqlite fontawesome emoji-fontset persp-mode-projectile-bridge python-mode kaolin-themes doom-modeline sqlite3 material-theme edit-indirect xah-fly-keys typescript-mode rainbow-mode bash-completion spotify all-the-icons-ivy-rich all-the-icons-ivy fira-code-mode yapfify stickyfunc-enhance sphinx-doc pytest pyenv-mode pydoc py-isort poetry pippel pipenv pyvenv pip-requirements nose lsp-python-ms lsp-pyright live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-cscope xcscope cython-mode company-anaconda blacken anaconda-mode pythonic treemacs-all-the-icons desktop+ gruvbox-theme skewer-reload-stylesheets ewal-doom-themes tern npm-mode nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl helm-gtags ggtags dap-mode bui counsel-gtags yasnippet web-mode web-beautify tagedit slim-mode scss-mode sass-mode pug-mode prettier-js impatient-mode htmlize simple-httpd helm-css-scss haml-mode emmet-mode counsel-css counsel swiper ivy company-web web-completion-data company add-node-modules-path doom-themes dracula-theme ws-butler writeroom-mode visual-fill-column winum volatile-highlights vi-tilde-fringe uuidgen undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil treemacs cfrs pfuture posframe toc-org symon symbol-overlay string-inflection string-edit spaceline-all-the-icons memoize all-the-icons spaceline powerline restart-emacs request rainbow-delimiters quickrun popwin persp-mode password-generator paradox spinner overseer org-superstar open-junk-file nameless multi-line shut-up macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop helm-purpose window-purpose imenu-list helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio flycheck-package package-lint flycheck pkg-info epl flycheck-elsa flx-ido flx fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired f evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection annalist evil-cleverparens smartparens evil-args evil-anzu anzu eval-sexp-fu emr iedit clang-format projectile paredit list-utils elisp-slime-nav editorconfig dumb-jump s drag-stuff dired-quick-sort define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol ht dash auto-compile packed aggressive-indent ace-window ace-link ace-jump-helm-line helm avy which-key use-package popup pcre2el hydra hybrid-mode helm-core font-lock+ dotenv-mode diminish bind-map))
  '(py-python-command "python3" t)
  '(safe-local-variable-values
    '((pony-settings make-pony-project :python "/usr/bin/python3" :settings)
