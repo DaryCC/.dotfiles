@@ -1,11 +1,30 @@
 #+title: Configuración personal para web developement en spacemacs
 #+description: Configuraciones para html, css, JS, python, y Django
 # POR EDITAR Y GENRAR TANGLED FILE
-*TABLA DE CONTENIDO :TOC:
+* TABLA DE CONTENIDO                                                    :TOC:
 - [[#para-mejorar-el-workflow-instalé-algunos-plugins-para-alacritty-y-zsh][Para mejorar el workflow instalé algunos plugins para alacritty, y zsh.]]
 - [[#grubvox-ftw][Grubvox ftw!!]]
+- [[#configuración-para-spacemacsd][Configuración para .spacemacs.d]]
+  - [[#config-files][.config files]]
 
-* Se incluyen layers y snippets para Spacemacs.
 * Para mejorar el workflow instalé algunos plugins para alacritty, y zsh.
 * Grubvox ftw!!
 #+html: <p align="center"><img src="./spacemacs.png/" /></p>
+* Configuración para .spacemacs.d
+Este documento describe mi configuración, también genera los archivos de
+configuración ~user-config.el~ y ~user-init.el~ ussando ~org-babel-tangle~.
+[[./.spacemacs.d/spacemacs.org][spacemacs.org]]
+
+** .config files
++ [[./.config/alacritty/readme.org][alacritty]]
++ [[./.config/polychromatic/readme.org][polychromatic]]
++ [[./.config/rofi/readme.org][rofi]]
++ [[./optimus_manager/readme.org][optimus_manager]]
++ [[./rofi/readme.org][rofi 2]]
++ [[./snippets/README.md][snippets]]
+
+
+
+
+
+
