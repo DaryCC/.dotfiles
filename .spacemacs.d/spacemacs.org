@@ -1,6 +1,8 @@
 #+TITLE: Spacemacs Literate User Configuration
 #+STARTUP: headlines
-#+STARTUP: nohideblocks
+#+STARTUP: nofold
+#+STARTUP: num
+#+STARTUP: hideblocks
 #+STARTUP: noindent
 #+OPTIONS: toc:4 h:4
 #+PROPERTY: header-args:emacs-lisp :comments link
@@ -10,30 +12,58 @@
   - [[#file-reorganisation][File reorganisation]]
   - [[#extract-out-user-config-into-own-file][Extract out user-config into own file]]
   - [[#move-config-into-an-org-file-and-set-up-tangling-on-it][Move config into an org file and set up tangling on it]]
-- [[#aqui-va-la-config-personal][Aqui va la config personal]]
-  - [[#user-init][user-init]]
-    - [[#relative-line-numbers][relative-line-numbers]]
-  - [[#user-config][user-config]]
-    - [[#initialise][Initialise]]
-      - [[#package-manager][package manager]]
-      - [[#desktop-save][desktop-save]]
-      - [[#set-config-for-emacs--and-daemon-client-mode][Set config for emacs  and daemon (client mode)]]
-    - [[#temas][Temas]]
-      - [[#doom-modeline][doom-modeline]]
-    - [[#syntax-checking-layer-tooltip-pop-up][Syntax Checking Layer (Tooltip Pop-up)]]
-    - [[#treemacs][Treemacs]]
-      - [[#treemacs-icons-dired][treemacs-icons-dired]]
-      - [[#treemacs-projectile][treemacs-projectile]]
-      - [[#treemacs-magit][treemacs-magit]]
-      - [[#treemacs-evil][treemacs-evil]]
-      - [[#treemacs-all-the-icons][treemacs-all-the-icons]]
-    - [[#ivy-rich][ivy-rich]]
-      - [[#treemacs-all-the-icons-ivy-rich][treemacs-all-the-icons-ivy-rich]]
-    - [[#all-the-icons][all-the-icons]]
-    - [[#coding][Coding]]
+- [[#user-init][user-init]]
+  - [[#relative-line-numbers][relative-line-numbers]]
+- [[#user-config][user-config]]
+  - [[#initialise][Initialise]]
+    - [[#package-manager][package manager]]
+    - [[#desktop-save][desktop-save]]
+    - [[#set-config-for-emacs--and-daemon-client-mode][Set config for emacs  and daemon (client mode)]]
+    - [[#basic][Basic]]
+  - [[#temas][Temas]]
+    - [[#doom-modeline][doom-modeline]]
+  - [[#syntax-checking-layer-tooltip-pop-up][Syntax Checking Layer (Tooltip Pop-up)]]
+  - [[#treemacs][Treemacs]]
+    - [[#treemacs-icons-dired][treemacs-icons-dired]]
+    - [[#treemacs-projectile][treemacs-projectile]]
+    - [[#treemacs-magit][treemacs-magit]]
+    - [[#treemacs-evil][treemacs-evil]]
+    - [[#treemacs-all-the-icons][treemacs-all-the-icons]]
+    - [[#treemacs-persp][treemacs-persp]]
+  - [[#ivy-rich][ivy-rich]]
+    - [[#treemacs-all-the-icons-ivy-rich][treemacs-all-the-icons-ivy-rich]]
+  - [[#all-the-icons][all-the-icons]]
+  - [[#coding][Coding]]
+  - [[#org-mode][org-mode]]
+  - [[#indentdtrt-indent][Indent(dtrt-indent)]]
+    - [[#highlight-indent-guides][highlight-indent-guides]]
+  -   [[#rainbow-delimiters][rainbow delimiters]]
+  - [[#griprep][griprep]]
+  - [[#paren][paren]]
+-  [[#lsp][lsp]]
+  - [[#ide-features-with-lsp-mode][IDE features with lsp-mode]]
+    - [[#basic-completions][Basic completions]]
+    - [[#code-formating][Code formating]]
+  - [[#lsp-ui][lsp-ui]]
+  - [[#lsp-treemacs][lsp-treemacs]]
+  - [[#lsp-ivy][lsp-ivy]]
+  - [[#flycheck][flycheck]]
+- [[#company-mode][Company-mode]]
+    - [[#peek][Peek]]
+- [[#projectile][projectile]]
+- [[#code][Code]]
+  - [[#typescript][TypeScript]]
+  - [[#python-developement][Python developement]]
+    - [[#pyevn-manejo-de-versiones-de-python][pyevn (manejo de versiones de python)]]
+  - [[#c][C]]
+- [[#dap-mode][dap-mode]]
+- [[#custom][Custom]]
+  - [[#drag-stuff][Drag stuff]]
 - [[#helper-functions][Helper Functions]]
   - [[#yasnippet-creation][Yasnippet creation]]
   - [[#find-this-file][Find this file]]
+- [[#resources-and-docs][Resources and DOCS]]
+  - [[#setting-up-use-package][setting up use-package]]
 
 *  Why?
 I use spacemacs a lot. For coding, for writing, for work, for organisation, for
@@ -101,12 +131,14 @@ I have the following config properties at the top of the file:
 [[https://www.olavpedersen.com/2021/03/creating-a-literate-spacemacs.org-config/][Aquí]]
 
 #+begin_src emacs-lisp :tangle no
-  ,#+TITLE: Spacemacs Literate User Configuration
-  ,#+STARTUP: headlines
-  ,#+STARTUP: nohideblocks
-  ,#+STARTUP: noindent
-  ,#+OPTIONS: toc:4 h:4
-  ,#+PROPERTY: header-args:emacs-lisp :comments link
+#+TITLE: Spacemacs Literate User Configuration
+#+STARTUP: headlines
+#+STARTUP: nofold
+#+STARTUP: num
+#+STARTUP: hideblocks
+#+STARTUP: noindent
+#+OPTIONS: toc:4 h:4
+#+PROPERTY: header-args:emacs-lisp :comments link
 #+end_src
 This are the properties for the code blocks containing the packages
 configuration.
@@ -121,43 +153,46 @@ configuration.
 #+end_src
 
 
-* Aqui va la config personal
-** user-init
+* user-init
 This function is called immediately after ~dotspacemacs/init~, before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in ~dotspacemacs/user-config~ first.
-*** relative-line-numbers
+** relative-line-numbers
  #+BEGIN_SRC emacs-lisp :tangle user-init.el :comments org
   (setq-default dotspacemacs-line-numbers 'relative)
  #+END_SRC
-** user-config
+* user-config
 Alternatively, if the block should be loaded after Spacemacs loads, insert the
 following test block
-*** Initialise
-**** package manager
+** Initialise
+*** package manager
  #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+(require 'package)
+(add-to-list 'package-archives '("gnu"   . "https://elpa.gnu.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(package-initialize)
 
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(eval-and-compile
+  (setq use-package-always-ensure t
+        use-package-expand-minimally t))
+#+END_SRC
+*** desktop-save
+
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
 (require 'desktop)
 (setq desktop-save 1)
 (desktop-save-mode 1)
 #+END_SRC
-**** desktop-save
-
- #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
-
-  (package-initialize)
-  (require 'package)
-
-  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-
-  ;; (add-to-list 'package-archives
-  ;;              '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-#+END_SRC
-**** Set config for emacs  and daemon (client mode)
+*** Set config for emacs  and daemon (client mode)
 
  #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
    ;; función para cargar configuracion de fonts y temas
+     ;; (require 'doom-palenight)
+
      (defun efs/set-font-faces ()
        (message "Setting faces!")
        (set-face-attribute 'default nil :font "Source Code Pro"  :weight 'normal )
@@ -165,8 +200,9 @@ following test block
        (set-face-attribute 'variable-pitch nil :font "Source Code Pro" :weight 'regular)
        (load-theme 'doom-palenight  t);;ESTE ES EL BUENO
        ;; (load-theme 'doom-palenight t)
+
+       (message "fonts seteadas")
        )
-     (message "fonts seteadas")
 
      (if (daemonp)
          (add-hook 'after-make-frame-functions
@@ -175,37 +211,50 @@ following test block
                      (with-selected-frame frame
                        (efs/set-font-faces) )
                      )
-                   ;; (load-theme 'kaolin-valley-dark t)
                    )
        (efs/set-font-faces))
 
-     (require 'doom-palenight)
 
    ;; se reasigna cerrar frame
      (evil-leader/set-key "q q" 'spacemacs/frame-killer)
 
      (efs/set-font-faces)
 
-     (defun my-load-theme (theme)
-       (add-hook 'after-make-frame-functions
-                 (lambda (frame)
-                   (select-frame frame)
-                   (when (display-graphic-p frame)
-                     (load-theme theme t)))))
-     (my-load-theme 'doom-palenight)
+     ;; (defun my-load-theme (theme)
+     ;;   (add-hook 'after-make-frame-functions
+     ;;             (lambda (frame)
+     ;;               (select-frame frame)
+     ;;               (when (display-graphic-p frame)
+     ;;                 (load-theme theme t)))))
+     ;; (my-load-theme 'doom-palenight)
 #+END_SRC
-*** Temas
+*** Basic
 
  #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
- (use-package doom-themes
-   :ensure t
-   :config
-   ;; Global settings (defaults)
+  (use-package which-key
+    :config
+    (which-key-mode))
+#+END_SRC
+** Temas
 
-   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-         doom-themes-enable-italic t) ; if nil, italics is universally disabled
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+   (use-package doom-themes
+     :ensure t
+     :config
+     ;; Global settings (defaults)
 
-   (load-theme 'doom-palenight t)
+     (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+           doom-themes-enable-italic t) ; if nil, italics is universally disabled
+
+     (load-theme 'doom-palenight t)
+     ;; Enable flashing mode-line on errors
+     (doom-themes-visual-bell-config)
+     ;; or for treemacs users
+     (setq doom-themes-treemacs-theme "doom-colors") ; use "doom-colors" for less minimal icon theme "doom-atom"
+     (doom-themes-treemacs-config)
+     ;; Corrects (and improves) org-mode's native fontification.
+     (doom-themes-org-config)
+     )
    ;; Enable flashing mode-line on errors
    (doom-themes-visual-bell-config)
    ;; or for treemacs users
@@ -213,10 +262,9 @@ following test block
    (doom-themes-treemacs-config)
    ;; Corrects (and improves) org-mode's native fontification.
    (doom-themes-org-config)
-   )
 #+END_SRC
 
-**** doom-modeline
+*** doom-modeline
 This package is able to display icons if ~nerd-icons~ package and required fonts
 are installed. Run ~M-x nerd-icons-install-fonts~ to install the necessary fonts.
  #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
@@ -245,13 +293,13 @@ are installed. Run ~M-x nerd-icons-install-fonts~ to install the necessary fonts
       )
 #+END_SRC
 
-*** Syntax Checking Layer (Tooltip Pop-up)
+** Syntax Checking Layer (Tooltip Pop-up)
  #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
    (setq-default dotspacemacs-configuration-layers
               '((syntax-checking :variables
                                  syntax-checking-auto-hide-tooltips 5)))
 #+END_SRC
-*** Treemacs
+** Treemacs
 
  #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
    (use-package treemacs
@@ -313,7 +361,7 @@ are installed. Run ~M-x nerd-icons-install-fonts~ to install the necessary fonts
              treemacs-workspace-switch-cleanup        nil)
        ;; The default width and height of the icons is 22 pixels. If you are
        ;; using a Hi-DPI display, uncomment this to double the icon size.
-       ;; (treemacs-resize-icons 44)
+       (treemacs-resize-icons 44)
 
        (treemacs-follow-mode t)
        (treemacs-filewatch-mode t)
@@ -340,7 +388,7 @@ are installed. Run ~M-x nerd-icons-install-fonts~ to install the necessary fonts
    ;;if treemacs is lagging
    (setq inhibit-compacting-font-caches t)
 #+END_SRC
-**** treemacs-icons-dired
+*** treemacs-icons-dired
 
  #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
    (use-package treemacs-icons-dired
@@ -348,28 +396,28 @@ are installed. Run ~M-x nerd-icons-install-fonts~ to install the necessary fonts
      :hook (dired-mode . treemacs-icons-dired-mode)
      :ensure t)
 #+END_SRC
-**** treemacs-projectile
+*** treemacs-projectile
 
  #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
    (use-package treemacs-projectile
      :after (treemacs projectile)
      :ensure t)
 #+END_SRC
-**** treemacs-magit
+*** treemacs-magit
 
  #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
    (use-package treemacs-magit
      :after (treemacs magit)
      :ensure t)
 #+END_SRC
-**** treemacs-evil
+*** treemacs-evil
 
  #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
    (use-package treemacs-evil
      :after (treemacs evil)
      :ensure t)
 #+END_SRC
-**** treemacs-all-the-icons
+*** treemacs-all-the-icons
 
  #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
    (require 'ivy-rich)
@@ -378,7 +426,14 @@ are installed. Run ~M-x nerd-icons-install-fonts~ to install the necessary fonts
      :after treemacs
      )
 #+END_SRC
-*** ivy-rich
+*** treemacs-persp
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+(use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
+  :after (treemacs persp-mode) ;;or perspective vs. persp-mode
+  :ensure t
+  :config (treemacs-set-scope-type 'Perspectives))
+#+END_SRC
+** ivy-rich
 
  #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
    (use-package ivy-rich
@@ -386,22 +441,386 @@ are installed. Run ~M-x nerd-icons-install-fonts~ to install the necessary fonts
      :config
      (ivy-rich-mode 1))
   #+END_SRC
-**** treemacs-all-the-icons-ivy-rich
+*** treemacs-all-the-icons-ivy-rich
 
  #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
 (use-package all-the-icons-ivy-rich
   :ensure t
   :init (all-the-icons-ivy-rich-mode 1))
   #+END_SRC
-*** all-the-icons
+** all-the-icons
 
  #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
    (use-package all-the-icons
       :if (display-graphic-p)
       :config
-      (setq all-the-icons-scale-factor 0.4))
+      (setq all-the-icons-scale-factor 1.3))
 #+END_SRC
-*** Coding
+** Coding
+** org-mode
+  The ~auto-fill-mode~ function can be used to toggle auto fill mode for a buffer. Also check ~org-fill-paragraph~ for this task.
+  ~(require org-download)~ for image pasting
+If you then press ~C-c C-t~ followed by the selection key, the entry is switched to this state. ~SPC~ can be used to remove any TODO keyword from an entry.
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+   (defun efs/org-mode-setup ()
+      (org-indent-mode)
+      (variable-pitch-mode 1)
+      (auto-fill-mode 1)
+      (visual-line-mode 1)
+      (setq evil-auto-indent nil))
+
+    (use-package org
+      :hook
+      (org-mode . efs/org-mode-setup)
+      ;; (add-hook 'dired-mode-hook 'org-download-enable)
+      :config
+      ;; (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters)
+      ;; (add-hook 'org-mode-hook 'auto-indent-mode)
+      (add-hook 'org-mode-hook 'turn-on-auto-fill)
+      (setq org-ellipsis " ▾"
+            org-hide-emphasis-markers t)
+    )
+    (org-reload)
+    ;; para cambiar los  íconos de las listas
+    (use-package org-bullets
+      :after org
+      :hook (org-mode . org-bullets-mode)
+      :custom
+      (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+
+    ;; Replace list hyphen with dot
+    (font-lock-add-keywords 'org-mode
+                            '(("^ *\\([-]\\) "
+                               (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+
+
+    (defun my/style-org-agenda()
+      (dolist (face '((org-level-1 . 1.4)
+                      (org-level-2 . 1.3)
+                      (org-level-3 . 1.2)
+                      (org-level-4 . 1.0)
+                      (org-level-5 . 1.1)
+                      (org-level-6 . 1.1)
+                      (org-level-7 . 1.1)
+                      (org-level-8 . 1.1)))
+        (set-face-attribute (car face) nil :font "MesloLGS Nerd Font" :weight 'regular :height (cdr face)))
+      )
+
+    (add-hook 'org-agenda-mode-hook 'my/style-org-agenda)
+
+
+    (setq org-todo-keywords
+          '((sequence "TODO(t)"
+                      "PROGRESS(n)"
+                      "DELEGATED(D)"
+                      "|"
+                      "CANCELLED(c)"
+                      "DONE(F)")))
+   ;; (with-eval-after-load 'org
+   ;; )
+
+        ;; Ensure that anything that should be fixed-pitch in Org files appears that way
+        (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
+        (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
+        ;; (set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
+        (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+        (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+        (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+        (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
+#+END_SRC
+** Indent(dtrt-indent)
+Agrégalo ~dtrt-indent~ en el layer de .spacemacs.
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+   (use-package auto-indent-mode
+     :ensure t
+     :custom
+     (add-hook 'emacs-lisp-mode-hook 'auto-indent-mode)
+     )
+   (add-hook 'prog-mode-hook #'(lambda ()
+                                   (dtrt-indent-mode)
+                                   (dtrt-indent-adapt)))
+#+END_SRC
+*** highlight-indent-guides
+This minor mode highlights indentation levels via font-lock. Indent widths are
+dynamically discovered, which means this correctly highlights in any mode,
+regardless of indent width, even in languages with non-uniform indentation such
+as Haskell.
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+
+  (use-package highlight-indent-guides
+    :ensure t
+    :config
+    (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+    :custom
+    (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+    (add-hook 'org-mode-hook 'highlight-indent-guides-mode)
+    (highlight-indent-guides-method 'character )
+    :init
+    (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+
+    )
+#+END_SRC
+**   rainbow delimiters
+~rainbow-delimiters~ is a "rainbow parentheses"-like mode which highlights
+delimiters such as parentheses, brackets or braces according to their depth.
+Each successive level is highlighted in a different color. This makes it easy to
+spot matching delimiters, orient yourself in the code, and tell which statements
+are at a given depth.
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+  (use-package rainbow-delimiters
+    :hook
+    (prog-mode . rainbow-delimiters-mode))
+#+END_SRC
+** griprep
+~helm-ag.el~ provides interfaces of *The Silver Searcher* with *helm*.
+
+
+*The silver searcher* is a code searching tool similar to ack, with a focus on speed.
+[[https://github.com/emacsorphanage/helm-ag][aquí]]
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+  (evil-leader/set-key "/" 'spacemacs/helm-project-do-ag)
+  (use-package helm-ag
+    :config
+    (custom-set-variables
+     ;;'(helm-ag-fuzzy-match: t)
+     '(helm-ag-base-command "rg --vimgrep --no-heading --smart-case")
+     )
+   )
+#+END_SRC
+
+** paren
+
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+
+(use-package paren
+  :ensure nil
+  :init
+  (setq show-paren-delay 0)
+  :config
+  (show-paren-mode +1))
+
+#+END_SRC
+
+
+*  lsp
+** IDE features with lsp-mode
++ [[https://emacs-lsp.github.io/lsp-mode/][docs]]
++ [[https://emacs-lsp.github.io/lsp-mode/page/languages/][lenguages soportados]]
+We use the excellent [[https://emacs-lsp.github.io/lsp-mode/][lsp-mode]] to enable IDE-like functionality for many
+different programming languages via "language servers" that speak the [[https://microsoft.github.io/language-server-protocol/][Language
+Server Protocol]]. Before trying to set up =lsp-mode= for a particular language,
+check out the [[https://emacs-lsp.github.io/lsp-mode/page/languages/][documentation for your language]] so that you can learn which
+language servers are available and how to install them.
+
+The =lsp-keymap-prefix= setting enables you to define a prefix for where
+=lsp-mode='s default keybindings will be added. I *highly recommend* using the
+prefix to find out what you can do with =lsp-mode= in a buffer.
+
+The =which-key= integration adds helpful descriptions of the various keys so you
+should be able to learn a lot just by pressing =C-c l= in a =lsp-mode= buffer and
+trying different things that you find there.
+
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+   (defun efs/lsp-mode-setup ()
+     (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+     (lsp-headerline-breadcrumb-mode))
+
+   (use-package lsp-mode
+     :commands (lsp lsp-deferred)
+     :hook (lsp-mode . efs/lsp-mode-setup)
+     (
+           (web-mode . lsp)
+           (lsp-mode . lsp-enable-which-key-integration)
+           (js2-mode . lsp)
+           (rjsx-mode . lsp)
+           (css-mode . lsp)
+           (html-mode . lsp)
+           (python-mode . lsp)
+
+           )
+     :init
+     (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
+     :config
+     (lsp-enable-which-key-integration t))
+  #+END_SRC
+*** Basic completions
++ ~completion-at-point~ for completions
++ Signatures when writing methods ~(C-n, C-p to cycle signatures)~
+*** Code formating
++ ~lsp-format-buffer~
+
+** lsp-ui
+[[https://emacs-lsp.github.io/lsp-ui/][lsp-ui]] is a set of UI enhancements built on top of =lsp-mode= which make Emacs
+feel even more like an IDE. Check out the screenshots on the =lsp-ui= homepage
+(linked at the beginning of this paragraph) to see examples of what it can do.
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+   (use-package lsp-ui
+     :hook (lsp-mode . lsp-ui-mode)
+     :custom
+     (lsp-ui-doc-position 'bottom))
+  #+END_SRC
+** lsp-treemacs
+[[https://github.com/emacs-lsp/lsp-treemacs][lsp-treemacs]] provides nice tree views for different aspects of your code like symbols in a file, references of a symbol, or diagnostic messages (errors and warnings) that are found in your code.
+
+Try these commands with =M-x=:
+
+- =lsp-treemacs-symbols= - Show a tree view of the symbols in the current file
+- =lsp-treemacs-references= - Show a tree view for the references of the symbol under the cursor
+- =lsp-treemacs-error-list= - Show a tree view for the diagnostic messages in the project
+
+This package is built on the [[https://github.com/Alexander-Miller/treemacs][treemacs]] package which might be of some interest to you if you like to have a file browser at the left side of your screen in your editor.
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+   (use-package lsp-treemacs
+     :after lsp)
+  #+END_SRC
+** lsp-ivy
+[[https://github.com/emacs-lsp/lsp-ivy][lsp-ivy]] integrates Ivy with =lsp-mode= to make it easy to search for things by name in your code.  When you run these commands, a prompt will appear in the minibuffer allowing you to type part of the name of a symbol in your code.  Results will be populated in the minibuffer so that you can find what you're looking for and jump to that location in the code upon selecting the result.
+
+Try these commands with =M-x=:
+
+- =lsp-ivy-workspace-symbol= - Search for a symbol name in the current project workspace
+- =lsp-ivy-global-workspace-symbol= - Search for a symbol name in all active project workspaces
+
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+   (use-package lsp-ivy
+     :ensure t)
+  #+END_SRC
+** flycheck
+
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+  (use-package flycheck
+    :ensure t
+    :init (global-flycheck-mode))
+  #+END_SRC
+
+* Company-mode
+[[http://company-mode.github.io/][Company Mode]] provides a nicer in-buffer completion interface than =completion-at-point= which is more reminiscent of what you would expect from an IDE.  We add a simple configuration to make the keybindings a little more useful (=TAB= now completes the selection and initiates completion at the current location if needed).
+
+We also use [[https://github.com/sebastiencs/company-box][company-box]] to further enhance the look of the completions with icons and better overall presentation
+
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+   (use-package company
+     :after lsp-mode
+     :hook (lsp-mode . company-mode)
+     :bind (:map company-active-map
+            ("<tab>" . company-complete-selection))
+           (:map lsp-mode-map
+            ("<tab>" . company-indent-or-complete-common))
+     :custom
+     (company-minimum-prefix-length 1)
+     (company-idle-delay 0.0))
+
+   (use-package company-box
+     :hook (company-mode . company-box-mode))
+  #+END_SRC
+*** Peek
++ ~lsp-ui-peek-find-references~ to show references inline ~(M-n, M-p to cycle)~
+* projectile
+[[https://projectile.mx/][Projectile]] is a project management library for Emacs which makes it a lot easier to navigate around code projects for various languages.  Many packages integrate with Projectile so it's a good idea to have it installed even if you don't use its commands directly.
+
+
+~(setq projectile-project-search-path '("~/projects/" "~/work/" ("~/github" . 1)))~
+
+~M-x projectile-discover-projects-in-search-path~
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+   (use-package projectile
+     :diminish projectile-mode
+     :config (projectile-mode)
+     :custom ((projectile-completion-system 'ivy))
+     ;; :bind-keymap
+     ;; ("C-c p" . projectile-command-map)
+
+     :init
+     ;; NOTE: Set this to the folder where you keep your Git repos!
+     ;; (when (file-directory-p "~/Projects/Code")
+     ;;   (setq projectile-project-search-path '("~/Projects/Code")))
+     ;; (setq projectile-switch-project-action #'projectile-dired)
+     )
+
+   (use-package counsel-projectile
+     :config (counsel-projectile-mode))
+   (setq projectile-project-search-path '("~/ghq/github.com/DaryCC/" ))
+
+  #+END_SRC
+* Code
+** TypeScript
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+(use-package typescript-mode
+  :mode "\\.ts\\'"
+  :hook (typescript-mode . lsp-deferred)
+  :config
+  (setq typescript-indent-level 2))
+  #+END_SRC
+  Install the typescript-language-server:
+ ~ npm install -g typescript-language-server~
+** Python developement
+
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+  ;;python-shell-interpreter es para live-py-mode (evaluacón en vivo)
+  ;; (setq python-shell-interpreter "~/.pyenv/shims/python")
+  (use-package python-mode
+    :ensure t
+    :custom
+    (setq python-shell-interpreter "~/.pyenv/shims/python")
+    (require 'dap-python)
+    (setq py-shell-name "~/.pyenv/shims/python"
+                    ;;;To change the Python default shell use 
+                    ;;;   M-x customize-variable py-shell-name 
+                    ;;; or
+                              ;;(setq py-shell-name "PATH/TO/MYP-YTHON")
+                    ;; py-shell-name sets the default, which might be overwritten by command
+
+                    ;; Should the buffer code contain a shebang specifying pythonVERSION , than this takes precedence over default setting.
+
+                    ;; You may enforce executing buffer through specific pythonVERSION by calling a command of class py-execute-buffer-pythonVERSION
+
+                    ;; See menu PyExec, entry Execute buffer .
+          )
+    ;; (setq python-shell-interpreter "python3")
+    ;; If you have more than one version of python installed on your system you may want to tell emacs which one of those to use.
+    ;; The python interpreter that emacs will use is controlled by the py-python-command variable. You can set it with:
+    (setq py-python-command "~/.pyenv/shims/python")
+    (setq python-shell-completion-native-enable t)
+    )
+  #+END_SRC
+
+*** pyevn (manejo de versiones de python)
+Para trabajar en ambientes virtuales uso ~virtualenvwrapper~ como alternativa a ~venv~.
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+  (use-package pyvenv
+    :ensure t
+    :defer t
+    :diminish
+    :config
+
+    (setenv "WORKON_HOME" "/home/dary/Environments")
+                                        ; Show python venv name in modeline
+	  (setq pyvenv-mode-line-indicator '(pyvenv-virtual-env-name ("[venv:" pyvenv-virtual-env-name "] ")))
+	  (pyvenv-mode t))
+
+  #+END_SRC
+
+** C
+Install the ~ccls~ language server.
+* dap-mode
+Optionally if you want to use debugger
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+  (use-package dap-mode
+    :ensure t)
+  #+END_SRC
+
+* Custom
+** Drag stuff
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+  (bind-keys*
+   ;;     ("C-o" . other-window)
+   ;;     ("C-M-n" . forward-page)
+   ("C-S-k" . drag-stuff-up )
+   ("C-S-j" . drag-stuff-down )
+   ("M-s M-s" . desktop+-create )
+   ("M-s M-r" . desktop+-load)
+   )
+  #+END_SRC
 * Helper Functions
 
 ** Yasnippet creation
@@ -422,4 +841,6 @@ To tangle to the =user-init= file, type =ui=, alternatively =uc= to tangle the =
   (spacemacs/set-leader-keys "fec" 'spacemacs/find-config-file)
 
 #+END_SRC
-*
+* Resources and DOCS
+** setting up use-package
+[[https://ianyepan.github.io/posts/setting-up-use-package/][aquí]]
