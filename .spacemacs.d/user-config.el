@@ -1,3 +1,5 @@
+;; package manager
+
 (require 'package)
 (add-to-list 'package-archives '("gnu"   . "https://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
@@ -10,9 +12,15 @@
   (setq use-package-always-ensure t
         use-package-expand-minimally t))
 
+;; desktop-save
+
+
 (require 'desktop)
 (setq desktop-save 1)
 (desktop-save-mode 1)
+
+;; Set config for emacs  and daemon (client mode)
+
 
 ;; función para cargar configuracion de fonts y temas
   ;; (require 'doom-palenight)
@@ -52,9 +60,15 @@
   ;;                 (load-theme theme t)))))
   ;; (my-load-theme 'doom-palenight)
 
+;; Basic
+
+
 (use-package which-key
   :config
   (which-key-mode))
+
+;; Temas
+
 
 (use-package doom-themes
   :ensure t
@@ -81,7 +95,7 @@
 ;; Corrects (and improves) org-mode's native fontification.
 (doom-themes-org-config)
 
-
+;; doom-modeline
 ;; This package is able to display icons if ~nerd-icons~ package and required fonts
 ;; are installed. Run ~M-x nerd-icons-install-fonts~ to install the necessary fonts.
 
@@ -109,9 +123,14 @@
   ;;  (doom-modeline-gnus-timer nil)
   )
 
+;; Syntax Checking Layer (Tooltip Pop-up)
+
 (setq-default dotspacemacs-configuration-layers
            '((syntax-checking :variables
                               syntax-checking-auto-hide-tooltips 5)))
+
+;; Treemacs
+
 
 (use-package treemacs
   :ensure t
@@ -199,22 +218,37 @@
 ;;if treemacs is lagging
 (setq inhibit-compacting-font-caches t)
 
+;; treemacs-icons-dired
+
+
 (use-package treemacs-icons-dired
   ;; :hook (dired-mode . treemacs-icons-dired-enable-once)
   :hook (dired-mode . treemacs-icons-dired-mode)
   :ensure t)
 
+;; treemacs-projectile
+
+
 (use-package treemacs-projectile
   :after (treemacs projectile)
   :ensure t)
+
+;; treemacs-magit
+
 
 (use-package treemacs-magit
   :after (treemacs magit)
   :ensure t)
 
+;; treemacs-evil
+
+
 (use-package treemacs-evil
   :after (treemacs evil)
   :ensure t)
+
+;; treemacs-all-the-icons
+
 
 (require 'ivy-rich)
 (use-package treemacs-all-the-icons
@@ -222,26 +256,37 @@
   :after treemacs
   )
 
+;; treemacs-persp
+
 (use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
   :after (treemacs persp-mode) ;;or perspective vs. persp-mode
   :ensure t
   :config (treemacs-set-scope-type 'Perspectives))
+
+;; ivy-rich
+
 
 (use-package ivy-rich
   :after (counsel-projectile)
   :config
   (ivy-rich-mode 1))
 
+;; treemacs-all-the-icons-ivy-rich
+
+
 (use-package all-the-icons-ivy-rich
   :ensure t
   :init (all-the-icons-ivy-rich-mode 1))
+
+;; all-the-icons
+
 
 (use-package all-the-icons
    :if (display-graphic-p)
    :config
    (setq all-the-icons-scale-factor 1.3))
 
-
+;; org-mode
 ;;   The ~auto-fill-mode~ function can be used to toggle auto fill mode for a buffer. Also check ~org-fill-paragraph~ for this task.
 ;;   ~(require org-download)~ for image pasting
 ;; If you then press ~C-c C-t~ followed by the selection key, the entry is switched to this state. ~SPC~ can be used to remove any TODO keyword from an entry.
@@ -312,7 +357,7 @@
      (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
      (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
 
-
+;; Indent(dtrt-indent)
 ;; Agrégalo ~dtrt-indent~ en el layer de .spacemacs.
 
 (use-package auto-indent-mode
@@ -324,7 +369,7 @@
                                 (dtrt-indent-mode)
                                 (dtrt-indent-adapt)))
 
-
+;; highlight-indent-guides
 ;; This minor mode highlights indentation levels via font-lock. Indent widths are
 ;; dynamically discovered, which means this correctly highlights in any mode,
 ;; regardless of indent width, even in languages with non-uniform indentation such
@@ -343,7 +388,7 @@
 
   )
 
-
+;;   rainbow delimiters
 ;; ~rainbow-delimiters~ is a "rainbow parentheses"-like mode which highlights
 ;; delimiters such as parentheses, brackets or braces according to their depth.
 ;; Each successive level is highlighted in a different color. This makes it easy to
@@ -354,7 +399,7 @@
   :hook
   (prog-mode . rainbow-delimiters-mode))
 
-
+;; griprep
 ;; ~helm-ag.el~ provides interfaces of *The Silver Searcher* with *helm*.
 
 
@@ -370,6 +415,9 @@
    )
  )
 
+;; paren
+
+
 (use-package paren
   :ensure nil
   :init
@@ -377,7 +425,20 @@
   :config
   (show-paren-mode +1))
 
+;; Paredit
+;; paredit — parenthetical editing in Emacs
 
+(use-package paredit
+  :ensure t)
+(autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+(add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+(add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+(add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+(add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+(add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+(add-hook 'scheme-mode-hook           #'enable-paredit-mode)
+
+;; IDE features with lsp-mode
 ;; + [[https://emacs-lsp.github.io/lsp-mode/][docs]]
 ;; + [[https://emacs-lsp.github.io/lsp-mode/page/languages/][lenguages soportados]]
 ;; We use the excellent [[https://emacs-lsp.github.io/lsp-mode/][lsp-mode]] to enable IDE-like functionality for many
@@ -403,8 +464,8 @@
   :commands (lsp lsp-deferred)
   :hook (lsp-mode . efs/lsp-mode-setup)
   (
-        (web-mode . lsp)
         (lsp-mode . lsp-enable-which-key-integration)
+        (web-mode . lsp)
         (js2-mode . lsp)
         (rjsx-mode . lsp)
         (css-mode . lsp)
@@ -417,7 +478,7 @@
   :config
   (lsp-enable-which-key-integration t))
 
-
+;; lsp-ui
 ;; [[https://emacs-lsp.github.io/lsp-ui/][lsp-ui]] is a set of UI enhancements built on top of =lsp-mode= which make Emacs
 ;; feel even more like an IDE. Check out the screenshots on the =lsp-ui= homepage
 ;; (linked at the beginning of this paragraph) to see examples of what it can do.
@@ -427,7 +488,7 @@
   :custom
   (lsp-ui-doc-position 'bottom))
 
-
+;; lsp-treemacs
 ;; [[https://github.com/emacs-lsp/lsp-treemacs][lsp-treemacs]] provides nice tree views for different aspects of your code like symbols in a file, references of a symbol, or diagnostic messages (errors and warnings) that are found in your code.
 
 ;; Try these commands with =M-x=:
@@ -441,7 +502,7 @@
 (use-package lsp-treemacs
   :after lsp)
 
-
+;; lsp-ivy
 ;; [[https://github.com/emacs-lsp/lsp-ivy][lsp-ivy]] integrates Ivy with =lsp-mode= to make it easy to search for things by name in your code.  When you run these commands, a prompt will appear in the minibuffer allowing you to type part of the name of a symbol in your code.  Results will be populated in the minibuffer so that you can find what you're looking for and jump to that location in the code upon selecting the result.
 
 ;; Try these commands with =M-x=:
@@ -453,11 +514,14 @@
 (use-package lsp-ivy
   :ensure t)
 
+;; flycheck
+
+
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode))
 
-
+;; Company-mode
 ;; [[http://company-mode.github.io/][Company Mode]] provides a nicer in-buffer completion interface than =completion-at-point= which is more reminiscent of what you would expect from an IDE.  We add a simple configuration to make the keybindings a little more useful (=TAB= now completes the selection and initiates completion at the current location if needed).
 
 ;; We also use [[https://github.com/sebastiencs/company-box][company-box]] to further enhance the look of the completions with icons and better overall presentation
@@ -477,7 +541,7 @@
 (use-package company-box
   :hook (company-mode . company-box-mode))
 
-
+;; projectile
 ;; [[https://projectile.mx/][Projectile]] is a project management library for Emacs which makes it a lot easier to navigate around code projects for various languages.  Many packages integrate with Projectile so it's a good idea to have it installed even if you don't use its commands directly.
 
 
@@ -503,6 +567,90 @@
   :config (counsel-projectile-mode))
 (setq projectile-project-search-path '("~/ghq/github.com/DaryCC/" ))
 
+(use-package js2-mode
+  :init
+    (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
+    (add-hook 'prog-mode-hook 'highlight-numbers-mode)
+    (add-hook 'js2-mode-hook #'impatient-mode)
+  :mode "\\.\\(js\\|json\\)$"
+    ;; :mode "\\.json\\'"
+  :ensure t
+
+  :config
+   (add-hook 'js-mode-hook 'js2-minor-mode)
+   (setq js-indent-level 2)
+   (setq js2-indent-level 2)
+   (setq js2-basic-offset 2)
+   (setq js2-mode-show-strict-warnings nil)
+   (setq js2-strict-inconsistent-return-warning t)
+   (setq js2-strict-missing-semi-warning t)
+   ;; (run import-js)
+  :interpreter (("node" . js2-mode)))
+
+
+ ;; refactoring
+   (use-package js2-refactor)
+ ;; find definitions and references
+   ;; (use-package xref-js2)
+
+
+;; Choosing a formatter
+
+(use-package web-beautify
+  :commands (web-beautify-css
+             web-beautify-css-buffer
+             web-beautify-html
+             web-beautify-html-buffer
+             web-beautify-js
+             web-beautify-js-buffer))
+
+;; React (rjsx-mode)
+
+
+(use-package rjsx-mode
+:ensure t
+:mode "\\.jsx\\'"
+;; :mode "\\.\\(js\\|jsx\\)$"
+:bind
+(:map rjsx-mode-map
+      ( "C-c C-b" . rjsx-jump-opening-tag)
+      ( "C-c C-f" . rjsx-jump-closing-tag)
+      ))
+
+;; css
+
+
+(use-package css-mode
+  :mode "\\.css\\'"
+    :commands web-mode
+    :init
+    (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
+    (add-hook 'prog-mode-hook 'highlight-numbers-mode)
+    (add-hook 'web-mode-hook #'impatient-mode)
+    :mode (
+             ("\\.css\\'" . web-mode))
+  )
+
+;; emmet-mode
+;; ~C-return   emmet-expand snippet~
+
+(use-package emmet-mode
+  :diminish (emmet-mode . "ε")
+  :bind* (("C-)" . emmet-next-edit-point)
+          ("C-(" . emmet-prev-edit-point))
+  :commands (emmet-mode
+             emmet-next-edit-point
+             emmet-prev-edit-point)
+  :init
+  (setq emmet-indentation 2)
+  (setq emmet-move-cursor-between-quotes t)
+  :config
+  ;; Auto-start on any markup modes
+  (add-hook 'sgml-mode-hook 'emmet-mode)
+  (add-hook 'web-mode-hook 'emmet-mode))
+
+;; TypeScript
+
 (use-package typescript-mode
   :mode "\\.ts\\'"
   :hook (typescript-mode . lsp-deferred)
@@ -517,8 +665,8 @@
   (setq python-shell-interpreter "~/.pyenv/shims/python")
   (require 'dap-python)
   (setq py-shell-name "~/.pyenv/shims/python"
-                  ;;;To change the Python default shell use 
-                  ;;;   M-x customize-variable py-shell-name 
+                  ;;;To change the Python default shell use
+                  ;;;   M-x customize-variable py-shell-name
                   ;;; or
                             ;;(setq py-shell-name "PATH/TO/MYP-YTHON")
                   ;; py-shell-name sets the default, which might be overwritten by command
@@ -536,25 +684,27 @@
   (setq python-shell-completion-native-enable t)
   )
 
-
+;; pyevn (manejo de versiones de python)
 ;; Para trabajar en ambientes virtuales uso ~virtualenvwrapper~ como alternativa a ~venv~.
+
 (use-package pyvenv
   :ensure t
   :defer t
   :diminish
   :config
 
-
   (setenv "WORKON_HOME" "/home/dary/Environments")
                                       ; Show python venv name in modeline
-	(setq pyvenv-mode-line-indicator '(pyvenv-virtual-env-name ("[venv:" pyvenv-virtual-env-name "] ")))
-	(pyvenv-mode t))
+  (setq pyvenv-mode-line-indicator '(pyvenv-virtual-env-name ("[venv:" pyvenv-virtual-env-name "] ")))
+  (pyvenv-mode t))
 
-
+;; dap-mode
 ;; Optionally if you want to use debugger
 
 (use-package dap-mode
   :ensure t)
+
+;; Drag stuff
 
 (bind-keys*
  ;;     ("C-o" . other-window)
@@ -565,8 +715,8 @@
  ("M-s M-r" . desktop+-load)
  )
 
-
-;; Create binding to spacemacs.org file
+;; Find this file
+;;    Create binding to spacemacs.org file
 
 
 (defun spacemacs/find-config-file ()

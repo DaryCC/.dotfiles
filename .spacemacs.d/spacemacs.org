@@ -2,7 +2,7 @@
 #+STARTUP: headlines
 #+STARTUP: nofold
 #+STARTUP: num
-#+STARTUP: hideblocks
+# #+STARTUP: hideblocks
 #+STARTUP: noindent
 #+OPTIONS: toc:4 h:4
 #+PROPERTY: header-args:emacs-lisp :comments link
@@ -40,6 +40,7 @@
   -   [[#rainbow-delimiters][rainbow delimiters]]
   - [[#griprep][griprep]]
   - [[#paren][paren]]
+  - [[#paredit][Paredit]]
 -  [[#lsp][lsp]]
   - [[#ide-features-with-lsp-mode][IDE features with lsp-mode]]
     - [[#basic-completions][Basic completions]]
@@ -52,8 +53,13 @@
     - [[#peek][Peek]]
 - [[#projectile][projectile]]
 - [[#code][Code]]
+  - [[#js][Js]]
+  - [[#react-rjsx-mode][React (rjsx-mode)]]
+  - [[#css][css]]
+  - [[#emmet-mode][emmet-mode]]
   - [[#typescript][TypeScript]]
   - [[#python-developement][Python developement]]
+    - [[#pylint-and-mypy][pylint and mypy]]
     - [[#pyevn-manejo-de-versiones-de-python][pyevn (manejo de versiones de python)]]
   - [[#c][C]]
 - [[#dap-mode][dap-mode]]
@@ -601,6 +607,19 @@ are at a given depth.
 
 #+END_SRC
 
+** Paredit
+paredit — parenthetical editing in Emacs
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+  (use-package paredit
+    :ensure t)
+  (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+  (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+  (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+  (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+  (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+  (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+  (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
+#+END_SRC
 
 *  lsp
 ** IDE features with lsp-mode
@@ -629,8 +648,8 @@ trying different things that you find there.
      :commands (lsp lsp-deferred)
      :hook (lsp-mode . efs/lsp-mode-setup)
      (
-           (web-mode . lsp)
            (lsp-mode . lsp-enable-which-key-integration)
+           (web-mode . lsp)
            (js2-mode . lsp)
            (rjsx-mode . lsp)
            (css-mode . lsp)
@@ -743,6 +762,112 @@ We also use [[https://github.com/sebastiencs/company-box][company-box]] to furth
 
   #+END_SRC
 * Code
+** Js
+Backend can be chosen on a per project basis using directory local variables
+(files named *.dir-locals.el* at the root of a project), an example to use the lsp
+backend:
+#+begin_src lisp
+;;; Directory Local Variables
+;;; For more information see (info "(emacs) Directory Variables")
+
+((js2-mode (javascript-backend . lsp)))
+#+end_src
+When lsp is set as the backend, but you don't want to use lsp as the linter, set
+the variable javascript-lsp-linter to nil.
+#+begin_src lisp
+  (javascript :variables
+              javascript-backend 'lsp
+              javascript-lsp-linter nil)
+#+end_src
+
+
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+
+   (use-package js2-mode
+     :init
+       (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
+       (add-hook 'prog-mode-hook 'highlight-numbers-mode)
+       (add-hook 'js2-mode-hook #'impatient-mode)
+     :mode "\\.\\(js\\|json\\)$"
+       ;; :mode "\\.json\\'"
+     :ensure t
+
+     :config
+      (add-hook 'js-mode-hook 'js2-minor-mode)
+      (setq js-indent-level 2)
+      (setq js2-indent-level 2)
+      (setq js2-basic-offset 2)
+      (setq js2-mode-show-strict-warnings nil)
+      (setq js2-strict-inconsistent-return-warning t)
+      (setq js2-strict-missing-semi-warning t)
+      ;; (run import-js)
+     :interpreter (("node" . js2-mode)))
+
+
+    ;; refactoring
+      (use-package js2-refactor)
+    ;; find definitions and references
+      ;; (use-package xref-js2)
+  #+END_SRC
+Choosing a formatter
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+  (use-package web-beautify
+    :commands (web-beautify-css
+               web-beautify-css-buffer
+               web-beautify-html
+               web-beautify-html-buffer
+               web-beautify-js
+               web-beautify-js-buffer))
+  #+END_SRC
+
+** React (rjsx-mode)
+
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+  (use-package rjsx-mode
+  :ensure t
+  :mode "\\.jsx\\'"
+  ;; :mode "\\.\\(js\\|jsx\\)$"
+  :bind
+  (:map rjsx-mode-map
+        ( "C-c C-b" . rjsx-jump-opening-tag)
+        ( "C-c C-f" . rjsx-jump-closing-tag)
+        ))
+  #+END_SRC
+
+** css
+
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+  (use-package css-mode
+    :mode "\\.css\\'"
+      :commands web-mode
+      :init
+      (add-hook 'web-mode-hook #'turn-on-smartparens-mode t)
+      (add-hook 'prog-mode-hook 'highlight-numbers-mode)
+      (add-hook 'web-mode-hook #'impatient-mode)
+      :mode (
+               ("\\.css\\'" . web-mode))
+    )
+  #+END_SRC
+** emmet-mode
+~C-return   emmet-expand snippet~
+ #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
+  (use-package emmet-mode
+    :diminish (emmet-mode . "ε")
+    :bind* (("C-)" . emmet-next-edit-point)
+            ("C-(" . emmet-prev-edit-point))
+    :commands (emmet-mode
+               emmet-next-edit-point
+               emmet-prev-edit-point)
+    :init
+    (setq emmet-indentation 2)
+    (setq emmet-move-cursor-between-quotes t)
+    :config
+    ;; Auto-start on any markup modes
+    (add-hook 'sgml-mode-hook 'emmet-mode)
+    (add-hook 'web-mode-hook 'emmet-mode))
+  #+END_SRC
+
+
 ** TypeScript
  #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
 (use-package typescript-mode
@@ -754,7 +879,49 @@ We also use [[https://github.com/sebastiencs/company-box][company-box]] to furth
   Install the typescript-language-server:
  ~ npm install -g typescript-language-server~
 ** Python developement
+Se puede cambiar la configuración del backend lsp a Anaconda en init.el que
+parece funcionar en mejor en:
+[[https://medium.com/swlh/python-javascript-development-on-a-raspberry-pi-4-model-b-d778aa2bbb][config de ejemplo]]
+#+begin_src lisp
+(python :variables
+             python-test-runner 'pytest
+             python-backend 'anaconda  ;; the default backend, lsp, is very bad atm
+             python-indent-offset 4
+             ;; python-format-on-save t
+             ;; python-sort-imports-on-save t
+             )
+#+end_src
+*** pylint and mypy
+Pylint and mypy are things you should google but, so you know, they basically check if your python code is OK. Both of them are configured using config files which can be global or per-project. We’re going to create minimal useful global config files for both of them so spacemacs is nicer to use.
 
+Generate a global pylint config file like this:
+~pylint --generate-rcfile > ~/.pylintrc~
+Edit that file (`em ~/.pylintrc`) and find the disabled list under the ~[MESSAGES CONTROL]~ section. Add this line to the list:
+~missing-docstring~
+Don’t forget to put a comma after the previous line in the file! This will disable warnings about missing docstrings, which is something every python codebase in the world seems to lack.
+
+
+You can add pylint plugins, e.g. for django projects:
+#+begin_src lisp
+load-plugins=pylint-django
+#+end_src
+OK, now generate a global mypy config file like this:
+#+begin_src shell
+touch ~/.mypy.ini
+#+end_src
+In that file, put some content like this (for example):
+#+begin_src shell
+# Global options:
+
+[mypy]
+warn_return_any = True
+warn_unused_configs = True
+
+# Per-module options:
+
+[mypy-django.db]
+ignore_missing_imports = True
+#+end_src
  #+BEGIN_SRC emacs-lisp :tangle user-config.el :comments org
   ;;python-shell-interpreter es para live-py-mode (evaluacón en vivo)
   ;; (setq python-shell-interpreter "~/.pyenv/shims/python")
@@ -764,8 +931,8 @@ We also use [[https://github.com/sebastiencs/company-box][company-box]] to furth
     (setq python-shell-interpreter "~/.pyenv/shims/python")
     (require 'dap-python)
     (setq py-shell-name "~/.pyenv/shims/python"
-                    ;;;To change the Python default shell use 
-                    ;;;   M-x customize-variable py-shell-name 
+                    ;;;To change the Python default shell use
+                    ;;;   M-x customize-variable py-shell-name
                     ;;; or
                               ;;(setq py-shell-name "PATH/TO/MYP-YTHON")
                     ;; py-shell-name sets the default, which might be overwritten by command
@@ -795,8 +962,8 @@ Para trabajar en ambientes virtuales uso ~virtualenvwrapper~ como alternativa a 
 
     (setenv "WORKON_HOME" "/home/dary/Environments")
                                         ; Show python venv name in modeline
-	  (setq pyvenv-mode-line-indicator '(pyvenv-virtual-env-name ("[venv:" pyvenv-virtual-env-name "] ")))
-	  (pyvenv-mode t))
+    (setq pyvenv-mode-line-indicator '(pyvenv-virtual-env-name ("[venv:" pyvenv-virtual-env-name "] ")))
+    (pyvenv-mode t))
 
   #+END_SRC
 
